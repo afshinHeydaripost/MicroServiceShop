@@ -1,0 +1,115 @@
+{
+  "version": 3,
+  "targets": {
+    "net8.0": {
+      "Helper/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/Helper.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Helper.dll": {}
+        }
+      },
+      "Products.DataModel/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/Products.DataModel.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Products.DataModel.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Helper/1.0.0": {
+      "type": "project",
+      "path": "../../Helper/Helper.csproj",
+      "msbuildProject": "../../Helper/Helper.csproj"
+    },
+    "Products.DataModel/1.0.0": {
+      "type": "project",
+      "path": "../Products.DataModel/Products.DataModel.csproj",
+      "msbuildProject": "../Products.DataModel/Products.DataModel.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net8.0": [
+      "Helper >= 1.0.0",
+      "Products.DataModel >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\Afshin\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "F:\\MicroService\\MicroService\\Products\\Products.Repository\\Products.Repository.csproj",
+      "projectName": "Products.Repository",
+      "projectPath": "F:\\MicroService\\MicroService\\Products\\Products.Repository\\Products.Repository.csproj",
+      "packagesPath": "C:\\Users\\Afshin\\.nuget\\packages\\",
+      "outputPath": "F:\\MicroService\\MicroService\\Products\\Products.Repository\\obj\\",
+      "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
+      "configFilePaths": [
+        "C:\\Users\\Afshin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net8.0"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "projectReferences": {
+            "F:\\MicroService\\MicroService\\Helper\\Helper.csproj": {
+              "projectPath": "F:\\MicroService\\MicroService\\Helper\\Helper.csproj"
+            },
+            "F:\\MicroService\\MicroService\\Products\\Products.DataModel\\Products.DataModel.csproj": {
+              "projectPath": "F:\\MicroService\\MicroService\\Products\\Products.DataModel\\Products.DataModel.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "net8.0": {
+        "targetAlias": "net8.0",
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}

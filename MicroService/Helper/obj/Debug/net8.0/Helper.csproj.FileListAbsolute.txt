@@ -1,0 +1,11 @@
+F:\MicroService\MicroService\Helper\bin\Debug\net8.0\Helper.deps.json
+F:\MicroService\MicroService\Helper\bin\Debug\net8.0\Helper.dll
+F:\MicroService\MicroService\Helper\bin\Debug\net8.0\Helper.pdb
+F:\MicroService\MicroService\Helper\obj\Debug\net8.0\Helper.GeneratedMSBuildEditorConfig.editorconfig
+F:\MicroService\MicroService\Helper\obj\Debug\net8.0\Helper.AssemblyInfoInputs.cache
+F:\MicroService\MicroService\Helper\obj\Debug\net8.0\Helper.AssemblyInfo.cs
+F:\MicroService\MicroService\Helper\obj\Debug\net8.0\Helper.csproj.CoreCompileInputs.cache
+F:\MicroService\MicroService\Helper\obj\Debug\net8.0\Helper.dll
+F:\MicroService\MicroService\Helper\obj\Debug\net8.0\refint\Helper.dll
+F:\MicroService\MicroService\Helper\obj\Debug\net8.0\Helper.pdb
+F:\MicroService\MicroService\Helper\obj\Debug\net8.0\ref\Helper.dll

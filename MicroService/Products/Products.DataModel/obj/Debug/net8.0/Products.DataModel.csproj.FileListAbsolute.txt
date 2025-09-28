@@ -1,0 +1,11 @@
+F:\MicroService\MicroService\Products\Products.DataModel\bin\Debug\net8.0\Products.DataModel.deps.json
+F:\MicroService\MicroService\Products\Products.DataModel\bin\Debug\net8.0\Products.DataModel.dll
+F:\MicroService\MicroService\Products\Products.DataModel\bin\Debug\net8.0\Products.DataModel.pdb
+F:\MicroService\MicroService\Products\Products.DataModel\obj\Debug\net8.0\Products.DataModel.GeneratedMSBuildEditorConfig.editorconfig
+F:\MicroService\MicroService\Products\Products.DataModel\obj\Debug\net8.0\Products.DataModel.AssemblyInfoInputs.cache
+F:\MicroService\MicroService\Products\Products.DataModel\obj\Debug\net8.0\Products.DataModel.AssemblyInfo.cs
+F:\MicroService\MicroService\Products\Products.DataModel\obj\Debug\net8.0\Products.DataModel.csproj.CoreCompileInputs.cache
+F:\MicroService\MicroService\Products\Products.DataModel\obj\Debug\net8.0\Products.DataModel.dll
+F:\MicroService\MicroService\Products\Products.DataModel\obj\Debug\net8.0\refint\Products.DataModel.dll
+F:\MicroService\MicroService\Products\Products.DataModel\obj\Debug\net8.0\Products.DataModel.pdb
+F:\MicroService\MicroService\Products\Products.DataModel\obj\Debug\net8.0\ref\Products.DataModel.dll

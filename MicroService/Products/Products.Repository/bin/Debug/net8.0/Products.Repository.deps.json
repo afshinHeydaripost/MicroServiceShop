@@ -1,0 +1,47 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "Products.Repository/1.0.0": {
+        "dependencies": {
+          "Helper": "1.0.0",
+          "Products.DataModel": "1.0.0"
+        },
+        "runtime": {
+          "Products.Repository.dll": {}
+        }
+      },
+      "Helper/1.0.0": {
+        "runtime": {
+          "Helper.dll": {}
+        }
+      },
+      "Products.DataModel/1.0.0": {
+        "runtime": {
+          "Products.DataModel.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Products.Repository/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Helper/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Products.DataModel/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
