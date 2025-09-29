@@ -9,3 +9,4 @@ F:\MicroService\MicroService\Helper\obj\Debug\net8.0\Helper.dll
 F:\MicroService\MicroService\Helper\obj\Debug\net8.0\refint\Helper.dll
 F:\MicroService\MicroService\Helper\obj\Debug\net8.0\Helper.pdb
 F:\MicroService\MicroService\Helper\obj\Debug\net8.0\ref\Helper.dll
+F:\MicroService\MicroService\Helper\obj\Debug\net8.0\Helper.sourcelink.json

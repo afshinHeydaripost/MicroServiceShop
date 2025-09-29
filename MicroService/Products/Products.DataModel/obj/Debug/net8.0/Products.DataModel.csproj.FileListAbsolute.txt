@@ -9,3 +9,7 @@ F:\MicroService\MicroService\Products\Products.DataModel\obj\Debug\net8.0\Produc
 F:\MicroService\MicroService\Products\Products.DataModel\obj\Debug\net8.0\refint\Products.DataModel.dll
 F:\MicroService\MicroService\Products\Products.DataModel\obj\Debug\net8.0\Products.DataModel.pdb
 F:\MicroService\MicroService\Products\Products.DataModel\obj\Debug\net8.0\ref\Products.DataModel.dll
+F:\MicroService\MicroService\Products\Products.DataModel\obj\Debug\net8.0\Products.DataModel.sourcelink.json
+F:\MicroService\MicroService\Products\Products.DataModel\bin\Debug\net8.0\Products.DataModel.runtimeconfig.json
+F:\MicroService\MicroService\Products\Products.DataModel\obj\Debug\net8.0\Products.DataModel.genruntimeconfig.cache
+F:\MicroService\MicroService\Products\Products.DataModel\obj\Debug\net8.0\Products.DataModel.csproj.AssemblyReference.cache

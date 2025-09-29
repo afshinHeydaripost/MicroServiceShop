@@ -17,3 +17,4 @@ F:\MicroService\MicroService\Products\Products.Services\obj\Debug\net8.0\Product
 F:\MicroService\MicroService\Products\Products.Services\obj\Debug\net8.0\refint\Products.Services.dll
 F:\MicroService\MicroService\Products\Products.Services\obj\Debug\net8.0\Products.Services.pdb
 F:\MicroService\MicroService\Products\Products.Services\obj\Debug\net8.0\ref\Products.Services.dll
+F:\MicroService\MicroService\Products\Products.Services\obj\Debug\net8.0\Products.Services.sourcelink.json
