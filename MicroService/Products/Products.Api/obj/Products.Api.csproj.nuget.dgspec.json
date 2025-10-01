@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "F:\\MicroService\\MicroService\\Products\\Products.Api\\Products.Api.csproj": {}
+    "E:\\Mic\\MicroServiceShop\\MicroService\\Products\\Products.Api\\Products.Api.csproj": {}
   },
   "projects": {
-    "F:\\MicroService\\MicroService\\Helper\\Helper.csproj": {
+    "E:\\Mic\\MicroServiceShop\\MicroService\\Helper\\Helper.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\MicroService\\MicroService\\Helper\\Helper.csproj",
+        "projectUniqueName": "E:\\Mic\\MicroServiceShop\\MicroService\\Helper\\Helper.csproj",
         "projectName": "Helper",
-        "projectPath": "F:\\MicroService\\MicroService\\Helper\\Helper.csproj",
-        "packagesPath": "C:\\Users\\Afshin\\.nuget\\packages\\",
-        "outputPath": "F:\\MicroService\\MicroService\\Helper\\obj\\",
+        "projectPath": "E:\\Mic\\MicroServiceShop\\MicroService\\Helper\\Helper.csproj",
+        "packagesPath": "C:\\Users\\pc\\.nuget\\packages\\",
+        "outputPath": "E:\\Mic\\MicroServiceShop\\MicroService\\Helper\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Afshin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\pc\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -38,7 +38,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
@@ -59,24 +65,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "F:\\MicroService\\MicroService\\Products\\Products.Api\\Products.Api.csproj": {
+    "E:\\Mic\\MicroServiceShop\\MicroService\\Products\\Products.Api\\Products.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\MicroService\\MicroService\\Products\\Products.Api\\Products.Api.csproj",
+        "projectUniqueName": "E:\\Mic\\MicroServiceShop\\MicroService\\Products\\Products.Api\\Products.Api.csproj",
         "projectName": "Products.Api",
-        "projectPath": "F:\\MicroService\\MicroService\\Products\\Products.Api\\Products.Api.csproj",
-        "packagesPath": "C:\\Users\\Afshin\\.nuget\\packages\\",
-        "outputPath": "F:\\MicroService\\MicroService\\Products\\Products.Api\\obj\\",
+        "projectPath": "E:\\Mic\\MicroServiceShop\\MicroService\\Products\\Products.Api\\Products.Api.csproj",
+        "packagesPath": "C:\\Users\\pc\\.nuget\\packages\\",
+        "outputPath": "E:\\Mic\\MicroServiceShop\\MicroService\\Products\\Products.Api\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Afshin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\pc\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -91,8 +97,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "F:\\MicroService\\MicroService\\Products\\Products.Services\\Products.Services.csproj": {
-                "projectPath": "F:\\MicroService\\MicroService\\Products\\Products.Services\\Products.Services.csproj"
+              "E:\\Mic\\MicroServiceShop\\MicroService\\Products\\Products.Services\\Products.Services.csproj": {
+                "projectPath": "E:\\Mic\\MicroServiceShop\\MicroService\\Products\\Products.Services\\Products.Services.csproj"
               }
             }
           }
@@ -101,7 +107,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
@@ -112,6 +124,18 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[8.0.20, )"
+            },
+            "Swashbuckle.AspNetCore.Swagger": {
+              "target": "Package",
+              "version": "[9.0.5, )"
+            },
+            "Swashbuckle.AspNetCore.SwaggerGen": {
+              "target": "Package",
+              "version": "[9.0.5, )"
+            },
+            "Swashbuckle.AspNetCore.SwaggerUI": {
+              "target": "Package",
+              "version": "[9.0.5, )"
             }
           },
           "imports": [
@@ -133,24 +157,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "F:\\MicroService\\MicroService\\Products\\Products.DataModel\\Products.DataModel.csproj": {
+    "E:\\Mic\\MicroServiceShop\\MicroService\\Products\\Products.DataModel\\Products.DataModel.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\MicroService\\MicroService\\Products\\Products.DataModel\\Products.DataModel.csproj",
+        "projectUniqueName": "E:\\Mic\\MicroServiceShop\\MicroService\\Products\\Products.DataModel\\Products.DataModel.csproj",
         "projectName": "Products.DataModel",
-        "projectPath": "F:\\MicroService\\MicroService\\Products\\Products.DataModel\\Products.DataModel.csproj",
-        "packagesPath": "C:\\Users\\Afshin\\.nuget\\packages\\",
-        "outputPath": "F:\\MicroService\\MicroService\\Products\\Products.DataModel\\obj\\",
+        "projectPath": "E:\\Mic\\MicroServiceShop\\MicroService\\Products\\Products.DataModel\\Products.DataModel.csproj",
+        "packagesPath": "C:\\Users\\pc\\.nuget\\packages\\",
+        "outputPath": "E:\\Mic\\MicroServiceShop\\MicroService\\Products\\Products.DataModel\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Afshin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\pc\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -171,7 +195,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
@@ -214,90 +244,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "F:\\MicroService\\MicroService\\Products\\Products.Repository\\Products.Repository.csproj": {
+    "E:\\Mic\\MicroServiceShop\\MicroService\\Products\\Products.Services\\Products.Services.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\MicroService\\MicroService\\Products\\Products.Repository\\Products.Repository.csproj",
-        "projectName": "Products.Repository",
-        "projectPath": "F:\\MicroService\\MicroService\\Products\\Products.Repository\\Products.Repository.csproj",
-        "packagesPath": "C:\\Users\\Afshin\\.nuget\\packages\\",
-        "outputPath": "F:\\MicroService\\MicroService\\Products\\Products.Repository\\obj\\",
-        "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
-        "configFilePaths": [
-          "C:\\Users\\Afshin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
-        ],
-        "originalTargetFrameworks": [
-          "net8.0"
-        ],
-        "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
-        },
-        "frameworks": {
-          "net8.0": {
-            "targetAlias": "net8.0",
-            "projectReferences": {
-              "F:\\MicroService\\MicroService\\Helper\\Helper.csproj": {
-                "projectPath": "F:\\MicroService\\MicroService\\Helper\\Helper.csproj"
-              },
-              "F:\\MicroService\\MicroService\\Products\\Products.DataModel\\Products.DataModel.csproj": {
-                "projectPath": "F:\\MicroService\\MicroService\\Products\\Products.DataModel\\Products.DataModel.csproj"
-              }
-            }
-          }
-        },
-        "warningProperties": {
-          "warnAsError": [
-            "NU1605"
-          ]
-        }
-      },
-      "frameworks": {
-        "net8.0": {
-          "targetAlias": "net8.0",
-          "imports": [
-            "net461",
-            "net462",
-            "net47",
-            "net471",
-            "net472",
-            "net48",
-            "net481"
-          ],
-          "assetTargetFallback": true,
-          "warn": true,
-          "frameworkReferences": {
-            "Microsoft.NETCore.App": {
-              "privateAssets": "all"
-            }
-          },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
-        }
-      }
-    },
-    "F:\\MicroService\\MicroService\\Products\\Products.Services\\Products.Services.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "F:\\MicroService\\MicroService\\Products\\Products.Services\\Products.Services.csproj",
+        "projectUniqueName": "E:\\Mic\\MicroServiceShop\\MicroService\\Products\\Products.Services\\Products.Services.csproj",
         "projectName": "Products.Services",
-        "projectPath": "F:\\MicroService\\MicroService\\Products\\Products.Services\\Products.Services.csproj",
-        "packagesPath": "C:\\Users\\Afshin\\.nuget\\packages\\",
-        "outputPath": "F:\\MicroService\\MicroService\\Products\\Products.Services\\obj\\",
+        "projectPath": "E:\\Mic\\MicroServiceShop\\MicroService\\Products\\Products.Services\\Products.Services.csproj",
+        "packagesPath": "C:\\Users\\pc\\.nuget\\packages\\",
+        "outputPath": "E:\\Mic\\MicroServiceShop\\MicroService\\Products\\Products.Services\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Afshin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\pc\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -312,8 +276,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "F:\\MicroService\\MicroService\\Products\\Products.Repository\\Products.Repository.csproj": {
-                "projectPath": "F:\\MicroService\\MicroService\\Products\\Products.Repository\\Products.Repository.csproj"
+              "E:\\Mic\\MicroServiceShop\\MicroService\\Helper\\Helper.csproj": {
+                "projectPath": "E:\\Mic\\MicroServiceShop\\MicroService\\Helper\\Helper.csproj"
+              },
+              "E:\\Mic\\MicroServiceShop\\MicroService\\Products\\Products.DataModel\\Products.DataModel.csproj": {
+                "projectPath": "E:\\Mic\\MicroServiceShop\\MicroService\\Products\\Products.DataModel\\Products.DataModel.csproj"
               }
             }
           }
@@ -322,7 +289,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
@@ -343,7 +316,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

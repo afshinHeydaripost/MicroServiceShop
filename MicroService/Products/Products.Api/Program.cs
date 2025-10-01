@@ -1,10 +1,41 @@
+
+using Microsoft.EntityFrameworkCore;
+using Products.DataModel.Context;
+using Products.Services;
+using Products.Services.Interfaces;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// Add services
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+// DbContext
+builder.Services.AddDbContext<MicroServiceShopContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+#region Dependency_Injection
+builder.Services.AddScoped<IProductsServices, ProductsServices>();
+builder.Services.AddScoped<IBrandServices, BrandServices>();
+builder.Services.AddScoped<IProductCategoryServices, ProductCategoryServices>();
+builder.Services.AddScoped<IProductModelServices, ProductModelServices>();
+#endregion
 
 // Add services to the container.
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseAuthorization();
+
+app.MapControllers();
 
 var summaries = new[]
 {
