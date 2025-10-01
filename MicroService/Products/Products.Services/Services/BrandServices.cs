@@ -5,11 +5,12 @@ using Products.Services.Interfaces;
 namespace Products.Services;
 public class BrandServices : IBrandServices
 {
-    public Task<GeneralResponse> Create(BrandViewModel item)
+    public async  Task<GeneralResponse> Create(BrandViewModel item)
     {
         try
         {
 
+            return GeneralResponse.Success();
         }
         catch (Exception e)
         {
@@ -17,24 +18,40 @@ public class BrandServices : IBrandServices
         }
     }
 
-    public Task<GeneralResponse> Delete(BrandViewModel item)
+    public async  Task<GeneralResponse> Delete(BrandViewModel item)
+    {
+        try
+        {
+
+            return GeneralResponse.Success();
+        }
+        catch (Exception e)
+        {
+            return GeneralResponse.Fail(e);
+        }
+    }
+
+    public async  Task<BrandViewModel> GetItem(int id)
     {
         throw new NotImplementedException();
     }
 
-    public Task<BrandViewModel> GetItem(int id)
+    public async  Task<List<BrandViewModel>> GetList(int userId, string text = "")
     {
         throw new NotImplementedException();
     }
 
-    public Task<List<BrandViewModel>> GetList(int userId, string text = "")
+    public async  Task<GeneralResponse> Update(BrandViewModel item)
     {
-        throw new NotImplementedException();
-    }
+        try
+        {
 
-    public Task<GeneralResponse> Update(BrandViewModel item)
-    {
-        throw new NotImplementedException();
+            return GeneralResponse.Success();
+        }
+        catch (Exception e)
+        {
+            return GeneralResponse.Fail(e);
+        }
     }
 }
 
