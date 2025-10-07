@@ -12,7 +12,7 @@ public interface IProductCategoryServices
     {
         Task<GeneralResponse> Create(ProductCategoryViewModel item);
         Task<GeneralResponse> Update(ProductCategoryViewModel item);
-        Task<GeneralResponse> Delete(ProductCategoryViewModel item);
+        Task<GeneralResponse> Delete(int id ,int userId);
         Task<ProductCategoryViewModel> GetItem(int id);
         Task<List<ProductCategoryViewModel>> GetList(int userId, string text = "");
     }

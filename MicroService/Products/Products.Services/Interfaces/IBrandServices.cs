@@ -12,7 +12,7 @@ public interface IBrandServices
 {
     Task<GeneralResponse> Create(BrandViewModel item);
     Task<GeneralResponse> Update(BrandViewModel item);
-    Task<GeneralResponse> Delete(BrandViewModel item);
+    Task<GeneralResponse> Delete(int id,int userId);
     Task<BrandViewModel> GetItem(int id);
     Task<List<BrandViewModel>> GetList(int userId, string text = "");
 }

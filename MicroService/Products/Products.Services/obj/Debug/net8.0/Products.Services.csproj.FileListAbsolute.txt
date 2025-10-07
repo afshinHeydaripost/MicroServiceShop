@@ -3,8 +3,6 @@ F:\MicroService\MicroService\Products\Products.Services\bin\Debug\net8.0\Product
 F:\MicroService\MicroService\Products\Products.Services\bin\Debug\net8.0\Products.Services.pdb
 F:\MicroService\MicroService\Products\Products.Services\bin\Debug\net8.0\Helper.dll
 F:\MicroService\MicroService\Products\Products.Services\bin\Debug\net8.0\Products.DataModel.dll
-F:\MicroService\MicroService\Products\Products.Services\bin\Debug\net8.0\Products.Repository.dll
-F:\MicroService\MicroService\Products\Products.Services\bin\Debug\net8.0\Products.Repository.pdb
 F:\MicroService\MicroService\Products\Products.Services\bin\Debug\net8.0\Helper.pdb
 F:\MicroService\MicroService\Products\Products.Services\bin\Debug\net8.0\Products.DataModel.pdb
 F:\MicroService\MicroService\Products\Products.Services\obj\Debug\net8.0\Products.Services.csproj.AssemblyReference.cache
