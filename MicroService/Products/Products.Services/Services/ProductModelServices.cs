@@ -18,7 +18,7 @@ public class ProductModelServices : IProductModelServices
         }
     }
 
-    public async Task<GeneralResponse> Delete(ProductModelViewMode item)
+    public async Task<GeneralResponse> Delete(int userId,int id)
     {
         try
         {

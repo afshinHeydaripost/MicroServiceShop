@@ -12,7 +12,7 @@ namespace Products.Services.Interfaces;
     {
         Task<GeneralResponse> Create(ProductViewModel item);
         Task<GeneralResponse> Update(ProductViewModel item);
-        Task<GeneralResponse> Delete(ProductViewModel item);
+        Task<GeneralResponse> Delete(int userId,int id);
         Task<ProductViewModel> GetItem(int id);
         Task<List<ProductViewModel>> GetList(int userId, string text = "");
     }
