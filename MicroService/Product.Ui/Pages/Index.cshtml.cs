@@ -1,18 +1,19 @@
+using Helper.VieModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Product.Ui.Class;
 
 namespace Product.Ui.Pages
 {
-    public class IndexModel : PageModel
+    public class IndexModel : CustomePageModel
     {
-        private readonly ILogger<IndexModel> _logger;
+        private readonly ApiService _apiService;
 
-        public IndexModel(ILogger<IndexModel> logger)
+        public IndexModel(ApiService apiService)
         {
-            _logger = logger;
+            _apiService = apiService;
         }
-
-        public void OnGet()
+        public async Task OnGet()
         {
 
         }

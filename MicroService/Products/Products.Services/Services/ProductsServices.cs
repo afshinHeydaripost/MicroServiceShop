@@ -89,6 +89,8 @@ public class ProductsServices : IProductsServices
             BrandId = x.BrandId,
             CategoryId = x.CategoryId,
             Code = x.Code,
+            BrandTitle = x.Brand.Title,
+            CategoryTitle = x.Category.Title,
             Description = x.Description,
             Picture = x.Picture,
             Title = x.Title,

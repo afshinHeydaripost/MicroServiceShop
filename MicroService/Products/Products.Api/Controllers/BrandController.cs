@@ -5,9 +5,9 @@ using Products.Services.Interfaces;
 
 
 namespace ProductService.Api.Controllers;
-
-[ApiController]
 [Route("api/[controller]")]
+[ApiController]
+
 public class BrandController : ControllerBase
 {
     private readonly IBrandServices _service;
@@ -17,7 +17,8 @@ public class BrandController : ControllerBase
         _service = service;
     }
 
-    [HttpGet]
+    [HttpGet("GetList")]
+
     public async Task<IActionResult> GetList(string text = "")
     {
         var list = await _service.GetList(1, text);
@@ -25,20 +26,22 @@ public class BrandController : ControllerBase
     }
 
     [HttpGet("{id}")]
+
     public async Task<IActionResult> GetItem(int id)
     {
         var product = await _service.GetItem(id);
         return Ok(product);
     }
 
-    [HttpPost]
+    [HttpPost("create")]
+
     public async Task<IActionResult> Create(BrandViewModel item)
     {
         var res = await _service.Create(item);
         return Ok(res);
     }
+    [HttpPost("update")]
 
-    [HttpPut("{id}")]
     public async Task<IActionResult> Update(BrandViewModel item)
     {
 
@@ -46,7 +49,9 @@ public class BrandController : ControllerBase
         return Ok(res);
     }
 
-    [HttpDelete("{id}")]
+
+    [HttpPost("delete/{id}")]
+
     public async Task<IActionResult> Delete(int id)
     {
         var res = await _service.Delete(1, id);

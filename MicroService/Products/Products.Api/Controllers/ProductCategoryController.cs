@@ -38,7 +38,8 @@ public class ProductCategoryController : ControllerBase
         return Ok(res);
     }
 
-    [HttpPut("{id}")]
+
+    [HttpPost]
     public async Task<IActionResult> Update(ProductCategoryViewModel item)
     {
 
@@ -46,7 +47,7 @@ public class ProductCategoryController : ControllerBase
         return Ok(res);
     }
 
-    [HttpDelete("{id}")]
+    [HttpPost]
     public async Task<IActionResult> Delete(int id)
     {
         var res = await _service.Delete(1, id);

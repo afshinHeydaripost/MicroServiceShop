@@ -14,8 +14,9 @@ namespace Helper.VieModels
         public int ProductId { get; set; }
 
         public int? CategoryId { get; set; }
-
+        public string CategoryTitle { get; set; }
         public int? BrandId { get; set; }
+        public string BrandTitle { get; set; }
 
         public string Code { get; set; }
 

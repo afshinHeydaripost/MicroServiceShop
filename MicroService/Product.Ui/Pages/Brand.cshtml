@@ -1,0 +1,79 @@
+﻿@page
+@model BrandModel
+@{
+    ViewData["Title"] = "برند ها";
+}
+<!-- Main row -->
+<div class="row">
+    <!-- Left col -->
+    <div class="col-md-12">
+        <!-- TABLE: LATEST ORDERS -->
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <h3 class="box-title">برند ها</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <div class="table-responsive">
+                    <table class="table no-margin" id="tblBrand">
+                        <thead>
+                            <tr>
+                                <th>عنوان برند</th>
+                                <th>غیر فعال</th>
+                                <th>عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.brnds)
+                            {
+                                <tr>
+                                    <td><a>@item.Title</a></td>
+                                    @if (item.IsHidden == true)
+                                    {
+                                        <td><i class="fa fa-check"></i></td>
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                    }
+
+                                    <td>
+                                        <button type="button" class="btn btn-info"><i class="fa fa-edit"></i></button>
+                                        <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.table-responsive -->
+            </div>
+        </div>
+        <!-- /.box -->
+    </div>
+</div>
+<!-- /.row -->
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#tblBrand').DataTable({
+                language: {
+                    url: "/lib/datatables/Persian.json"
+                },
+                responsive: true,
+                select: true,
+                order: [[0, "desc"]],
+            });
+        });
+    </script>
+}

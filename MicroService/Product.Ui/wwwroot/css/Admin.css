@@ -1,0 +1,54 @@
+* {
+
+}
+
+a {
+    display: inline-block;
+}
+
+span {
+    display: inline-block;
+}
+
+.row {
+
+}
+
+/*---- start color pallet ----*/
+.template-color li {
+    padding: 5px !important;
+}
+
+.template-color li a {
+    margin-bottom: 7px !important;
+    background-color: rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.4);
+}
+
+.template-color li a .sidebar-box {
+    width: 20%;
+    float: left;
+    height: 20px;
+    background: #222d32;
+}
+
+.template-color li a .content-box {
+    width: 80%;
+    float: left;
+    height: 20px;
+    background: #f4f5f7
+}
+
+.template-color li a .sidebar-box-top {
+    width: 20%;
+    float: left;
+    height: 7px;
+}
+
+.template-color li a .content-box-top {
+    width: 80%;
+    float: left;
+    height: 7px;
+}
+
+/*---- end color pallet ----*/
