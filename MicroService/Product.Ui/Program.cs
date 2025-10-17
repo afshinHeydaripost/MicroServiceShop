@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation(); 
 // ثبت HttpClient
-builder.Services.AddHttpClient();
+builder.Services.AddHttpClient().AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
 
 // ثبت کلاس ApiService در DI
 builder.Services.AddTransient<ApiService>();

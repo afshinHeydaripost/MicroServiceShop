@@ -27,8 +27,8 @@ public class ProductsController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetItem(int id)
     {
-        var product = await _productService.GetItem(id);
-        return Ok(product);
+        var item = await _productService.GetItem(id);
+        return Ok(item);
     }
 
     [HttpPost]

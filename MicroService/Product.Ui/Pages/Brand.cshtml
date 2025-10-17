@@ -12,12 +12,7 @@
             <div class="box-header with-border">
                 <h3 class="box-title">برند ها</h3>
                 <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                        <i class="fa fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-box-tool" data-widget="remove">
-                        <i class="fa fa-times"></i>
-                    </button>
+                    <partial name="Partials/_btnAddNewItem" />
                 </div>
             </div>
             <!-- /.box-header -->
@@ -46,7 +41,7 @@
                                     }
 
                                     <td>
-                                        <button type="button" class="btn btn-info"><i class="fa fa-edit"></i></button>
+                                        <button type="button" onclick="GetBrand('@item.BrandId')" class="btn btn-info"><i class="fa fa-edit"></i></button>
                                         <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                                     </td>
 
@@ -64,69 +59,61 @@
 </div>
 <!-- /.row -->
 <!-- Modal -->
-<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+<div class="modal fade" tabindex="-1" role="dialog" id="brandModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                <h4 class="modal-title" id="brandModalTitle"></h4>
             </div>
             <div class="modal-body">
-                <div class="container">
+                <div class="row" style="padding: 0 25px;">
                     <form method="post" id="frmBrand" enctype="multipart/form-data">
+                        @Html.AntiForgeryToken()
                         <input type="hidden" asp-for="brand.BrandId" />
                         <input type="hidden" asp-for="brand.Logo" />
                         <input type="hidden" asp-for="brand.IsHidden" />
                         <input type="hidden" asp-for="brand.OrderView" />
-                        <div class="row">
-                            <div class="col-12">
-                                <div asp-validation-summary="All"></div>
+
+                        <div class="col-12">
+                            <div asp-validation-summary="All"></div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>عنوان </label>
+                                <input asp-for="brand.Title" type="text" class="form-control" placeholder="عنوان ">
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6 col-12">
-                                <div class="form-group">
-                                    <label>عنوان </label>
-                                    <input asp-for="brand.Title" type="text" class="form-control" placeholder="عنوان ">
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="form-group mt-md-8">
-                                    <div class="form-control">
-                                        <div class="checkbox-inline">
-                                            <label class="checkbox checkbox-success">
-                                                <input type="checkbox" id="IsHidden">
-                                                <span></span>عدم نمایش
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 col-12">
-                                <div class="form-group">
-                                    <label>لوگو</label>
-                                    <input asp-for="brand.UploadedFile" class="form-control" onchange="loadFile(event,'brandLogo')">
-                                    <br />
-                                    <div class="fv-plugins-message-container text-center mt-3 w-150px m-auto" id="F-See">
-                                        <img id="brandLogo" class="img-fluid" />
+                        <div class="col-12">
+                            <div class="form-group mt-md-8">
+                                <div class="form-control">
+                                    <div class="checkbox-inline">
+                                        <label class="checkbox checkbox-success">
+                                            <input type="checkbox" id="IsHidden">
+                                            <span></span>عدم نمایش
+                                        </label>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>لوگو</label>
+                                <input asp-for="brand.UploadedFile" class="form-control" onchange="loadFile(event,'brandLogo')">
+                                <br />
+                                <div class="fv-plugins-message-container text-center mt-3 w-150px m-auto" id="F-See">
+                                    <img id="brandLogo" class="img-fluid" />
+                                </div>
+                            </div>
+                        </div>
+
+
                     </form>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">
-                    <i class="fa fa-close"></i>
-                    بستن</button>
-                <button type="button" class="btn btn-primary">
-                    <i class="fa fa-check"></i>
-                    ثبت</button>
-            </div>
+            <partial name="Partials/_CrudModalFooter" />
         </div>
     </div>
 </div>
@@ -141,6 +128,57 @@
                 select: true,
                 order: [[0, "desc"]],
             });
+            $("#btnAdd").click(function () {
+                if (parseInt($("#brand_BrandId").val()) <= 0) {
+                    if ($('#brand_UploadedFile').get(0).files.length === 0) {
+                        $(".validation-summary-valid").addClass("validation-summary-errors");
+                        $(".validation-summary-errors").removeClass("validation-summary-valid");
+                        $(".validation-summary-errors ul").html("<li>لوگو را بارگذاری کنید</li>");
+                        return;
+                    }
+                }
+                PostFormToServerByFile('@Url.Page("Brand", "Add")', '#frmBrand', function (result) {
+                    console.log(result);
+                });
+            })
+            $("#btnAddNewItem").click(function () {
+                $("#btnAdd").show();
+                ValidationSummary(".validation-summary-errors", ".validation-summary-valid");
+                $("#btnEdit").hide();
+                $("#brand_Logo").val("");
+                $("#brand_Title").val("");
+                $("#brand_IsHidden").val(false);
+                $("#IsHidden").prop("checked", false);
+                $("#brand_BrandId").val(0);
+                $("#brandModalTitle").text("افزودن برند");
+                $("#brand_UploadedFile").val(null);
+                $("#brandLogo").attr("src", "");
+                ShowModal("#brandModal");
+            })
         });
+
+        function GetBrand(ID) {
+            if (ID > 0) {
+                GetFromServer('@Url.Page("Brand", "ById")', { id: ID }, function (result) {
+                    $("#btnAdd").hide();
+                    $("#btnEdit").show();
+                    ValidationSummary(".validation-summary-errors", ".validation-summary-valid");
+                    $("#brand_Logo").val(result.logo);
+                    $("#brand_Title").val(result.title);
+                    $("#brand_IsHidden").val(result.isHidden);
+                    $("#brand_OrderView").val(result.orderView);
+                    $("#brandLogo").attr("src", result.logo);
+                    var hide = Boolean(result.isHidden);
+                    if (hide)
+                        $("#IsHidden").prop("checked", true);
+                    else
+                        $("#IsHidden").prop("checked", false);
+                    $("#brand_BrandId").val(ID);
+                    $("#brandModalTitle").text("ویرایش  برند " + result.title);
+                    $("#brand_UploadedFile").val(null);
+                    ShowModal("#brandModal");
+                })
+            }
+        }
     </script>
 }
