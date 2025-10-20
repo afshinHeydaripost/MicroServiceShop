@@ -35,14 +35,14 @@ public class BrandController : ControllerBase
 
     [HttpPost("create")]
 
-    public async Task<IActionResult> Create(BrandViewModel item)
+    public async Task<IActionResult> Create([FromBody]  BrandViewModel item)
     {
         var res = await _service.Create(item);
         return Ok(res);
     }
     [HttpPost("update")]
 
-    public async Task<IActionResult> Update(BrandViewModel item)
+    public async Task<IActionResult> Update([FromBody] BrandViewModel item)
     {
 
         var res = await _service.Update(item);
@@ -54,7 +54,7 @@ public class BrandController : ControllerBase
 
     public async Task<IActionResult> Delete(int id)
     {
-        var res = await _service.Delete(1, id);
+        var res = await _service.Delete(id, 1);
         return Ok(res);
     }
 }

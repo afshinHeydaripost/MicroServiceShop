@@ -30,10 +30,11 @@ function GetFromServer(url, data, callbackFunction, showLoader = false) {
 function PostFormToServerByFile(Url, frm, callbackFunction) {
     $.validator.unobtrusive.parse(frm);
     if ($(frm).valid()) {
-        var token = $('input[name="__RequestVerificationToken"]').val();
+        var token = $(frm).find('input[name="__RequestVerificationToken"]').val();
         var formData = new FormData($(frm)[0]);
         formData.append('__RequestVerificationToken', token);
-
+        console.log(formData);
+        console.log($(frm)[0]);
         $.ajax({
             type: "POST",
             dataType: "json",
@@ -61,7 +62,7 @@ function PostToServer(Url, data, callbackFunction) {
         data: data,
         success: function (result) {
             if (typeof callbackFunction == 'function') {
-                callbackFunction.call(this, res);
+                callbackFunction.call(this, result);
             }
         },
         error: function (xhr, status, error) {

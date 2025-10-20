@@ -1,25 +1,28 @@
 ﻿using Helper;
 using Helper.VieModels;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Products.DataModel.Context;
 using Products.DataModel.Models;
 using Products.Services.Interfaces;
 using Products.Services.Tools;
+using System;
 
 namespace Products.Services;
-public class ProductCategoryServices : IProductCategoryServices
+public class ProductColorServices : IProductColorServices
 {
     private readonly MicroServiceShopContext _context;
-    public ProductCategoryServices(MicroServiceShopContext context)
+
+    public ProductColorServices(MicroServiceShopContext context)
     {
         _context = context;
     }
-    public async Task<GeneralResponse> Create(ProductCategoryViewModel item)
+    public async Task<GeneralResponse> Create(ProductColorViewModel item)
     {
         try
         {
-            var obj = item.ToProductCategory();
-            await _context.ProductCategories.AddAsync(obj);
+            var obj = item.ToProductColor();
+            await _context.ProductColors.AddAsync(obj);
             await _context.SaveChangesAsync();
             return GeneralResponse.Success();
         }
@@ -28,9 +31,9 @@ public class ProductCategoryServices : IProductCategoryServices
             return GeneralResponse.Fail(e);
         }
     }
-    private async Task<ProductCategory> GetById(int id, bool isModel)
+    private async Task<ProductColor> GetById(int id, bool isModel)
     {
-        return await _context.ProductCategories.FirstOrDefaultAsync(x => x.ProductCategoryId == id);
+        return await _context.ProductColors.FirstOrDefaultAsync(x => x.ProductColorId == id);
     }
     public async Task<GeneralResponse> Delete(int id, int userId)
     {
@@ -39,7 +42,7 @@ public class ProductCategoryServices : IProductCategoryServices
             var item = await GetById(id, true);
             if (item == null)
                 return GeneralResponse.NotFound();
-            _context.ProductCategories.Remove(item);
+            _context.ProductColors.Remove(item);
             await _context.SaveChangesAsync();
             return GeneralResponse.Success();
         }
@@ -49,27 +52,26 @@ public class ProductCategoryServices : IProductCategoryServices
         }
     }
 
-    public async Task<ProductCategoryViewModel> GetItem(int id)
+    public async Task<ProductColorViewModel> GetItem(int id)
     {
-        var item = await _context.ProductCategories.Where(x => x.ProductCategoryId == id).Select(x => new ProductCategoryViewModel()
+        var item = await _context.ProductColors.Where(x => x.ProductColorId == id).Select(x => new ProductColorViewModel()
         {
-            ProductCategoryId = x.ProductCategoryId,
             IsHidden = x.IsHidden,
-            ImageUrl = x.ImageUrl,
-            OrderView = x.OrderView,
+            ProductColorId=x.ProductColorId,
+            Rgb=x.Rgb,
             Title = x.Title,
         }).FirstOrDefaultAsync();
         return item;
     }
 
-    public async Task<List<ProductCategoryViewModel>> GetList(int userId, string text = "")
+    public async Task<List<ProductColorViewModel>> GetList(int userId, string text = "")
     {
-        var query = _context.ProductCategories.Select(x => new ProductCategoryViewModel()
+
+        var query = _context.ProductColors.Select(x => new ProductColorViewModel()
         {
-            ProductCategoryId = x.ProductCategoryId,
             IsHidden = x.IsHidden,
-            ImageUrl = x.ImageUrl,
-            OrderView = x.OrderView,
+            ProductColorId = x.ProductColorId,
+            Rgb = x.Rgb,
             Title = x.Title,
         }).AsQueryable();
         if (!string.IsNullOrEmpty(text))
@@ -79,22 +81,21 @@ public class ProductCategoryServices : IProductCategoryServices
         return await query.ToListAsync();
     }
 
-    public async Task<GeneralResponse> Update(ProductCategoryViewModel item)
+    public async Task<GeneralResponse> Update(ProductColorViewModel item)
     {
         try
         {
-            var obj = await GetById(item.ProductCategoryId, true);
+
+            var obj = await GetById(item.ProductColorId??0, true);
             if (obj == null)
                 return GeneralResponse.NotFound();
 
             obj.Title = item.Title;
-            obj.ImageUrl = item.ImageUrl;
             obj.IsHidden = item.IsHidden;
-            obj.OrderView = item.OrderView;
+            obj.Rgb = item.Rgb;
             obj.UpdateDate = DateTime.Now;
-            _context.ProductCategories.Update(obj);
+            _context.ProductColors.Update(obj);
             await _context.SaveChangesAsync();
-
             return GeneralResponse.Success();
         }
         catch (Exception e)

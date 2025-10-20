@@ -20,6 +20,7 @@ builder.Services.AddScoped<IProductsServices, ProductsServices>();
 builder.Services.AddScoped<IBrandServices, BrandServices>();
 builder.Services.AddScoped<IProductCategoryServices, ProductCategoryServices>();
 builder.Services.AddScoped<IProductModelServices, ProductModelServices>();
+builder.Services.AddScoped<IProductColorServices, ProductColorServices>();
 #endregion
 
 // Add services to the container.

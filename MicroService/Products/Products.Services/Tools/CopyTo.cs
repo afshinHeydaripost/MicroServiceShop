@@ -22,12 +22,24 @@ internal static class CopyTo
             UpdateDate = DateTime.Now
         };
     }
+    internal static ProductColor ToProductColor(this ProductColorViewModel x)
+    {
+        return new ProductColor()
+        {
+
+            IsHidden = x.IsHidden,
+            Rgb = x.Rgb,
+            ProductColorId = x.ProductColorId ?? 0,
+            Title = x.Title,
+            UpdateDate = DateTime.Now
+        };
+    }
     internal static ProductCategory ToProductCategory(this ProductCategoryViewModel x)
     {
         return new ProductCategory()
         {
-            ProductCategoryId=x.ProductCategoryId,
-            ImageUrl=x.ImageUrl,
+            ProductCategoryId = x.ProductCategoryId,
+            ImageUrl = x.ImageUrl,
             IsHidden = x.IsHidden,
             OrderView = x.OrderView,
             Title = x.Title,
@@ -38,11 +50,11 @@ internal static class CopyTo
     {
         return new Product()
         {
-            BrandId=x.BrandId,
-            CategoryId=x.CategoryId,
-            Code=x.Code,
-            Description=x.Description,
-            ProductId=x.ProductId,
+            BrandId = x.BrandId,
+            CategoryId = x.CategoryId,
+            Code = x.Code,
+            Description = x.Description,
+            ProductId = x.ProductId,
             IsHidden = x.IsHidden,
             Title = x.Title,
             UpdateDate = DateTime.Now
@@ -52,10 +64,10 @@ internal static class CopyTo
     {
         return new ProductModel()
         {
-            ColorId=x.ColorId,
-            ProductId=x.ProductId,
-            Price=x.Price,
-            ProductModelId=x.ProductModelId,
+            ColorId = x.ColorId,
+            ProductId = x.ProductId,
+            Price = x.Price,
+            ProductModelId = x.ProductModelId,
             UpdateDate = DateTime.Now
         };
     }

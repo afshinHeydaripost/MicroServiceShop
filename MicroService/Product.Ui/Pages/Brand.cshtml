@@ -70,6 +70,7 @@
                 <div class="row" style="padding: 0 25px;">
                     <form method="post" id="frmBrand" enctype="multipart/form-data">
                         @Html.AntiForgeryToken()
+
                         <input type="hidden" asp-for="brand.BrandId" />
                         <input type="hidden" asp-for="brand.Logo" />
                         <input type="hidden" asp-for="brand.IsHidden" />
@@ -137,9 +138,31 @@
                         return;
                     }
                 }
-                PostFormToServerByFile('@Url.Page("Brand", "Add")', '#frmBrand', function (result) {
-                    console.log(result);
-                });
+                $.validator.unobtrusive.parse("#frmBrand");
+                if ($("#frmBrand").valid()) {
+                    $.ajax({
+                        type: "POST",
+                        dataType: "json",
+                        url: '@Url.Page("Brand", "Add")',
+                        data: new FormData(document.forms[0]),
+                        contentType: false,
+                        processData: false,
+                        success: function (result) {
+                            if (result.isSuccess) {
+                                ToastMessageSuccess(result.message);
+                            }
+                            else
+                                ToastMessageError(result.message);
+
+                        },
+                        error: function (xhr, status, error) {
+                            ToastMessageError(error);
+                        }
+                    });
+                }
+                // PostFormToServerByFile('/Brand?handler=Add', '#frmBrand', function (result) {
+                //     console.log(result);
+                // });
             })
             $("#btnAddNewItem").click(function () {
                 $("#btnAdd").show();

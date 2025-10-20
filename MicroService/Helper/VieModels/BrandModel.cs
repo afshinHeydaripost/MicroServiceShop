@@ -27,7 +27,7 @@ namespace Helper.VieModels
 
 
         [DataType(DataType.Upload)]
-        public IFormFile UploadedFile { get; set; }
+        public IFormFile? UploadedFile { get; set; }
 
     }
 }

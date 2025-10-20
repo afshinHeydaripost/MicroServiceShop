@@ -5,52 +5,56 @@ using Products.Services.Interfaces;
 
 
 namespace ProductService.Api.Controllers;
-
-[ApiController]
 [Route("api/[controller]")]
-public class ProductsController : ControllerBase
-{
-    private readonly IProductsServices _productService;
+[ApiController]
 
-    public ProductsController(IProductsServices productService)
+public class ProductColorController : ControllerBase
+{
+    private readonly IProductColorServices _service;
+
+    public ProductColorController(IProductColorServices service)
     {
-        _productService = productService;
+        _service = service;
     }
 
     [HttpGet("GetList")]
+
     public async Task<IActionResult> GetList(string text = "")
     {
-        var list = await _productService.GetList(1, text);
+        var list = await _service.GetList(1, text);
         return Ok(list);
     }
 
     [HttpGet("{id}")]
+
     public async Task<IActionResult> GetItem(int id)
     {
-        var item = await _productService.GetItem(id);
+        var item = await _service.GetItem(id);
         return Ok(item);
     }
+
     [HttpPost("create")]
-    public async Task<IActionResult> Create([FromBody] ProductViewModel item)
+
+    public async Task<IActionResult> Create([FromBody] ProductColorViewModel item)
     {
-        var res = await _productService.Create(item);
+        var res = await _service.Create(item);
         return Ok(res);
     }
-
-
     [HttpPost("update")]
-    public async Task<IActionResult> Update([FromBody] ProductViewModel item)
+
+    public async Task<IActionResult> Update([FromBody] ProductColorViewModel item)
     {
 
-        var res = await _productService.Update(item);
+        var res = await _service.Update(item);
         return Ok(res);
     }
 
 
     [HttpPost("delete/{id}")]
+
     public async Task<IActionResult> Delete(int id)
     {
-        var res = await _productService.Delete(1, id);
+        var res = await _service.Delete(id, 1);
         return Ok(res);
     }
 }

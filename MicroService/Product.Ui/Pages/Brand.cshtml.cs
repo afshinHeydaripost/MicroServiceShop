@@ -27,8 +27,8 @@ namespace Product.Ui.Pages
         {
             return new JsonResult(await _apiService.GetDataAsync<BrandViewModel>(ProductApiUrl, $"api/Brand/{id}"));
         }
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> OnPostAdd()
+        [IgnoreAntiforgeryToken]
+        public async Task<IActionResult> OnPostAddAsync()
         {
             var res = GeneralResponse.Fail();
             if (!ModelState.IsValid)

@@ -19,7 +19,6 @@ public class ProductsServices : IProductsServices
     {
         try
         {
-            item.ProductId = await GetMaxId();
             var obj = item.ToProduct();
             await _context.Products.AddAsync(obj);
             await _context.SaveChangesAsync();
@@ -29,16 +28,6 @@ public class ProductsServices : IProductsServices
         {
             return GeneralResponse.Fail(e);
         }
-    }
-
-    private async Task<int> GetMaxId()
-    {
-        var id = 0;
-        if (await _context.Products.AnyAsync())
-        {
-            id = await _context.Products.MaxAsync(x => x.ProductId);
-        }
-        return id + 1;
     }
     private async Task<Product> GetById(int id, bool isModel)
     {
@@ -117,6 +106,8 @@ public class ProductsServices : IProductsServices
             obj.Picture = item.Picture;
             obj.Title = item.Title;
             obj.UpdateDate = DateTime.Now;
+            _context.Products.Update(obj);
+            await _context.SaveChangesAsync();
             return GeneralResponse.Success();
         }
         catch (Exception e)

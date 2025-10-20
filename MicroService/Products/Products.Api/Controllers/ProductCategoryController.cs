@@ -17,7 +17,8 @@ public class ProductCategoryController : ControllerBase
         _service = service;
     }
 
-    [HttpGet]
+    [HttpGet("GetList")]
+
     public async Task<IActionResult> GetList(string text = "")
     {
         var list = await _service.GetList(1, text);
@@ -31,26 +32,27 @@ public class ProductCategoryController : ControllerBase
         return Ok(item);
     }
 
-    [HttpPost]
-    public async Task<IActionResult> Create(ProductCategoryViewModel item)
+
+    [HttpPost("create")]
+    public async Task<IActionResult> Create([FromBody]  ProductCategoryViewModel item)
     {
         var res = await _service.Create(item);
         return Ok(res);
     }
 
 
-    [HttpPost]
-    public async Task<IActionResult> Update(ProductCategoryViewModel item)
+    [HttpPost("update")]
+    public async Task<IActionResult> Update([FromBody]  ProductCategoryViewModel item)
     {
 
         var res = await _service.Update(item);
         return Ok(res);
     }
 
-    [HttpPost]
+    [HttpPost("delete/{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var res = await _service.Delete(1, id);
+        var res = await _service.Delete(id, 1);
         return Ok(res);
     }
 }

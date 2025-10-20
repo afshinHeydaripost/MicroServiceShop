@@ -21,7 +21,6 @@ public class BrandServices : IBrandServices
     {
         try
         {
-            item.BrandId = await GetMaxId();
             var obj = item.ToBrand();
             await _context.Brands.AddAsync(obj);
             await _context.SaveChangesAsync();
@@ -31,15 +30,6 @@ public class BrandServices : IBrandServices
         {
             return GeneralResponse.Fail(e);
         }
-    }
-    private async Task<int> GetMaxId()
-    {
-        var id = 0;
-        if (await _context.Brands.AnyAsync())
-        {
-            id = await _context.Brands.MaxAsync(x => x.BrandId);
-        }
-        return id + 1;
     }
     private async Task<Brand> GetById(int id, bool isModel)
     {
@@ -99,7 +89,7 @@ public class BrandServices : IBrandServices
         {
 
             var obj = await GetById(item.BrandId, true);
-            if (item == null)
+            if (obj == null)
                 return GeneralResponse.NotFound();
 
             obj.Title = item.Title;
