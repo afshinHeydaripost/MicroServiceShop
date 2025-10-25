@@ -31,13 +31,27 @@ namespace Helper.VieModels
     }
     public partial class ProductModelViewMode
     {
-        public int ProductModelId { get; set; }
+        public int? ProductModelId { get; set; }
 
         public int ProductId { get; set; }
+        public string ProductTitle { get; set; }
+        public string ProductCode { get; set; }
 
         public int? ColorId { get; set; }
+        public string ColorTitle { get; set; }
+
+        public int? Amount { get; set; }
 
         public int? Price { get; set; }
     }
+    public  class ProductStockViewModel
+    {
+        public int ProductModelId { get; set; }
 
+        public int? Amount { get; set; }
+
+        public int? InvoiceId { get; set; }
+
+        public DateTime UpdateDate { get; set; }
+    }
 }

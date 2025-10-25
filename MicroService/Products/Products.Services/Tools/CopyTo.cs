@@ -67,7 +67,16 @@ internal static class CopyTo
             ColorId = x.ColorId,
             ProductId = x.ProductId,
             Price = x.Price,
+            UpdateDate = DateTime.Now
+        };
+    }
+    internal static ProductStock ToProductStock(this ProductStockViewModel x)
+    {
+        return new ProductStock()
+        {
+            Amount = x.Amount ?? 0,
             ProductModelId = x.ProductModelId,
+            InvoiceId = x.InvoiceId,
             UpdateDate = DateTime.Now
         };
     }

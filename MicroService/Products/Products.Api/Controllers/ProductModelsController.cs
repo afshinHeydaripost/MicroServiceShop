@@ -8,19 +8,19 @@ namespace ProductService.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ProductsController : ControllerBase
+public class ProductModelsController : ControllerBase
 {
-    private readonly IProductsServices _service;
+    private readonly IProductModelServices _service;
 
-    public ProductsController(IProductsServices service)
+    public ProductModelsController(IProductModelServices service)
     {
         _service = service;
     }
 
-    [HttpGet("GetList")]
-    public async Task<IActionResult> GetList(string text = "")
+    [HttpGet("GetList/{id}")]
+    public async Task<IActionResult> GetList(int id)
     {
-        var list = await _service.GetList(1, text);
+        var list = await _service.GetList(id, "");
         return Ok(list);
     }
 
@@ -31,7 +31,7 @@ public class ProductsController : ControllerBase
         return Ok(item);
     }
     [HttpPost("create")]
-    public async Task<IActionResult> Create([FromBody] ProductViewModel item)
+    public async Task<IActionResult> Create([FromBody] ProductModelViewMode item)
     {
         var res = await _service.Create(item);
         return Ok(res);
@@ -39,7 +39,7 @@ public class ProductsController : ControllerBase
 
 
     [HttpPost("update")]
-    public async Task<IActionResult> Update([FromBody] ProductViewModel item)
+    public async Task<IActionResult> Update([FromBody] ProductModelViewMode item)
     {
 
         var res = await _service.Update(item);
