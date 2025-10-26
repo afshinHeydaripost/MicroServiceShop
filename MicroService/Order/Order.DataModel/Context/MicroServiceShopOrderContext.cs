@@ -32,6 +32,7 @@ public partial class MicroServiceShopOrderContext : DbContext
 
             entity.Property(e => e.OrderDate).HasColumnType("datetime");
             entity.Property(e => e.OrderDateFa).HasMaxLength(35);
+            entity.Property(e => e.Status).HasMaxLength(50);
             entity.Property(e => e.TotalPrice).HasColumnType("decimal(38, 0)");
         });
 

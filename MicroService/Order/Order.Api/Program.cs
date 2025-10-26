@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Order.DataModel.Context;
+using Order.Services.Interfaces;
+using Order.Services.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +16,10 @@ builder.Services.AddDbContext<MicroServiceShopOrderContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
-
+#region Dependency_Injection
+builder.Services.AddScoped<IOrderServices, OrderServices>();
+builder.Services.AddScoped<IOrderItemServices, OrderItemServices>();
+#endregion
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

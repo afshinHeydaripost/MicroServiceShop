@@ -9,11 +9,12 @@ public partial class Order
 
     public DateTime OrderDate { get; set; }
 
-    public byte[] OrderDateFa { get; set; } = null!;
+    public string OrderDateFa { get; set; } = null!;
 
     public decimal TotalPrice { get; set; }
 
     public int UserId { get; set; }
+    public string Status { get; set; }
 
     public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 }
