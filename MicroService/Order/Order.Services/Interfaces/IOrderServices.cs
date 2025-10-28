@@ -10,10 +10,8 @@ namespace Order.Services.Interfaces;
 
 public interface IOrderServices
 {
-    Task<GeneralResponse> Create(OrderViewModel item);
+    Task<GeneralResponse> CreateOrderForUser(int userId);
     Task<GeneralResponse> Update(OrderViewModel item);
     Task<GeneralResponse> Delete(int id,int userId);
-    Task<OrderViewModel> GetItem(int id);
-    Task<List<OrderViewModel>> GetListForUser(int userId);
 }
 

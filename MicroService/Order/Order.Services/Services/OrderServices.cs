@@ -1,7 +1,10 @@
 ﻿using Helper;
+using Helper.Tools;
 using Helper.VieModels;
+using Microsoft.EntityFrameworkCore;
 using Order.DataModel.Context;
 using Order.Services.Interfaces;
+using Order.Services.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,29 +21,74 @@ namespace Order.Services.Services
         {
             _context = context;
         }
-        public Task<GeneralResponse> Create(OrderViewModel item)
+        public async Task<GeneralResponse> CreateOrderForUser(int userId)
+        {
+            try
+            {
+                if (await _context.Orders.AnyAsync(x => x.UserId == userId && x.Status == null))
+                    return GeneralResponse.Success();
+                var obj = new OrderViewModel()
+                {
+                    OrderDate = DateTime.Now,
+                    Status = null,
+                    TotalPrice = 0,
+                    UserId = userId,
+                    OrderDateFa = DateTools.ToDateTimeFa()
+                }.ToOrder();
+                await _context.AddAsync(obj);
+                await _context.SaveChangesAsync();
+                return GeneralResponse.Success();
+            }
+            catch (Exception e)
+            {
+                return GeneralResponse.Fail(e);
+            }
+        }
+
+        public async Task<GeneralResponse> Delete(int id, int userId)
+        {
+            try
+            {
+                var obj = await GetById(id, true);
+                if (obj == null)
+                    return GeneralResponse.NotFound();
+                _context.Remove(obj);
+                await _context.SaveChangesAsync();
+                return GeneralResponse.Success();
+            }
+            catch (Exception e)
+            {
+                return GeneralResponse.Fail(e);
+            }
+        }
+        private async Task<DataModel.Models.Order> GetById(int id, bool isModel)
+        {
+            return await _context.Orders.FirstOrDefaultAsync(x => x.OrderId == id);
+        }
+        public async Task<OrderViewModel> GetItem(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<GeneralResponse> Delete(int id, int userId)
+        public async Task<List<OrderViewModel>> GetListForUser(int userId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<OrderViewModel> GetItem(int id)
+        public async Task<GeneralResponse> Update(OrderViewModel item)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<OrderViewModel>> GetListForUser(int userId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<GeneralResponse> Update(OrderViewModel item)
-        {
-            throw new NotImplementedException();
+            try
+            {
+                var obj = await GetById(item.OrderId, true);
+                if (obj == null)
+                    return GeneralResponse.NotFound();
+                await _context.SaveChangesAsync();
+                return GeneralResponse.Success();
+            }
+            catch (Exception e)
+            {
+                return GeneralResponse.Fail(e);
+            }
         }
     }
 }
