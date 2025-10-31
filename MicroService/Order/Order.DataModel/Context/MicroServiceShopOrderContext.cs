@@ -19,6 +19,7 @@ public partial class MicroServiceShopOrderContext : DbContext
     public virtual DbSet<Order.DataModel.Models.Order> Orders { get; set; }
 
     public virtual DbSet<OrderItem> OrderItems { get; set; }
+    public virtual DbSet<ProductInfo> ProductInfo { get; set; }
 
 //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
@@ -48,6 +49,20 @@ public partial class MicroServiceShopOrderContext : DbContext
                 .HasForeignKey(d => d.OrderId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_OrderItem_Order");
+        });
+        modelBuilder.Entity<ProductInfo>(entity =>
+        {
+            entity.ToTable("ProductInfo");
+            entity.Property(e => e.Code).HasMaxLength(100).IsRequired();
+            entity.Property(e => e.Title).HasMaxLength(300).IsRequired();
+            entity.Property(e => e.Picture).HasMaxLength(500);
+            entity.Property(e => e.Price).HasColumnType("decimal(38, 0)").IsRequired();
+            entity.Property(e => e.ColorTitle).HasMaxLength(50).IsRequired();
+            entity.Property(e => e.CategotyTitle).HasMaxLength(100).IsRequired();
+            entity.Property(e => e.CategotyImageUrl).HasMaxLength(500);
+            entity.Property(e => e.BrandTitle).HasMaxLength(100).IsRequired();
+            entity.Property(e => e.BrandLogo).HasMaxLength(500);
+            entity.Property(e => e.CreateDateTime).IsRequired();
         });
 
         OnModelCreatingPartial(modelBuilder);

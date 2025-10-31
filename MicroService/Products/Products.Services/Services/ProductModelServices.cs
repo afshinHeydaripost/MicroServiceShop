@@ -5,6 +5,7 @@ using Products.DataModel.Context;
 using Products.DataModel.Models;
 using Products.Services.Interfaces;
 using Products.Services.Tools;
+using System.Threading;
 
 namespace Products.Services;
 public class ProductModelServices : IProductModelServices
@@ -15,7 +16,7 @@ public class ProductModelServices : IProductModelServices
     {
         _context = context;
     }
-    public async Task<GeneralResponse> Create(ProductModelViewMode item)
+    public async Task<GeneralResponse<ProductModelViewMode>> Create(ProductModelViewMode item)
     {
         try
         {
@@ -33,11 +34,12 @@ public class ProductModelServices : IProductModelServices
                 };
                 await productStockServices.Create(objProductStock);
             }
-            return GeneralResponse.Success();
+            item.ProductModelId = obj.ProductModelId;
+            return GeneralResponse<ProductModelViewMode>.Success(item);
         }
         catch (Exception e)
         {
-            return GeneralResponse.Fail(e);
+            return GeneralResponse<ProductModelViewMode>.Fail(item, e);
         }
     }
     private async Task<ProductModel> GetById(int id, bool isModel)
@@ -121,6 +123,33 @@ public class ProductModelServices : IProductModelServices
         {
             return GeneralResponse.Fail(e);
         }
+    }
+
+    public async Task<ProductInfoViewModel> GetItemInfo(int id)
+    {
+        var item = await _context.ProductModels.Where(x => x.ProductModelId == id).Select(x => new ProductInfoViewModel()
+        {
+
+            ColorTitle = x.Color.Title,
+            Price = x.Price ?? 0,
+            Title = x.Product.Title,
+            BrandID = x.Product.BrandId ?? 0,
+            BrandIsHidden = x.Product.Brand.IsHidden ?? false,
+            BrandLogo = x.Product.Brand.Logo,
+            BrandTitle = x.Product.Brand.Title,
+            CategoryID = x.Product.CategoryId ?? 0,
+            CategotyImageUrl = x.Product.Category.ImageUrl,
+            CategotyIsHidden = x.Product.Category.IsHidden ?? false,
+            CategotyTitle = x.Product.Category.Title,
+            Code = x.Product.Code,
+            ColorID = x.ColorId ?? 0,
+            Picture = x.Product.Picture,
+            ProductID = x.ProductId,
+            ProductInfoId = 0,
+            ProductIsHidden = x.Product.IsHidden ?? false,
+            ProductModelID = x.ProductModelId
+        }).FirstOrDefaultAsync();
+        return item;
     }
 }
 

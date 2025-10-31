@@ -19,6 +19,7 @@ builder.Services.AddDbContext<MicroServiceShopOrderContext>(options =>
 #region Dependency_Injection
 builder.Services.AddScoped<IOrderServices, OrderServices>();
 builder.Services.AddScoped<IOrderItemServices, OrderItemServices>();
+builder.Services.AddScoped<IProductInfoServices, ProductInfoServices>();
 #endregion
 var app = builder.Build();
 

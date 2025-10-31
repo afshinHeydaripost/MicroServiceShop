@@ -10,10 +10,11 @@ namespace Products.Services.Interfaces;
 
 public interface IProductModelServices
     {
-        Task<GeneralResponse> Create(ProductModelViewMode item);
+        Task<GeneralResponse<ProductModelViewMode>> Create(ProductModelViewMode item);
         Task<GeneralResponse> Update(ProductModelViewMode item);
         Task<GeneralResponse> Delete(int userId,int id);
         Task<ProductModelViewMode> GetItem(int id);
+        Task<ProductInfoViewModel> GetItemInfo(int id);
         Task<List<ProductModelViewMode>> GetList(int productId, string text = "");
     }
 

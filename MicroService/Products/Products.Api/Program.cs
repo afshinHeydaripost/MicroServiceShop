@@ -1,8 +1,10 @@
 
+using Helper;
 using Microsoft.EntityFrameworkCore;
 using Products.DataModel.Context;
 using Products.Services;
 using Products.Services.Interfaces;
+using ProductService.Api.Class;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +23,8 @@ builder.Services.AddScoped<IBrandServices, BrandServices>();
 builder.Services.AddScoped<IProductCategoryServices, ProductCategoryServices>();
 builder.Services.AddScoped<IProductModelServices, ProductModelServices>();
 builder.Services.AddScoped<IProductColorServices, ProductColorServices>();
+
+builder.Services.AddSingleton<IRabbitMQ, RabbitMQProducer>();
 #endregion
 
 // Add services to the container.

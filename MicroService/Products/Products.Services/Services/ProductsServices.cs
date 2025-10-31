@@ -19,6 +19,7 @@ public class ProductsServices : IProductsServices
     {
         try
         {
+            item.Code = await GetProductMaxCode();
             var obj = item.ToProduct();
             await _context.Products.AddAsync(obj);
             await _context.SaveChangesAsync();
@@ -49,14 +50,28 @@ public class ProductsServices : IProductsServices
             return GeneralResponse.Fail(e);
         }
     }
-
+    private async Task<string> GetProductMaxCode()
+    {
+        var code = "000001";
+        try
+        {
+            if (await _context.Products.AnyAsync())
+            {
+                var pCode = await _context.Products.MaxAsync(x => int.Parse(x.Code));
+                code = (pCode + 1).ToString().PadLeft(6, '0');
+            }
+        }
+        catch (Exception e)
+        {
+            code = "000001";
+        }
+        return code;
+    }
     public async Task<ProductViewModel> GetItem(int id)
     {
         var item = await _context.Products.Where(x => x.ProductId == id).Select(x => new ProductViewModel()
         {
-
             IsHidden = x.IsHidden,
-
             ProductId = x.ProductId,
             BrandId = x.BrandId,
             CategoryId = x.CategoryId,
