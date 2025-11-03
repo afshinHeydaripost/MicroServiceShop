@@ -17,7 +17,7 @@ namespace ProductService.Api.Class
         {
             _config = config;
         }
-        public async Task<GeneralResponse> SendProductMessage<TRequest>(TRequest item,string queueName)
+        public async Task<GeneralResponse> SendMessageToQueue<TRequest>(TRequest item,string queueName)
         {
             try
             {

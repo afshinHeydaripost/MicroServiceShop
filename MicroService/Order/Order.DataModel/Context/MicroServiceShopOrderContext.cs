@@ -64,6 +64,18 @@ public partial class MicroServiceShopOrderContext : DbContext
             entity.Property(e => e.BrandLogo).HasMaxLength(500);
             entity.Property(e => e.CreateDateTime).IsRequired();
         });
+        modelBuilder.Entity<ProductStock>(entity =>
+        {
+            entity.ToTable("ProductStock");
+            entity.Property(e => e.ProductStockId).HasColumnName("ProductStockID");
+            entity.Property(e => e.OrderId).HasColumnName("OrderId");
+            entity.Property(e => e.ProductModelId).HasColumnName("ProductModelID");
+            entity.Property(e => e.UpdateDate).HasColumnType("datetime");
+
+            entity.HasOne(d => d.Order).WithMany(p => p.ProductStocks)
+                .HasForeignKey(d => d.OrderId)
+                .HasConstraintName("FK_ProductStock_Order");
+        });
 
         OnModelCreatingPartial(modelBuilder);
     }

@@ -17,4 +17,5 @@ public partial class Order
     public string Status { get; set; }
 
     public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+    public virtual ICollection<ProductStock> ProductStocks { get; set; } = new List<ProductStock>();
 }

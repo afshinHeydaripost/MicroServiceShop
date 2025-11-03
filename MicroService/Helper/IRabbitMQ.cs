@@ -8,6 +8,6 @@ namespace Helper
 {
     public interface IRabbitMQ
     {
-        Task<GeneralResponse> SendProductMessage<TRequest>(TRequest item,string queueName);
+        Task<GeneralResponse> SendMessageToQueue<TRequest>(TRequest item,string queueName);
     }
 }

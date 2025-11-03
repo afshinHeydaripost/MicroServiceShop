@@ -40,7 +40,11 @@ public class ProductModelsController : ControllerBase
         if (res.isSuccess)
         {
             var obj = await _service.GetItemInfo(res.obj.ProductModelId ?? 0);
-            await _producer.SendProductMessage(obj, "productCreateQueue");
+            await _producer.SendMessageToQueue(obj, "productCreateQueue");
+            if (item.Amount != null && item.Amount > 0) {
+                item.ProductModelId = res.obj.ProductModelId ?? 0;
+                await _producer.SendMessageToQueue(item, "productModelAmountQueue");
+            }
         }
         return Ok(res);
     }
@@ -54,7 +58,11 @@ public class ProductModelsController : ControllerBase
         if (res.isSuccess)
         {
             var obj = await _service.GetItemInfo(item.ProductModelId ?? 0);
-            await _producer.SendProductMessage(obj, "productUpdateQueue");
+            await _producer.SendMessageToQueue(obj, "productUpdateQueue");
+            if (item.Amount != null && item.Amount > 0)
+            {
+                await _producer.SendMessageToQueue(item, "productModelAmountQueue");
+            }
         }
         return Ok(res);
     }
@@ -64,6 +72,10 @@ public class ProductModelsController : ControllerBase
     public async Task<IActionResult> Delete(int id)
     {
         var res = await _service.Delete(1, id);
+        if (res.isSuccess)
+        {
+            await _producer.SendMessageToQueue(id, "productDeleteQueue");
+        }
         return Ok(res);
     }
 }

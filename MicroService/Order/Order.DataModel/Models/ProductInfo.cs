@@ -25,4 +25,7 @@ public partial class ProductInfo
     public bool BrandIsHidden { get; set; }
     public DateTime CreateDateTime { get; set; }
     public DateTime? LastUpdateDateTime { get; set; }
+
+
+    public virtual ICollection<ProductStock> ProductStocks { get; set; } = new List<ProductStock>();
 }
