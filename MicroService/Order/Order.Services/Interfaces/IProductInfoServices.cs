@@ -11,5 +11,6 @@ namespace Order.Services.Interfaces;
 public interface IProductInfoServices
 {
     Task<GeneralResponse> Create(ProductInfoViewModel item);
+    Task<GeneralResponse> Update(ProductInfoViewModel item);
 }
 

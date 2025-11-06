@@ -1,154 +1,100 @@
-﻿using Helper.VieModels;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Text.Json;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
 
-namespace Order.Api.Class;
-//public class RabbitMqListener : BackgroundService
-//{
-//    private readonly ILogger<RabbitMqListener> _logger;
-//    private readonly IServiceProvider _serviceProvider;
-//    private readonly IConfiguration _config;
+namespace OrderService.Messaging;
+public class MultiQueueRabbitMqListenerService : BackgroundService
+{
+    private readonly ILogger<MultiQueueRabbitMqListenerService> _logger;
+    private readonly IConnection _connection;
+    private readonly IChannel _channel;
 
-//    private IConnection _connection;
-//    private IModel _channel;
-//    private string _queueName;
+    // ساختار نگهداری صف و callback مدل
+    private readonly Dictionary<string, Func<string, Task>> _queueCallbacks;
 
-//    public RabbitMqListener(
-//        ILogger<RabbitMqListener> logger,
-//        IServiceProvider serviceProvider,
-//        IConfiguration config)
-//    {
-//        _logger = logger;
-//        _serviceProvider = serviceProvider;
-//        _config = config;
+    public MultiQueueRabbitMqListenerService(
+        ILogger<MultiQueueRabbitMqListenerService> logger,
+        Dictionary<string, Func<string, Task>> queueCallbacks,
+        string host = "localhost",
+        string username = "guest",
+        string password = "guest")
+    {
+        _logger = logger;
+        _queueCallbacks = queueCallbacks;
 
-//        InitializeRabbitMq();
-//    }
+        var factory = new ConnectionFactory()
+        {
+            HostName = host,
+            UserName = username,
+            Password = password
+        };
 
-//    private void InitializeRabbitMq()
-//    {
-//        var factory = new ConnectionFactory()
-//        {
-//            HostName = _config["RabbitMQ:Host"] ?? "localhost",
-//            UserName = _config["RabbitMQ:Username"] ?? "guest",
-//            Password = _config["RabbitMQ:Password"] ?? "guest",
-//            AutomaticRecoveryEnabled = true // در نسخه 7.1.2 موجود است
-//        };
+        _connection = factory.CreateConnectionAsync().GetAwaiter().GetResult();
+        _channel = _connection.CreateChannelAsync().GetAwaiter().GetResult();
+    }
 
-//        _connection = factory.CreateConnection();
-//        _channel = _connection.CreateModel();
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    {
+        foreach (var kvp in _queueCallbacks)
+        {
+            var queueName = kvp.Key;
+            var callback = kvp.Value;
 
-//        _queueName = _config["RabbitMQ:QueueName"] ?? "product-events";
+            // تعریف صف
+            await _channel.QueueDeclareAsync(
+                queue: queueName,
+                durable: true,
+                exclusive: false,
+                autoDelete: false
+            );
 
-//        _channel.QueueDeclare(
-//            queue: _queueName,
-//            durable: true,
-//            exclusive: false,
-//            autoDelete: false,
-//            arguments: null
-//        );
+            var consumer = new AsyncEventingBasicConsumer(_channel);
 
-//        _logger.LogInformation($"✅ RabbitMQ Listener connected to queue: {_queueName}");
-//    }
+            consumer.ReceivedAsync += async (sender, ea) =>
+            {
+                if (stoppingToken.IsCancellationRequested) return;
 
-//    protected override Task ExecuteAsync(CancellationToken stoppingToken)
-//    {
-//        var consumer = new EventingBasicConsumer(_channel);
+                var json = Encoding.UTF8.GetString(ea.Body.ToArray());
+                try
+                {
+                    await callback(json);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, $"❌ Error processing message from queue {queueName}");
+                }
+            };
 
-//        consumer.Received += (model, ea) =>
-//        {
-//            try
-//            {
-//                var body = ea.Body;
-//                var message = Encoding.UTF8.GetString(body.ToArray());
-//                var productEvent = JsonSerializer.Deserialize<ProductMessage>(message);
+            await _channel.BasicConsumeAsync(
+                queue: queueName,
+                autoAck: true,
+                consumer: consumer
+            );
 
-//                if (productEvent == null)
-//                {
-//                    _logger.LogWarning("⚠️ Received empty or invalid message");
-//                    _channel.BasicAck(ea.DeliveryTag, false);
-//                    return;
-//                }
+            _logger.LogInformation($"👂 Listening to RabbitMQ queue: {queueName}");
+        }
 
-//                using (var scope = _serviceProvider.CreateScope())
-//                {
-//                    var db = scope.ServiceProvider.GetRequiredService<OrderDbContext>();
-//                    HandleProductEvent(productEvent, db);
-//                }
+        // BackgroundService باید تا cancellationToken صبر کنه
+        while (!stoppingToken.IsCancellationRequested)
+        {
+            await Task.Delay(1000, stoppingToken);
+        }
+    }
 
-//                _channel.BasicAck(ea.DeliveryTag, false);
-//            }
-//            catch (Exception ex)
-//            {
-//                _logger.LogError(ex, "❌ Error processing RabbitMQ message");
-//            }
-//        };
+    public override async Task StopAsync(CancellationToken cancellationToken)
+    {
+        if (_channel != null)
+            await _channel.CloseAsync();
+        if (_connection != null)
+            await _connection.CloseAsync();
 
-//        _channel.BasicConsume(
-//            queue: _queueName,
-//            autoAck: false,
-//            consumer: consumer
-//        );
-
-//        _logger.LogInformation("👂 Listening for product events...");
-//        return Task.CompletedTask;
-//    }
-
-//    private void HandleProductEvent(ProductInfoViewModel message, OrderDbContext db)
-//    {
-//        switch (message.EventType)
-//        {
-//            case "ProductCreated":
-//                if (!db.ProductCaches.Any(p => p.ProductId == message.ProductId))
-//                {
-//                    db.ProductCaches.Add(new ProductCache
-//                    {
-//                        ProductId = message.ProductId,
-//                        Title = message.Title ?? "",
-//                        Price = message.Price ?? 0,
-//                        LastUpdated = DateTime.UtcNow
-//                    });
-//                    db.SaveChanges();
-//                    _logger.LogInformation($"✅ Product created: {message.Title}");
-//                }
-//                break;
-
-//            case "ProductUpdated":
-//                var existing = db.ProductCaches.FirstOrDefault(p => p.ProductId == message.ProductId);
-//                if (existing != null)
-//                {
-//                    existing.Title = message.Title ?? existing.Title;
-//                    existing.Price = message.Price ?? existing.Price;
-//                    existing.LastUpdated = DateTime.UtcNow;
-//                    db.SaveChanges();
-//                    _logger.LogInformation($"🔁 Product updated: {message.Title}");
-//                }
-//                break;
-
-//            case "ProductDeleted":
-//                var deleted = db.ProductCaches.FirstOrDefault(p => p.ProductId == message.ProductId);
-//                if (deleted != null)
-//                {
-//                    db.ProductCaches.Remove(deleted);
-//                    db.SaveChanges();
-//                    _logger.LogInformation($"🗑️ Product deleted: {message.ProductId}");
-//                }
-//                break;
-
-//            default:
-//                _logger.LogWarning($"⚠️ Unknown EventType: {message.EventType}");
-//                break;
-//        }
-//    }
-
-//    public override void Dispose()
-//    {
-//        _channel?.Clos();
-//        _connection?.Close();
-//        base.Dispose();
-//    }
-//}
-
-
-
+        _logger.LogInformation("🛑 Multi-queue Listener stopped.");
+    }
+}

@@ -30,7 +30,7 @@ namespace ProductService.Api.Class
 
                 await channel.QueueDeclareAsync(
                     queue: queueName,
-                    durable: false,
+                    durable: true,
                     exclusive: false,
                     autoDelete: false
                 );
