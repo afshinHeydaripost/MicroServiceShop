@@ -53,8 +53,9 @@ var queueCallbacks = new Dictionary<string, Func<string, Task>>
         var id = JsonSerializer.Deserialize<int>(json);
         if (id != null)
         {
-            Console.WriteLine($"📦 Product: {id}");
-            await Task.CompletedTask;
+            using var scope = app.Services.CreateScope();
+            var service = scope.ServiceProvider.GetRequiredService<IProductInfoServices>();
+            await service.Delete(id);
         }
     },
     ["productModelAmountQueue"] = async json =>

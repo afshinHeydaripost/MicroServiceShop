@@ -77,5 +77,22 @@ namespace Order.Services.Services
                 return GeneralResponse.Fail(e);
             }
         }
+
+        public async  Task<GeneralResponse> Delete(int id)
+        {
+            try
+            {
+                var obj = await GetByProductModelID(id, true);
+                if (obj == null)
+                    return GeneralResponse.NotFound();
+                _context.ProductInfo.Remove(obj);
+                await _context.SaveChangesAsync();
+                return GeneralResponse.SuccessDelete();
+            }
+            catch (Exception e)
+            {
+                return GeneralResponse.Fail(e);
+            }
+        }
     }
 }

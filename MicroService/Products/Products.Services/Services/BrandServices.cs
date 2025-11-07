@@ -44,7 +44,7 @@ public class BrandServices : IBrandServices
                 return GeneralResponse.NotFound();
             _context.Brands.Remove(item);
             await _context.SaveChangesAsync();
-            return GeneralResponse.Success();
+            return GeneralResponse.SuccessDelete();
         }
         catch (Exception e)
         {

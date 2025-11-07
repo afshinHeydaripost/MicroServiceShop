@@ -56,7 +56,7 @@ public class ProductModelServices : IProductModelServices
                 return GeneralResponse.NotFound();
             _context.ProductModels.Remove(item);
             await _context.SaveChangesAsync();
-            return GeneralResponse.Success();
+            return GeneralResponse.SuccessDelete();
         }
         catch (Exception e)
         {

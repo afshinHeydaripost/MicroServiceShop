@@ -28,6 +28,14 @@ namespace Helper
                 isSuccess = true
             };
         }
+        public static GeneralResponse SuccessDelete()
+        {
+            return new GeneralResponse()
+            {
+                Message = _SubmitSuccessDelete,
+                isSuccess = true
+            };
+        }
         public static GeneralResponse Success(string message)
         {
             return new GeneralResponse()

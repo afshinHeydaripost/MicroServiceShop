@@ -43,7 +43,7 @@ public class ProductCategoryServices : IProductCategoryServices
                 return GeneralResponse.NotFound();
             _context.ProductCategories.Remove(item);
             await _context.SaveChangesAsync();
-            return GeneralResponse.Success();
+            return GeneralResponse.SuccessDelete();
         }
         catch (Exception e)
         {

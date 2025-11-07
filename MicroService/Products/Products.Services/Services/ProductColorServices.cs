@@ -44,7 +44,7 @@ public class ProductColorServices : IProductColorServices
                 return GeneralResponse.NotFound();
             _context.ProductColors.Remove(item);
             await _context.SaveChangesAsync();
-            return GeneralResponse.Success();
+            return GeneralResponse.SuccessDelete();
         }
         catch (Exception e)
         {
