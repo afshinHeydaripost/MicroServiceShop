@@ -76,7 +76,7 @@ internal static class CopyTo
         {
             Amount = x.Amount ?? 0,
             ProductModelId = x.ProductModelId,
-            InvoiceId = x.InvoiceId,
+            OrderId = x.OrderId,
             UpdateDate = DateTime.Now
         };
     }

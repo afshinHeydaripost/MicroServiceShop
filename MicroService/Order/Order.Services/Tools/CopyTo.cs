@@ -54,4 +54,13 @@ internal static class CopyTo
             CreateDateTime = DateTime.Now
         };
     }
+    internal static ProductStock ToProductStock(this ProductModelViewMode x)
+    {
+        return new ProductStock()
+        {
+            Amount = x.Amount ?? 0,
+            ProductModelId = x.ProductModelId ?? 0,
+            UpdateDate = DateTime.Now
+        };
+    }
 }

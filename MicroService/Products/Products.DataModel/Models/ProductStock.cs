@@ -11,7 +11,7 @@ public partial class ProductStock
 
     public int Amount { get; set; }
 
-    public int? InvoiceId { get; set; }
+    public int? OrderId { get; set; }
 
     public DateTime UpdateDate { get; set; }
 

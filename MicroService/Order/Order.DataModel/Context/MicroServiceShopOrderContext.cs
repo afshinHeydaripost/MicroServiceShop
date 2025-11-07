@@ -20,6 +20,7 @@ public partial class MicroServiceShopOrderContext : DbContext
 
     public virtual DbSet<OrderItem> OrderItems { get; set; }
     public virtual DbSet<ProductInfo> ProductInfo { get; set; }
+    public virtual DbSet<ProductStock> ProductStocks { get; set; }
 
 //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
@@ -68,7 +69,7 @@ public partial class MicroServiceShopOrderContext : DbContext
         {
             entity.ToTable("ProductStock");
             entity.Property(e => e.ProductStockId).HasColumnName("ProductStockID");
-            entity.Property(e => e.OrderId).HasColumnName("OrderId");
+            entity.Property(e => e.OrderId).HasColumnName("OrderID");
             entity.Property(e => e.ProductModelId).HasColumnName("ProductModelID");
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
 

@@ -15,25 +15,22 @@ public class MultiQueueRabbitMqListenerService : BackgroundService
     private readonly ILogger<MultiQueueRabbitMqListenerService> _logger;
     private readonly IConnection _connection;
     private readonly IChannel _channel;
-
+    private readonly IConfiguration _config;
     // ساختار نگهداری صف و callback مدل
     private readonly Dictionary<string, Func<string, Task>> _queueCallbacks;
 
     public MultiQueueRabbitMqListenerService(
         ILogger<MultiQueueRabbitMqListenerService> logger,
-        Dictionary<string, Func<string, Task>> queueCallbacks,
-        string host = "localhost",
-        string username = "guest",
-        string password = "guest")
+        Dictionary<string, Func<string, Task>> queueCallbacks, IConfiguration config)
     {
         _logger = logger;
         _queueCallbacks = queueCallbacks;
-
+        _config = config;
         var factory = new ConnectionFactory()
         {
-            HostName = host,
-            UserName = username,
-            Password = password
+            HostName = _config["RabbitMQ:Host"],
+            UserName = _config["RabbitMQ:Username"],
+            Password = _config["RabbitMQ:Password"]
         };
 
         _connection = factory.CreateConnectionAsync().GetAwaiter().GetResult();

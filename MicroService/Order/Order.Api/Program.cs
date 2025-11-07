@@ -51,7 +51,7 @@ var queueCallbacks = new Dictionary<string, Func<string, Task>>
     ["productDeleteQueue"] = async json =>
     {
         var id = JsonSerializer.Deserialize<int>(json);
-        if (id != null)
+        if (id != null && id > 0)
         {
             using var scope = app.Services.CreateScope();
             var service = scope.ServiceProvider.GetRequiredService<IProductInfoServices>();
@@ -63,15 +63,17 @@ var queueCallbacks = new Dictionary<string, Func<string, Task>>
         var item = JsonSerializer.Deserialize<ProductModelViewMode>(json);
         if (item != null)
         {
-            Console.WriteLine($"📦 Product: {item}");
-            await Task.CompletedTask;
+            using var scope = app.Services.CreateScope();
+            var service = scope.ServiceProvider.GetRequiredService<IProductInfoServices>();
+            await service.UpdateProductStock(item);
         }
     },
 };
 // ثبت HostedService
 var multiQueueListener = new MultiQueueRabbitMqListenerService(
-    app.Services.GetRequiredService<Microsoft.Extensions.Logging.ILogger<MultiQueueRabbitMqListenerService>>(),
-    queueCallbacks
+    app.Services.GetRequiredService<ILogger<MultiQueueRabbitMqListenerService>>(),
+    queueCallbacks,
+    app.Services.GetRequiredService<IConfiguration>()
 );
 _ = multiQueueListener.StartAsync(default); // fire and forget
 

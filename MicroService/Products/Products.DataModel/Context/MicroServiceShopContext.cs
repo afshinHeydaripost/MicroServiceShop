@@ -119,7 +119,7 @@ public partial class MicroServiceShopContext : DbContext
             entity.ToTable("ProductStock");
 
             entity.Property(e => e.ProductStockId).HasColumnName("ProductStockID");
-            entity.Property(e => e.InvoiceId).HasColumnName("InvoiceID");
+            entity.Property(e => e.OrderId).HasColumnName("OrderID");
             entity.Property(e => e.ProductModelId).HasColumnName("ProductModelID");
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
 

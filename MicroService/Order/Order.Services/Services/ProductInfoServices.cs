@@ -94,5 +94,20 @@ namespace Order.Services.Services
                 return GeneralResponse.Fail(e);
             }
         }
+
+        public async  Task<GeneralResponse> UpdateProductStock(ProductModelViewMode item)
+        {
+            try
+            {
+                var obj = item.ToProductStock();
+                await _context.ProductStocks.AddAsync(obj);
+                await _context.SaveChangesAsync();
+                return GeneralResponse.Success();
+            }
+            catch (Exception e)
+            {
+                return GeneralResponse.Fail(e);
+            }
+        }
     }
 }

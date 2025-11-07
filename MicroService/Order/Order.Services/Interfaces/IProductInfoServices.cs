@@ -13,5 +13,6 @@ public interface IProductInfoServices
     Task<GeneralResponse> Create(ProductInfoViewModel item);
     Task<GeneralResponse> Update(ProductInfoViewModel item);
     Task<GeneralResponse> Delete(int id);
+    Task<GeneralResponse> UpdateProductStock(ProductModelViewMode item);
 }
 

@@ -27,5 +27,4 @@ public partial class ProductInfo
     public DateTime? LastUpdateDateTime { get; set; }
 
 
-    public virtual ICollection<ProductStock> ProductStocks { get; set; } = new List<ProductStock>();
 }
