@@ -283,6 +283,15 @@ namespace Helper
                 ErrorMessage = GetError(e)
             };
         }
+        public static GeneralResponse<T> Fail(Exception e)
+        {
+            return new GeneralResponse<T>()
+            {
+                isSuccess = false,
+                Message = _SubmitError,
+                ErrorMessage = GetError(e)
+            };
+        }
 
         public static GeneralResponse<T> Response(T objItem, bool isSuccess, string message, string errorMessage)
         {

@@ -1,0 +1,7 @@
+﻿namespace Helper.Base
+{
+    public interface IEntity
+    {
+        public int Id { get; set; }
+    }
+}

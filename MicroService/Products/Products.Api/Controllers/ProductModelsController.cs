@@ -8,7 +8,7 @@ using ProductService.Api.Class;
 
 
 namespace ProductService.Api.Controllers;
-[Authorize]
+//[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class ProductModelsController : ControllerBase
