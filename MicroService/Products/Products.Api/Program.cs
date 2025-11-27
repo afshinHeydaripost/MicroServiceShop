@@ -32,11 +32,9 @@ builder.Services.AddSingleton<IRabbitMQ, RabbitMQProducer>();
 #endregion
 
 #region JWT
-// --- تنظیمات JWT (می‌توانید مقدار Secret را امن‌تر کنید) ---
 var jwtSection = builder.Configuration.GetSection("JwtSettings");
 var jwtSettings = jwtSection.Get<JwtSettingsViewModel>();
 
-// --- اضافه کردن Authentication/JWT ---
 var keyBytes = Encoding.UTF8.GetBytes(jwtSettings.SecretKey);
 builder.Services.AddAuthentication(options =>
 {
@@ -72,7 +70,7 @@ app.MapControllers();
 
 var summaries = new[]
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+    "Product"
 };
 
 app.MapGet("/weatherforecast", () =>

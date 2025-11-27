@@ -31,7 +31,11 @@ public class TokenService : ITokenService
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(ClaimTypes.Name, user.UserName),
-            new Claim("email", user.Email ?? string.Empty)
+            new Claim("email", user.Email ?? string.Empty),
+            new Claim("UserCode", user.UserCode ?? string.Empty),
+            new Claim("FirstName", user.FirstName ?? string.Empty),
+            new Claim("LastName", user.LastName ?? string.Empty),
+            new Claim("UserId", user.Id.ToString())
         };
             claims.AddRange(roles.Select(r => new Claim(ClaimTypes.Role, r)));
 
@@ -56,7 +60,7 @@ public class TokenService : ITokenService
 
     public RefreshToken GenerateRefreshToken(string ipAddress)
     {
-        var token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
+        var token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(256));
         return new RefreshToken
         {
             Token = token,
