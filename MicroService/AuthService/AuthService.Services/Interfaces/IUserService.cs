@@ -13,5 +13,9 @@ namespace AuthService.Services.Interfaces
     public interface IUserService : IGeneralServices<User>
     {
         Task<GeneralResponse<UserViewModel>> RegisterAsync(UserViewModel user);
+        Task<GeneralResponse<UserViewModel>> LoginAsync(LoginRequestViewModel req);
+        Task<GeneralResponse<UserViewModel>> RefreshTokenAsync(LoginRequestViewModel req);
+        Task<GeneralResponse> RevokeRefreshTokenAsync(LoginRequestViewModel req);
+
     }
 }

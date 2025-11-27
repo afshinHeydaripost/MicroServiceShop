@@ -48,6 +48,7 @@ public class Message
     public const string InvalidPriceReng = "بازه تعریف شده معتبر نیست !";
     public const string ShoppingBag = "سبد خرید شما در حالت رزو می باشد تا برگشت پاسخ از بانک امکان تغییر سبد خرید وجود ندارد";
     public const string LoginRequired = "لطفا وارد سایت شوید";
+    public const string LoginFail = "نام کاربری و کلمه عبور اشتباه است";
     public const string InvalidStartDate = "تاریخ و زمان شروع  معتبر نیست";
     public const string InvalidEndDate = "تاریخ و زمان  پایان معتبر نیست";
     public const string InvalidDateTime = "تاریخ و زمان شروع و پایان معتبر نیست";

@@ -19,7 +19,7 @@ public class TokenService : ITokenService
     public TokenService(IConfiguration config)
     {
         _config = config;
-        _key = Encoding.UTF8.GetBytes(_config["JwtSettings:Key"]);
+        _key = Encoding.UTF8.GetBytes(_config["JwtSettings:SecretKey"]);
     }
 
     public GeneralResponse<string> GenerateAccessToken(User user, IEnumerable<string> roles)

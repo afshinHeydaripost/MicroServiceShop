@@ -33,11 +33,15 @@ namespace Helper.VieModels
         public string CreateDateTime { get; set; }
 
         public string UpdateDateTime { get; set; }
+        public string Token { get; set; }
 
     }
     public class LoginRequestViewModel
     {
         public string Username { get; set; }
         public string Password { get; set; }
+        public string ipAddress { get; set; }
+        public string Token { get; set; }
+
     }
 }

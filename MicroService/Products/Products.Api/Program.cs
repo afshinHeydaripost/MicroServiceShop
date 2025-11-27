@@ -1,44 +1,21 @@
-
-using Helper;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using Products.DataModel.Context;
-using Products.Services;
-using Products.Services.Interfaces;
-using ProductService.Api.Class;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using Helper.VieModels;
+using Microsoft.AspNetCore.Identity.Data;
+using Helper;
+using Microsoft.EntityFrameworkCore;
+using Products.DataModel.Context;
+using Products.Services.Interfaces;
+using Products.Services;
+using ProductService.Api.Class;
 
 var builder = WebApplication.CreateBuilder(args);
-var jwtSettings = builder.Configuration.GetSection("JwtSettings");
-var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]);
-
-builder.Services
-    .AddAuthentication(options =>
-    {
-        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    })
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = jwtSettings["Issuer"],
-            ValidAudience = jwtSettings["Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(key)
-        };
-    });
-
-builder.Services.AddAuthorization();
-
-// Add services
 builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 // DbContext
 builder.Services.AddDbContext<MicroServiceShopContext>(options =>
@@ -54,20 +31,44 @@ builder.Services.AddScoped<IProductColorServices, ProductColorServices>();
 builder.Services.AddSingleton<IRabbitMQ, RabbitMQProducer>();
 #endregion
 
-// Add services to the container.
+#region JWT
+// --- تنظیمات JWT (می‌توانید مقدار Secret را امن‌تر کنید) ---
+var jwtSection = builder.Configuration.GetSection("JwtSettings");
+var jwtSettings = jwtSection.Get<JwtSettingsViewModel>();
+
+// --- اضافه کردن Authentication/JWT ---
+var keyBytes = Encoding.UTF8.GetBytes(jwtSettings.SecretKey);
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidIssuer = jwtSettings.Issuer,
+        ValidateAudience = true,
+        ValidAudience = jwtSettings.Audience,
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(keyBytes),
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.FromSeconds(30) // مقداری تلرانس
+    };
+});
+#endregion
+
+
+
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
 
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+
 
 var summaries = new[]
 {

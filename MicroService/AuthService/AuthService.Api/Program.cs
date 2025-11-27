@@ -1,4 +1,4 @@
-using AuthService.DataModel.Context;
+﻿using AuthService.DataModel.Context;
 using AuthService.DataModel.Models;
 using AuthService.Services.Interfaces;
 using AuthService.Services;
@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Helper.VieModels;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,14 +21,19 @@ builder.Services.AddDbContext<MicroServiceShopAuthServiceContext>(opt =>
 #region Dependency_Injection
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserRolService, UserRolService>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 #endregion
 
 
 
 #region JWT
-var jwt = builder.Configuration.GetSection("JwtSettings");
-var key = Encoding.UTF8.GetBytes(jwt["Key"]);
+// --- تنظیمات JWT (می‌توانید مقدار Secret را امن‌تر کنید) ---
+var jwtSection = builder.Configuration.GetSection("JwtSettings");
+var jwtSettings = jwtSection.Get<JwtSettingsViewModel>();
+
+// --- اضافه کردن Authentication/JWT ---
+var keyBytes = Encoding.UTF8.GetBytes(jwtSettings.SecretKey);
 
 builder.Services.AddAuthentication(options =>
 {
@@ -41,16 +47,18 @@ builder.Services.AddAuthentication(options =>
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
-        ValidIssuer = jwt["Issuer"],
+        ValidIssuer = jwtSettings.Issuer,
         ValidateAudience = true,
-        ValidAudience = jwt["Audience"],
+        ValidAudience = jwtSettings.Audience,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(key)
+        IssuerSigningKey = new SymmetricSecurityKey(keyBytes)
     };
 });
 
 #endregion
+
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
