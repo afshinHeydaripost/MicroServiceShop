@@ -11,16 +11,23 @@
 
         public async Task Invoke(HttpContext context)
         {
+            var token = "";
             // اگر مسیر Login است → چک نکن
             var path = context.Request.Path.ToString().ToLower();
             if (path.Contains("/account/login"))
             {
+                //token = context.Request.GetCookiesValue("userToken");
+                //if (!string.IsNullOrEmpty(token))
+                //{
+                //    context.Response.Redirect("/");
+                //    return;
+                //}
                 await _next(context);
                 return;
             }
 
             // بررسی وجود توکن
-            var token = context.Request.GetCookiesValue("userToken");
+            token = context.Request.GetCookiesValue("userToken");
             if (string.IsNullOrEmpty(token))
             {
                 context.Response.Redirect("/account/Login");

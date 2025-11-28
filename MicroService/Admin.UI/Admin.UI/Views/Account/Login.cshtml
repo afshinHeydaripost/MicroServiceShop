@@ -73,13 +73,13 @@
                     Username: $("#Username").val(),
                     Password: $("#Password").val()
                 };
-                PostToServerByAntiForgeryToken("/Account/LoginUser", obj, $('input[name="__RequestVerificationToken"]').val(), function (res) {
+                PostToServer("/Account/LoginUser", obj, function (res) {
                     if (!res.isSuccess) {
                         ToastMessageError(res.message);
                     } else {
                         ChangeUrl("/");
                     }
-                })
+                },true)
             })
         })
     </script>

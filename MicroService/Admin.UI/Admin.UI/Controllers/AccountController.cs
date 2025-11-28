@@ -42,7 +42,7 @@ public class AccountController : Controller
         {
             return Json(GeneralResponse.Fail(res.Message, res.ErrorMessage));
         }
-        Response.CreateCookies("userToken", res.obj.Token);
+        Response.CreateCookies("userToken", res.obj.Token,DateTime.Now.AddMinutes(1440));
         return Json(GeneralResponse.Success());
     }
     #endregion

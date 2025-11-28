@@ -192,8 +192,12 @@ function Any(data, item) {
 function SetMaxLength(id, length) {
     $("#" + id).attr('maxlength', length);
 }
-
-
+function ShowTag(selector){
+    $(selector).show();
+}
+function HideTag(selector){
+    $(selector).hide();
+}
 function isNumber(evt) {
     evt = (evt) ? evt : window.event;
     var charCode = (evt.which) ? evt.which : evt.keyCode;
@@ -208,6 +212,14 @@ function isPhoneNumber(number) {
 
     return result;
 }
+function ShowLoaderGif() {
+    ShowTag("#gifLoader");
+    $("#gifLoader").css("display", "flex !important");
+}
+function HidLoaderGif() {
+    HideTag("#gifLoader");
+    $("#gifLoader").css("display", "none  !important");
+}
 function validateEmail(email) {
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
@@ -217,22 +229,50 @@ function isIncludes(strText, strSearchText) {
     return strText.includes(strSearchText);
 }
 
-function GetFromServer(url, data, callbackFunction) {
+function GetFromServer(url, data, callbackFunction, showLoader = false) {
+    if (showLoader)
+        ShowLoaderGif();
     $.ajax({
         type: 'get',
         url: url,
         data: data,
         success: function (res) {
+            HidLoaderGif();
             if (typeof callbackFunction == 'function') {
                 callbackFunction.call(this, res);
             }
         },
         error: function (res) {
-            console.log('error')
+            HidLoaderGif();
+            ToastMessageError("خطا در ارتباط با سرور.");
+            console.log("url:" + url);
         }
     })
 }
-function PostToServerByAntiForgeryToken(url, data, antiForgeryToken,callbackFunction) {
+function PostToServer(url, data, callbackFunction, showLoader = false) {
+    if (showLoader)
+        ShowLoaderGif();
+    $.ajax({
+        url: url,
+        method: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(data),
+        success: function (response) {
+            HidLoaderGif();
+            if (typeof callbackFunction == 'function') {
+                callbackFunction.call(this, response);
+            }
+        },
+        error: function () {
+            HidLoaderGif();
+            ToastMessageError("خطا در ارتباط با سرور.");
+            console.log("url:" + url);
+        }
+    });
+}
+function PostToServerByAntiForgeryToken(url, data, antiForgeryToken, callbackFunction, showLoader = false) {
+    if (showLoader)
+        ShowLoaderGif();
     $.ajax({
         url: url,
         method: "POST",
@@ -242,11 +282,13 @@ function PostToServerByAntiForgeryToken(url, data, antiForgeryToken,callbackFunc
             "RequestVerificationToken": antiForgeryToken
         },
         success: function (response) {
+            HidLoaderGif();
             if (typeof callbackFunction == 'function') {
                 callbackFunction.call(this, response);
             }
         },
         error: function () {
+            HidLoaderGif();
             ToastMessageError("خطا در ارتباط با سرور.");
             console.log("url:" + url);
         }

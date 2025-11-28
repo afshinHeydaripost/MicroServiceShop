@@ -21,6 +21,7 @@ License: You must have a valid license purchased only from themeforest(the above
 	<meta name="description" content="Updates and statistics" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 	<partial name="/views/shared/_Styles.cshtml" />
+	@await RenderSectionAsync("Styles", required: false)
 </head>
 <!--end::Head-->
 <!--begin::Body-->
@@ -1647,9 +1648,10 @@ License: You must have a valid license purchased only from themeforest(the above
 		<!--end::Content-->
 	</div>
 	<!--end::Demo Panel-->
+	<partial name="/views/shared/_Loader.cshtml" />
 	<partial name="/views/shared/_Scripts.cshtml" />
 	@await RenderSectionAsync("Scripts", required: false)
 </body>
 <!--end::Body-->
 </html>
-     @RenderBody()
+
