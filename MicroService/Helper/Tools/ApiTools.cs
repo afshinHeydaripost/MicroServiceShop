@@ -1,151 +1,104 @@
 ﻿using System.Net.Http.Headers;
 using System.Text;
+using Newtonsoft.Json;
 using System.Text.Json;
+using System.Runtime.CompilerServices;
 
 namespace Helper;
-public class ApiResult<T>
+
+
+
+public static class ApiService
 {
-    public bool Success { get; set; }
-    public string? Error { get; set; }
-    public T? Data { get; set; }
-
-    public static ApiResult<T> Ok(T data) => new() { Success = true, Data = data };
-    public static ApiResult<T> Fail(string error) => new() { Success = false, Error = error };
-}
-public static class ApiClient
-{
-    private static readonly HttpClient _http = new()
+    public static async Task<TResponse> GetData<TRequest, TResponse>(this string baseUrl, string relativeUrl)
     {
-        Timeout = TimeSpan.FromSeconds(100)
-    };
-
-    private static readonly JsonSerializerOptions _jsonOptions = new()
-    {
-        PropertyNameCaseInsensitive = true
-    };
-
-    private static readonly object _lock = new();
-
-    private static void SetToken(string token)
-    {
-        lock (_lock)
-        {
-            _http.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", token);
-        }
-    }
-
-    private static void ClearToken()
-    {
-        lock (_lock)
-        {
-            _http.DefaultRequestHeaders.Authorization = null;
-        }
-    }
-
-    private static StringContent ToJson(object data)
-    {
-        return new(
-            JsonSerializer.Serialize(data),
-            Encoding.UTF8,
-            "application/json"
-        );
-    }
-
-    private static async Task<ApiResult<T>> HandleResponse<T>(HttpResponseMessage res)
-    {
-        string json = await res.Content.ReadAsStringAsync();
-
-        if (!res.IsSuccessStatusCode)
-            return ApiResult<T>.Fail($"HTTP {(int)res.StatusCode}: {json}");
-
+        string response = "";
         try
         {
-            var data = JsonSerializer.Deserialize<T>(json, _jsonOptions);
-            return ApiResult<T>.Ok(data!);
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(baseUrl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage Res = await client.GetAsync(relativeUrl);
+                if (Res.IsSuccessStatusCode)
+                {
+                    response = Res.Content.ReadAsStringAsync().Result;
+                }
+            }
+            return JsonConvert.DeserializeObject<TResponse>(response);
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            return ApiResult<T>.Fail("JSON Parse Error: " + ex.Message);
-        }
-    }
-
-    // GET بدون توکن
-    public static async Task<ApiResult<T>> GetAsync<T>(this string url)
-    {
-        try
-        {
-            ClearToken();
-            var res = await _http.GetAsync(url);
-            return await HandleResponse<T>(res);
-        }
-        catch (TaskCanceledException)
-        {
-            return ApiResult<T>.Fail("Timeout Error");
-        }
-        catch (Exception ex)
-        {
-            return ApiResult<T>.Fail(ex.Message);
+            return JsonConvert.DeserializeObject<TResponse>("");
         }
     }
 
-    // GET با توکن
-    public static async Task<ApiResult<T>> GetWithTokenAsync<T>(this string url, string token)
+    public static TResponse PostData<TRequest, TResponse>(this string url, TRequest data)
     {
+        string response = "";
         try
         {
-            SetToken(token);
-            var res = await _http.GetAsync(url);
-            return await HandleResponse<T>(res);
+            using (var client = new HttpClient())
+            {
+                var content = new StringContent(JsonConvert.SerializeObject(data));
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                var request = client.PostAsync(url, content);
+                response = request.Result.Content.ReadAsStringAsync().Result;
+            }
+            return JsonConvert.DeserializeObject<TResponse>(response);
         }
-        catch (TaskCanceledException)
+        catch (Exception e)
         {
-            return ApiResult<T>.Fail("Timeout Error");
-        }
-        catch (Exception ex)
-        {
-            return ApiResult<T>.Fail(ex.Message);
+            return JsonConvert.DeserializeObject<TResponse>("");
         }
     }
 
-    // POST بدون توکن
-    public static async Task<ApiResult<T>> PostAsync<T>(this string url, object body)
+    public static TResponse SendAuthHeaderAndPostData<TRequest, TResponse>(this string url, TResponse data, string token)
     {
+        string response = "";
         try
         {
-            ClearToken();
-            var res = await _http.PostAsync(url, ToJson(body));
-            return await HandleResponse<T>(res);
+            using (var client = new HttpClient())
+            {
+                var content = new StringContent(JsonConvert.SerializeObject(data));
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+                var request = client.PostAsync(url, content);
+                response = request.Result.Content.ReadAsStringAsync().Result;
+
+            }
+            return JsonConvert.DeserializeObject<TResponse>(response);
         }
-        catch (TaskCanceledException)
+        catch (Exception e)
         {
-            return ApiResult<T>.Fail("Timeout Error");
-        }
-        catch (Exception ex)
-        {
-            return ApiResult<T>.Fail(ex.Message);
+            return JsonConvert.DeserializeObject<TResponse>("");
         }
     }
 
-    // POST با توکن
-    public static async Task<ApiResult<T>> PostWithTokenAsync<T>(this string url, object body, string token)
+    public static async Task<TResponse> SendAuthHeaderAndGetData<TResponse>(this string baseUrl, string relUrl, string token)
     {
+        string response = "";
         try
         {
-            SetToken(token);
-            var res = await _http.PostAsync(url, ToJson(body));
-            return await HandleResponse<T>(res);
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(baseUrl);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+                relUrl = string.Format(relUrl);
+                HttpResponseMessage Res = await client.GetAsync(relUrl);
+                if (Res.IsSuccessStatusCode)
+                {
+                    response = Res.Content.ReadAsStringAsync().Result;
+                }
+            }
+            return JsonConvert.DeserializeObject<TResponse>(response);
         }
-        catch (TaskCanceledException)
+        catch (Exception e)
         {
-            return ApiResult<T>.Fail("Timeout Error");
-        }
-        catch (Exception ex)
-        {
-            return ApiResult<T>.Fail(ex.Message);
+            return JsonConvert.DeserializeObject<TResponse>("");
         }
     }
 }
-
-
-

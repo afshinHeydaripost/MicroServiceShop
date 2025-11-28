@@ -76,6 +76,8 @@
                 PostToServerByAntiForgeryToken("/Account/LoginUser", obj, $('input[name="__RequestVerificationToken"]').val(), function (res) {
                     if (!res.isSuccess) {
                         ToastMessageError(res.message);
+                    } else {
+                        ChangeUrl("/");
                     }
                 })
             })

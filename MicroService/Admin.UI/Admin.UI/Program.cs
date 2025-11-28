@@ -1,4 +1,5 @@
 
+using Admin.UI.Class.Middlewares;
 using Microsoft.AspNetCore.Antiforgery;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,7 +17,7 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
 }
-
+app.UseMiddleware<AuthMiddleware>();
 
 app.UseStaticFiles();
 

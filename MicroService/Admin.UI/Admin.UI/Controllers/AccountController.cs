@@ -3,6 +3,7 @@ using System.Diagnostics;
 using Helper.VieModels;
 using Helper;
 using Admin.UI.Class;
+using Newtonsoft.Json.Linq;
 
 namespace Admin.UI.Controllers;
 
@@ -13,7 +14,7 @@ public class AccountController : Controller
     public AccountController(IConfiguration config)
     {
         _config = config;
-        _AuthServiceUrl = _config.GetValue<string>("ApiUrll:AuthService").ToString();
+        _AuthServiceUrl = _config.GetValue<string>("ApiUrl:AuthService").ToString();
     }
     #region Get
 
@@ -36,8 +37,13 @@ public class AccountController : Controller
             return Json(GeneralResponse.Fail("کلمه عیور را وارد کنید"));
         }
         var url = _AuthServiceUrl + "authService/User/Login";
-        var res = await url.PostAsync<GeneralResponse<UserViewModel>>(model);
-        return Json(GeneralResponse.Fail());
+        var res = url.PostData<LoginRequestViewModel, GeneralResponse<UserViewModel>>(model);
+        if (!res.isSuccess)
+        {
+            return Json(GeneralResponse.Fail(res.Message, res.ErrorMessage));
+        }
+        Response.CreateCookies("userToken", res.obj.Token);
+        return Json(GeneralResponse.Success());
     }
     #endregion
 }
