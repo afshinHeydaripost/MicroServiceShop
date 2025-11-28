@@ -1,7 +1,7 @@
-﻿namespace Helper.Base
+﻿namespace Helper.Base;
+
+public class BaseEntity : IEntity
 {
-    public class BaseEntity : IEntity
-    {
-        public int Id { get; set; }
-    }
+    public int Id { get; set; }
 }
+
