@@ -65,22 +65,3 @@
     <!--end::Login-->
 </div>
 <!--end::Main-->
-@section Scripts {
-    <script>
-        $(document).ready(function () {
-            $("#btnLogin").click(function () {
-                let obj = {
-                    Username: $("#Username").val(),
-                    Password: $("#Password").val()
-                };
-                PostToServer("/Account/LoginUser", obj, function (res) {
-                    if (!res.isSuccess) {
-                        ToastMessageError(res.message);
-                    } else {
-                        ChangeUrl("/");
-                    }
-                },true)
-            })
-        })
-    </script>
-}

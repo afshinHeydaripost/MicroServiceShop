@@ -1,6 +1,5 @@
 
 using Admin.UI.Class.Middlewares;
-using Microsoft.AspNetCore.Antiforgery;
 
 var builder = WebApplication.CreateBuilder(args);
 

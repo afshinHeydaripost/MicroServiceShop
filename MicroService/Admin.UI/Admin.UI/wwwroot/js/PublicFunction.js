@@ -4,12 +4,12 @@ function isNullOrEmpty(string) {
 }
 
 function objisNull(fildId) {
-    $("#" + fildId).focus();
-    $("#" + fildId).css("border", "1px red solid");
+    $(fildId).focus();
+    $(fildId).css("border", "1px red solid");
 }
 
 function objisFull(fildId) {
-    $("#" + fildId).css("border", "1px red #dbdbdb");
+    $(fildId).css("border", "1px red #dbdbdb");
 }
 function SubString(text, startIndex, length) {
     if (isNullOrEmpty(text))
@@ -242,10 +242,11 @@ function GetFromServer(url, data, callbackFunction, showLoader = false) {
                 callbackFunction.call(this, res);
             }
         },
-        error: function (res) {
+        error: function (e) {
             HidLoaderGif();
             ToastMessageError("خطا در ارتباط با سرور.");
             console.log("url:" + url);
+            console.log(e);
         }
     })
 }
@@ -263,10 +264,11 @@ function PostToServer(url, data, callbackFunction, showLoader = false) {
                 callbackFunction.call(this, response);
             }
         },
-        error: function () {
+        error: function (e) {
             HidLoaderGif();
             ToastMessageError("خطا در ارتباط با سرور.");
             console.log("url:" + url);
+            console.log(e);
         }
     });
 }
@@ -287,10 +289,11 @@ function PostToServerByAntiForgeryToken(url, data, antiForgeryToken, callbackFun
                 callbackFunction.call(this, response);
             }
         },
-        error: function () {
+        error: function (e) {
             HidLoaderGif();
             ToastMessageError("خطا در ارتباط با سرور.");
             console.log("url:" + url);
+            console.log(e);
         }
     });
 }
