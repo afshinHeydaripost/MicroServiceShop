@@ -78,6 +78,9 @@ public static class ApiService
 
     public static async Task<TResponse> SendAuthHeaderAndGetData<TResponse>(this string baseUrl, string relUrl, string token)
     {
+        if (string.IsNullOrEmpty(token)) {
+            return JsonConvert.DeserializeObject<TResponse>("");
+        }
         string response = "";
         try
         {

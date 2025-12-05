@@ -1,11 +1,12 @@
 ﻿using Helper.VieModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Products.DataModel.Models;
 using Products.Services.Interfaces;
 
 
 namespace ProductService.Api.Controllers;
-
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class ProductsController : ControllerBase
