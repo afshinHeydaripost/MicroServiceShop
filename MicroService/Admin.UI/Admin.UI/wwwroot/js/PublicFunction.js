@@ -8,10 +8,25 @@ function objisNull(fildId) {
     $(fildId).css("border", "1px red solid");
 }
 function DestroyTable() {
-    if (table != undefined) table.destroy();
+    $(selector).destroy();
 }
 function objisFull(fildId) {
     $(fildId).css("border", "1px red #dbdbdb");
+}
+function ToDataTable(selector) {
+    $(selector).DataTable({
+        processing: false,
+        serverSide: false,
+        filter: true,
+        language: {
+            url: "/lib/DataTable/Persian.json"
+        },
+        searching: true,
+        responsive: true,
+        lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "همه موارد"]],
+        pagingType: "full_numbers",
+        order: [[1, "desc"]]
+    });
 }
 function GetCheckBoxChecked(selector) {
     return $(selector).is(":checked");

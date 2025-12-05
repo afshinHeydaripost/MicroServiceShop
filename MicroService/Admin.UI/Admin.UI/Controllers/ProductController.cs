@@ -21,8 +21,7 @@ namespace Admin.UI.Controllers
         public async Task<IActionResult> Index()
         {
             var list = await _productsServiceUrl.SendAuthHeaderAndGetData<List<ProductViewModel>>("api/Products/GetList", Request.GetCookiesValue("userToken"));
-
-            return View();
+            return View(list);
         }
         #endregion
 
