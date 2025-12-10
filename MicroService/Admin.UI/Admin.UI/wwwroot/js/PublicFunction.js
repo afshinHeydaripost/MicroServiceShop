@@ -218,6 +218,13 @@ function ShowTag(selector){
 function HideTag(selector){
     $(selector).hide();
 }
+
+function ShowModal(selector) {
+    $(selector).modal('show');
+}
+function HideModal(selector) {
+    $(selector).modal('hide');
+}
 function isNumber(evt) {
     evt = (evt) ? evt : window.event;
     var charCode = (evt.which) ? evt.which : evt.keyCode;

@@ -42,7 +42,7 @@ public class ProductModelServices : IProductModelServices
             return GeneralResponse<ProductModelViewMode>.Fail(item, e);
         }
     }
-    private async Task<ProductModel> GetById(int id, bool isModel)
+    private async Task<Products.DataModel.Models.ProductModel> GetById(int id, bool isModel)
     {
         return await _context.ProductModels.FirstOrDefaultAsync(x => x.ProductModelId == id);
     }

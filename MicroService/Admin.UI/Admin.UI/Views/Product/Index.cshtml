@@ -1,4 +1,4 @@
-﻿	@model List<ProductViewModel>
+﻿	@model ProductModel
 <!--begin::Content-->
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
     <!--begin::Subheader-->
@@ -11,14 +11,14 @@
                 <!--end::Page Title-->
             </div>
             <!--end::Info-->
-			<!--begin::Toolbar-->
-			<div class="d-flex align-items-center">
-				<!--begin::Actions-->
+            <!--begin::Toolbar-->
+            <div class="d-flex align-items-center">
+                <!--begin::Actions-->
                 <partial name="/views/shared/Partials/_btnAdd.cshtml" />
-				<!--end::Actions-->
+                <!--end::Actions-->
 
-			</div>
-			<!--end::Toolbar-->
+            </div>
+            <!--end::Toolbar-->
         </div>
     </div>
     <!--end::Subheader-->
@@ -50,9 +50,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if (Model is not null)
+                                    @if (Model is not null && Model.ProductsList is not null)
                                     {
-                                        foreach (var item in Model)
+                                        foreach (var item in Model.ProductsList)
                                         {
                                             <tr>
                                                 <td>@item.Code</td>
@@ -91,12 +91,78 @@
         <!--end::Container-->
     </div>
     <!--end::Entry-->
+    <!-- Modal-->
+    <div class="modal fade" id="ProductModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+
+        <div class="modal-dialog  modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ProductModalLabel"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="form">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                    <div class="form-group">
+                                        <label>گروه کالا</label>
+                                        <div></div>
+                                        <select asp-for="Product.CategoryId" class="custom-select form-control">
+                                            <option selected>--انتخاب کنید--</option>
+                                            @if (Model.ProductCategoryList is not null)
+                                            {
+                                                foreach (var item in Model.ProductCategoryList)
+                                                {
+                                                    <option value="@item.ProductCategoryId">@item.Title</option>
+                                                }                                  
+                                            }
+                                        </select>
+                                    </div>
+                            </div> 
+                            <div class="col-md-6">
+
+                                    <div class="form-group">
+                                        <label>برند کالا</label>
+                                        <div></div>
+                                        <select asp-for="Product.BrandId" class="custom-select form-control">
+                                            <option selected>--انتخاب کنید--</option>
+                                            @if (Model.BrandsList is not null)
+                                            {
+                                                foreach (var item in Model.BrandsList)
+                                                {
+                                                    <option value="@item.BrandId">@item.Title</option>
+                                                }                                  
+                                            }
+                                        </select>
+                                    </div>
+                            </div> 
+                        </div>
+                    </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <partial name="/views/shared/Partials/_btnCloseModal.cshtml" />
+                    <partial name="/views/shared/Partials/_btnRegister.cshtml" />
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <!--end::Content-->
 @section Scripts {
     <script>
         $(document).ready(function () {
             ToDataTable("#tblProducts");
+            $("#btnAdd").click(function () {
+                ShowModal("#ProductModal");
+                $("#ProductModalLabel").text("افزودن محصول جدید");
+
+            })
         });
     </script>
 }

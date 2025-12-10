@@ -60,9 +60,9 @@ internal static class CopyTo
             UpdateDate = DateTime.Now
         };
     }
-    internal static ProductModel ToProductModel(this ProductModelViewMode x)
+    internal static Products.DataModel.Models.ProductModel ToProductModel(this ProductModelViewMode x)
     {
-        return new ProductModel()
+        return new Products.DataModel.Models.ProductModel()
         {
             ColorId = x.ColorId,
             ProductId = x.ProductId,

@@ -1,8 +1,10 @@
-﻿using Helper.VieModels;
+﻿using Helper;
+using Helper.VieModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Products.DataModel.Models;
 using Products.Services.Interfaces;
+using System.Security.Claims;
 
 
 namespace ProductService.Api.Controllers;
@@ -21,7 +23,7 @@ public class ProductsController : ControllerBase
     [HttpGet("GetList")]
     public async Task<IActionResult> GetList(string text = "")
     {
-        var list = await _service.GetList(1, text);
+        var list = await _service.GetList(User.GetLoginedUserId(), text);
         return Ok(list);
     }
 
@@ -34,6 +36,7 @@ public class ProductsController : ControllerBase
     [HttpPost("create")]
     public async Task<IActionResult> Create([FromBody] ProductViewModel item)
     {
+        item.UserId = User.GetLoginedUserId();
         var res = await _service.Create(item);
         return Ok(res);
     }
@@ -42,7 +45,7 @@ public class ProductsController : ControllerBase
     [HttpPost("update")]
     public async Task<IActionResult> Update([FromBody] ProductViewModel item)
     {
-
+        item.UserId = User.GetLoginedUserId();
         var res = await _service.Update(item);
         return Ok(res);
     }
@@ -51,7 +54,7 @@ public class ProductsController : ControllerBase
     [HttpPost("delete/{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var res = await _service.Delete(1, id);
+        var res = await _service.Delete(User.GetLoginedUserId(), id);
         return Ok(res);
     }
 }

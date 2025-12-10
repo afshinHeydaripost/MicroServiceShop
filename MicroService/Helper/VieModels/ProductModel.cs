@@ -6,13 +6,18 @@ using System.Threading.Tasks;
 
 namespace Helper.VieModels
 {
-    internal class ProductModel
+    public class ProductModel
     {
+        public List<ProductViewModel> ProductsList { get; set; }
+        public List<ProductCategoryViewModel> ProductCategoryList { get; set; }
+        public List<BrandViewModel> BrandsList { get; set; }
+        public ProductViewModel Product { get; set; }
     }
     public partial class ProductViewModel
     {
         public int ProductId { get; set; }
 
+        public int? UserId { get; set; }
         public int? CategoryId { get; set; }
         public string CategoryTitle { get; set; }
         public int? BrandId { get; set; }
