@@ -39,6 +39,13 @@ namespace Admin.UI.Controllers
                 item.BrandsList.AddRange(listBrands);
             return View(item);
         }
+        [HttpGet]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> GetItem(int id)
+        {
+            var item = await _productsServiceUrl.SendAuthHeaderAndGetData<ProductViewModel>($"api/Products/{id}", Request.GetCookiesValue("userToken"));
+            return Json(item);
+        }
         #endregion
 
         #region Post

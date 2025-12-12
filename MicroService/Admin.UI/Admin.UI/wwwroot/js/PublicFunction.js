@@ -212,10 +212,10 @@ function Any(data, item) {
 function SetMaxLength(id, length) {
     $("#" + id).attr('maxlength', length);
 }
-function ShowTag(selector){
+function ShowTag(selector) {
     $(selector).show();
 }
-function HideTag(selector){
+function HideTag(selector) {
     $(selector).hide();
 }
 
@@ -324,4 +324,39 @@ function PostToServerByAntiForgeryToken(url, data, antiForgeryToken, callbackFun
             console.log(e);
         }
     });
+}
+function AddOrEditForm(Url, frm, callbackFunction, BeforeFunction = null, showLoader = false) {
+    if (showLoader)
+        ShowLoaderGif();
+    if (BeforeFunction != null && typeof BeforeFunction == 'function') {
+        BeforeFunction.call(this, res);
+    }
+    $.validator.unobtrusive.parse(frm);
+    if ($(frm).valid()) {
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: Url,
+            data: new FormData(document.forms[0]),
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                HidLoaderGif();
+                if (typeof callbackFunction == 'function') {
+                    callbackFunction.call(this, response);
+                }
+
+            },
+            error: function (xhr, status, error) {
+                HidLoaderGif();
+                ToastMessageError("خطا در ارتباط با سرور.");
+                console.log("url:" + url);
+                console.log(e);
+            }
+        });
+    }
+}
+
+function ToSelect2(selector) {
+    $(selector).select2();
 }

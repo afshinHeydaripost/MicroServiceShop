@@ -71,7 +71,7 @@ public class ProductsServices : IProductsServices
     {
         var item = await _context.Products.Where(x => x.ProductId == id).Select(x => new ProductViewModel()
         {
-            IsHidden = x.IsHidden,
+            IsHidden = x.IsHidden??false,
             ProductId = x.ProductId,
             BrandId = x.BrandId,
             CategoryId = x.CategoryId,
@@ -87,7 +87,7 @@ public class ProductsServices : IProductsServices
     {
         var query = _context.Products.Select(x => new ProductViewModel()
         {
-            IsHidden = x.IsHidden,
+            IsHidden = x.IsHidden??false,
 
             ProductId = x.ProductId,
             BrandId = x.BrandId,

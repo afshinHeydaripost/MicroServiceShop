@@ -1,5 +1,8 @@
 ﻿	@model ProductModel
 <!--begin::Content-->
+@section Styles {
+
+}
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
     <!--begin::Subheader-->
     <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
@@ -71,7 +74,7 @@
                                                 }
                                                 <td>
                                                     <i class="flaticon-delete mx-1 cursor-pointer" title="حذف"></i>
-                                                    <i class="flaticon-edit mx-1 cursor-pointer" title="ویرایش"></i>
+                                                    <i onclick="GetProduct('@item.ProductId')" class="flaticon-edit mx-1 cursor-pointer" title="ویرایش"></i>
                                                 </td>
                                             </tr>
                                         }
@@ -104,26 +107,26 @@
                 </div>
                 <div class="modal-body">
                     <form class="form">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-6">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-6">
 
                                     <div class="form-group">
                                         <label>گروه کالا</label>
                                         <div></div>
-                                        <select asp-for="Product.CategoryId" class="custom-select form-control">
+                                        <select asp-for="Product.CategoryId" class="custom-select form-control w-100">
                                             <option selected>--انتخاب کنید--</option>
                                             @if (Model.ProductCategoryList is not null)
                                             {
                                                 foreach (var item in Model.ProductCategoryList)
                                                 {
                                                     <option value="@item.ProductCategoryId">@item.Title</option>
-                                                }                                  
+                                                }
                                             }
                                         </select>
                                     </div>
-                            </div> 
-                            <div class="col-md-6">
+                                </div>
+                                <div class="col-md-6">
 
                                     <div class="form-group">
                                         <label>برند کالا</label>
@@ -135,13 +138,49 @@
                                                 foreach (var item in Model.BrandsList)
                                                 {
                                                     <option value="@item.BrandId">@item.Title</option>
-                                                }                                  
+                                                }
                                             }
                                         </select>
                                     </div>
-                            </div> 
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>کد کالا</label>
+                                        <input asp-for="Product.Code" type="text" readonly class="form-control" placeholder="کد کالا" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>عنوان کالا</label>
+                                        <input asp-for="Product.Title" type="text" class="form-control" placeholder="عنوان کالا" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="checkbox-list">
+                                        <label class="checkbox">
+                                            <input type="checkbox" asp-for="Product.IsHidden" />
+                                            <span></span>
+                                            عدم نمایش
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>تصویر اصلی</label>
+                                        <div></div>
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="customFile" />
+                                            <label class="custom-file-label" for="customFile">انتخاب فایل</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mb-1">
+                                        <label for="exampleTextarea">توضیحات</label>
+                                        <textarea class="form-control" asp-for="Product.Description" rows="3"></textarea>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
 
                     </form>
                 </div>
@@ -155,6 +194,7 @@
 </div>
 <!--end::Content-->
 @section Scripts {
+    <script src="~/js/pages/crud/forms/widgets/select2.js"></script>
     <script>
         $(document).ready(function () {
             ToDataTable("#tblProducts");
@@ -163,6 +203,15 @@
                 $("#ProductModalLabel").text("افزودن محصول جدید");
 
             })
+            ToSelect2('.custom-select');
         });
+
+        function GetProduct(ID) {
+            if (ID > 0) {
+                GetFromServer("/Product/GetItem", {id:ID}, function (res) {
+
+                },true)
+            }
+        }
     </script>
 }
