@@ -1,16 +1,18 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Helper;
+using Microsoft.AspNetCore.Http;
 
-public class Uploder
+public static class Uploder
 {
     private static string[] extImage = { ".jpg", ".png", ".jpeg" };
     private static string[] extMovie = { ".mp4", ".mkv", ".3gp" };
     private static string[] extDocument = { ".pdf", ".doc", ".3gp", ".docx", ".txt", ".xlsx", ".xls", ".xlt" };
-    public static async Task<UploderResult> UploadFile(IFormFile userfile, string fileName, List<FileSizeType> fileSizeTypes)
+    public static async Task<GeneralResponse<string>> UploadFile(this IFormFile userfile, string fileName, List<FileSizeType> fileSizeTypes, string domainName = "")
     {
-        UploderResult res = new UploderResult();
-        var serverPath = Directory.GetCurrentDirectory() + "\\wwwroot";
+        var serverPath = Directory.GetCurrentDirectory() + "\\wwwroot\\Upload";
+        checkDirectoryIsExist(serverPath);
         var ext = Path.GetExtension(userfile.FileName);
         bool validFile = false;
+        var errorMessage = "";
         try
         {
             if (extImage.Contains(ext) && fileSizeTypes.Any(x => x.Type == FileType.Image))
@@ -19,7 +21,7 @@ public class Uploder
                 if (userfile.Length / 1024f < fileSetting.Size)
                     validFile = true;
                 else
-                    res.ErrorMessage = Message.InvalidFileSize;
+                    errorMessage = Message.InvalidFileSize;
 
             }
             if (extMovie.Contains(ext) && fileSizeTypes.Any(x => x.Type == FileType.Video))
@@ -28,7 +30,7 @@ public class Uploder
                 if (userfile.Length / 1024f < fileSetting.Size)
                     validFile = true;
                 else
-                    res.ErrorMessage = Message.InvalidFileSize;
+                    errorMessage = Message.InvalidFileSize;
             }
             if (extDocument.Contains(ext) && fileSizeTypes.Any(x => x.Type == FileType.Document))
             {
@@ -36,31 +38,32 @@ public class Uploder
                 if (userfile.Length / 1024f < fileSetting.Size)
                     validFile = true;
                 else
-                    res.ErrorMessage = Message.InvalidFileSize;
+                    errorMessage = Message.InvalidFileSize;
             }
 
             if (validFile)
             {
-                string file = serverPath + fileName + ext;
-
+                var dirName = Guid.NewGuid().ToString().Replace("-","");
+                serverPath = serverPath + "\\" + dirName;
+                checkDirectoryIsExist(serverPath);
+                string file = serverPath + "\\" + fileName + ext;
                 using (var stream = new FileStream(file, FileMode.Create))
                 {
                     await userfile.CopyToAsync(stream);
                 }
-                res.isSuccess = true;
-                res.Url = fileName + ext;
-                return res;
+                if (!string.IsNullOrEmpty(domainName))
+                {
+                    file = domainName + $"Upload/{dirName}/{fileName}{ext}";
+                }
+                return GeneralResponse<string>.Success(file);
             }
-            if (string.IsNullOrEmpty(res.ErrorMessage))
-                res.ErrorMessage = res.ErrorMessage + " " + Message.InvalidFile;
-
-            return res;
+            if (string.IsNullOrEmpty(errorMessage))
+                errorMessage = errorMessage + " " + Message.InvalidFile;
+            return GeneralResponse<string>.Fail(errorMessage);
         }
         catch (Exception ex)
         {
-            res.ErrorMessage = ex.Message;
-            res.isSuccess = false;
-            return res;
+            return GeneralResponse<string>.Fail(ex);
         }
     }
 
@@ -71,35 +74,22 @@ public class Uploder
             Directory.CreateDirectory(filePath);
         }
     }
-    public static UploderResult DeleteFile(string filePath)
+    public static GeneralResponse DeleteFile(string filePath)
     {
-        UploderResult res = new UploderResult();
         try
         {
             if (File.Exists(filePath))
             {
                 File.Delete(filePath);
-                res.isSuccess = true;
-                return res;
+                return GeneralResponse.Success();
             }
-            res.ErrorMessage = "فایل یافت نشد";
-            res.isSuccess = true;
-            return res;
+            return GeneralResponse.NotFound();
         }
         catch (Exception ex)
         {
-            res.ErrorMessage = ex.Message;
-            res.isSuccess = false;
-            return res;
+            return GeneralResponse.Fail(ex);
         }
     }
-
-}
-public class UploderResult
-{
-    public bool isSuccess { get; set; }
-    public string ErrorMessage { get; set; }
-    public string Url { get; set; }
 
 }
 public class FileSizeType

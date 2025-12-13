@@ -32,7 +32,7 @@
             <!--begin::Dashboard-->
             <!--begin::Row-->
             <div class="row">
-                <div class="col-lg-12 col-xxl-4 order-1 order-xxl-2">
+                <div class="col-12 order-1 order-xxl-2">
                     <!--begin::List Widget 8-->
                     <div class="card card-custom card-stretch gutter-b">
                         <!--begin::Header-->
@@ -73,7 +73,7 @@
                                                     </td>
                                                 }
                                                 <td>
-                                                    <i class="flaticon-delete mx-1 cursor-pointer" title="حذف"></i>
+                                                    <i onclick="DeleteProduct('@item.ProductId')" class="flaticon-delete mx-1 cursor-pointer" title="حذف"></i>
                                                     <i onclick="GetProduct('@item.ProductId')" class="flaticon-edit mx-1 cursor-pointer" title="ویرایش"></i>
                                                 </td>
                                             </tr>
@@ -106,16 +106,23 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form class="form">
+                    <form method="post" enctype="multipart/form-data" class="form" id="frmProduct">
+                        <input type="hidden" asp-for="Product.ProductId" />
+                        <input type="hidden" asp-for="Product.Picture" />
                         <div class="container">
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <div asp-validation-summary="All"></div>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col-md-6">
-
                                     <div class="form-group">
-                                        <label>گروه کالا</label>
+                                        <label asp-for="Product.CategoryId">گروه کالا</label>
                                         <div></div>
                                         <select asp-for="Product.CategoryId" class="custom-select form-control w-100">
-                                            <option selected>--انتخاب کنید--</option>
+                                            <option value="0" selected>--انتخاب کنید--</option>
                                             @if (Model.ProductCategoryList is not null)
                                             {
                                                 foreach (var item in Model.ProductCategoryList)
@@ -129,10 +136,10 @@
                                 <div class="col-md-6">
 
                                     <div class="form-group">
-                                        <label>برند کالا</label>
+                                        <label asp-for="Product.BrandId">برند کالا</label>
                                         <div></div>
                                         <select asp-for="Product.BrandId" class="custom-select form-control">
-                                            <option selected>--انتخاب کنید--</option>
+                                            <option value="0" selected>--انتخاب کنید--</option>
                                             @if (Model.BrandsList is not null)
                                             {
                                                 foreach (var item in Model.BrandsList)
@@ -145,37 +152,38 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>کد کالا</label>
+                                        <label asp-for="Product.Code">کد کالا</label>
+
                                         <input asp-for="Product.Code" type="text" readonly class="form-control" placeholder="کد کالا" />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>عنوان کالا</label>
+                                        <label asp-for="Product.Title">عنوان کالا</label>
                                         <input asp-for="Product.Title" type="text" class="form-control" placeholder="عنوان کالا" />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="checkbox-list">
-                                        <label class="checkbox">
+                                        <label asp-for="Product.IsHidden" class="checkbox">
                                             <input type="checkbox" asp-for="Product.IsHidden" />
                                             <span></span>
                                             عدم نمایش
                                         </label>
                                     </div>
-                                    <div class="form-group">
-                                        <label>تصویر اصلی</label>
-                                        <div></div>
-                                        <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="customFile" />
-                                            <label class="custom-file-label" for="customFile">انتخاب فایل</label>
+                                    <div class="form-group mt-4">
+                                        <label asp-for="Product.UploadedFile">تصویر اصلی</label>
+                                        <input type="file" asp-for="Product.UploadedFile" onchange="loadFile(event,'ItemPicture')" />
+                                        <br />
+                                        <div class="fv-plugins-message-container text-center mt-3 w-150px m-auto" id="F-See">
+                                            <img id="ItemPicture" class="img-fluid" />
                                         </div>
                                     </div>
 
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group mb-1">
-                                        <label for="exampleTextarea">توضیحات</label>
+                                        <label asp-for="Product.Description">توضیحات</label>
                                         <textarea class="form-control" asp-for="Product.Description" rows="3"></textarea>
                                     </div>
                                 </div>
@@ -199,19 +207,65 @@
         $(document).ready(function () {
             ToDataTable("#tblProducts");
             $("#btnAdd").click(function () {
-                ShowModal("#ProductModal");
                 $("#ProductModalLabel").text("افزودن محصول جدید");
-
-            })
+                $("#Product_UploadedFile").val(null);
+                $("#Product_Code").val(null);
+                $("#Product_Title").val(null);
+                $("#Product_Description").val(null);
+                SetCheckBoxChecked("#Product_IsHidden");
+                $("#ItemPicture").attr("src", "");
+                SetSelect2Val("#Product_BrandId", 0);
+                SetSelect2Val("#Product_CategoryId", 0);
+                GetCode();
+                ShowModal("#ProductModal");
+            });
+            $("#btnRegister").click(function () {
+                AddOrEditForm("/Product/AddOrEditProduct", "#frmProduct", function (res) {
+                    if (!res.isSuccess) {
+                        ToastMessageError(res.message);
+                    } else {
+                        HideModal("#ProductModal");
+                        loadPage();
+                    }
+                }, null, true)
+            });
             ToSelect2('.custom-select');
         });
 
         function GetProduct(ID) {
             if (ID > 0) {
-                GetFromServer("/Product/GetItem", {id:ID}, function (res) {
-
-                },true)
+                GetFromServer("/Product/GetItem", { id: ID }, function (res) {
+                    $("#ProductModalLabel").text("ویرایش محصول " + res.title);
+                    $("#Product_UploadedFile").val(null);
+                    $("#Product_Code").val(res.code);
+                    $("#Product_Title").val(res.title);
+                    $("#Product_ProductId").val(res.productId);
+                    $("#Product_Description").val(res.description);
+                    SetCheckBoxChecked("#Product_IsHidden", res.isHidden);
+                    $("#ItemPicture").attr("src", res.picture);
+                    SetSelect2Val("#Product_BrandId", res.brandId);
+                    SetSelect2Val("#Product_CategoryId", res.categoryId);
+                    ShowModal("#ProductModal");
+                }, true)
             }
+        }
+        function DeleteProduct(ID) {
+            if (ID > 0) {
+                GetFromServer("/Product/Delete", { id: ID }, function (res) {
+                    if (!res.isSuccess) {
+                        ToastMessageError(res.message);
+                    } else {
+                        HideModal("#ProductModal");
+                        loadPage();
+                    }
+                }, true)
+            }
+        }
+        function GetCode() {
+
+            GetFromServer("/Product/GetCode", {}, function (res) {
+                $("#Product_Code").val(res);
+            }, true)
         }
     </script>
 }

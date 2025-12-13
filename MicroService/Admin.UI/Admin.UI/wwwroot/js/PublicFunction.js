@@ -31,6 +31,13 @@ function ToDataTable(selector) {
 function GetCheckBoxChecked(selector) {
     return $(selector).is(":checked");
 }
+function loadFile(event, tag) {
+    var output = document.getElementById(tag);
+    output.src = URL.createObjectURL(event.target.files[0]);
+    output.onload = function () {
+        URL.revokeObjectURL(output.src) // free memory
+    }
+};
 function SubString(text, startIndex, length) {
     if (isNullOrEmpty(text))
         return "...";
@@ -325,7 +332,7 @@ function PostToServerByAntiForgeryToken(url, data, antiForgeryToken, callbackFun
         }
     });
 }
-function AddOrEditForm(Url, frm, callbackFunction, BeforeFunction = null, showLoader = false) {
+function AddOrEditForm(Url, frm, callbackFunction,BeforeFunction = null, showLoader = false) {
     if (showLoader)
         ShowLoaderGif();
     if (BeforeFunction != null && typeof BeforeFunction == 'function') {
@@ -337,7 +344,7 @@ function AddOrEditForm(Url, frm, callbackFunction, BeforeFunction = null, showLo
             type: "POST",
             dataType: "json",
             url: Url,
-            data: new FormData(document.forms[0]),
+            data: new FormData($(frm)[0]),
             contentType: false,
             processData: false,
             success: function (response) {
@@ -350,8 +357,8 @@ function AddOrEditForm(Url, frm, callbackFunction, BeforeFunction = null, showLo
             error: function (xhr, status, error) {
                 HidLoaderGif();
                 ToastMessageError("خطا در ارتباط با سرور.");
-                console.log("url:" + url);
-                console.log(e);
+                console.log("url:" + Url);
+                console.log(error);
             }
         });
     }
@@ -359,4 +366,13 @@ function AddOrEditForm(Url, frm, callbackFunction, BeforeFunction = null, showLo
 
 function ToSelect2(selector) {
     $(selector).select2();
+}
+function DestroySelect2(selector) {
+    $(selector).select2('destroy');
+}
+function SetCheckBoxChecked(selector, checked=false) {
+    $(selector).prop("checked", checked);
+}
+function SetSelect2Val(selector, val=null) {
+    $(selector).select2().val(val).trigger("change");
 }

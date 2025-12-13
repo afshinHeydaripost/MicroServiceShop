@@ -53,8 +53,9 @@ internal static class CopyTo
             BrandId = x.BrandId,
             CategoryId = x.CategoryId,
             Code = x.Code,
+            Picture=x.Picture,
             Description = x.Description,
-            ProductId = x.ProductId,
+            ProductId = x.ProductId ?? 0,
             IsHidden = x.IsHidden,
             Title = x.Title,
             UpdateDate = DateTime.Now

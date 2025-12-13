@@ -34,20 +34,21 @@ public class ProductsServices : IProductsServices
     {
         return await _context.Products.FirstOrDefaultAsync(x => x.ProductId == id);
     }
-    public async Task<GeneralResponse> Delete(int userId, int id)
+    public async Task<GeneralResponse<ProductViewModel>> Delete(int userId, int id)
     {
         try
         {
             var item = await GetById(id, true);
             if (item == null)
-                return GeneralResponse.NotFound();
+                return GeneralResponse<ProductViewModel>.NotFound(new ProductViewModel());
+            var obj = await GetItem(id);
             _context.Products.Remove(item);
             await _context.SaveChangesAsync();
-            return GeneralResponse.SuccessDelete();
+            return GeneralResponse<ProductViewModel>.Success(obj);
         }
         catch (Exception e)
         {
-            return GeneralResponse.Fail(e);
+            return GeneralResponse<ProductViewModel>.Fail(e);
         }
     }
     private async Task<string> GetProductMaxCode()
@@ -57,7 +58,7 @@ public class ProductsServices : IProductsServices
         {
             if (await _context.Products.AnyAsync())
             {
-                var pCode = await _context.Products.MaxAsync(x => int.Parse(x.Code));
+                var pCode = await _context.Products.MaxAsync(x => Convert.ToInt32(x.Code));
                 code = (pCode + 1).ToString().PadLeft(6, '0');
             }
         }
@@ -71,7 +72,7 @@ public class ProductsServices : IProductsServices
     {
         var item = await _context.Products.Where(x => x.ProductId == id).Select(x => new ProductViewModel()
         {
-            IsHidden = x.IsHidden??false,
+            IsHidden = x.IsHidden ?? false,
             ProductId = x.ProductId,
             BrandId = x.BrandId,
             CategoryId = x.CategoryId,
@@ -87,7 +88,7 @@ public class ProductsServices : IProductsServices
     {
         var query = _context.Products.Select(x => new ProductViewModel()
         {
-            IsHidden = x.IsHidden??false,
+            IsHidden = x.IsHidden ?? false,
 
             ProductId = x.ProductId,
             BrandId = x.BrandId,
@@ -110,7 +111,7 @@ public class ProductsServices : IProductsServices
     {
         try
         {
-            var obj = await GetById(item.ProductId, true);
+            var obj = await GetById(item.ProductId ?? 0, true);
             if (obj == null)
                 return GeneralResponse.NotFound();
             obj.IsHidden = item.IsHidden;
@@ -118,7 +119,8 @@ public class ProductsServices : IProductsServices
             obj.CategoryId = item.CategoryId;
             obj.Code = item.Code;
             obj.Description = item.Description;
-            obj.Picture = item.Picture;
+            if (!string.IsNullOrEmpty(item.Picture))
+                obj.Picture = item.Picture;
             obj.Title = item.Title;
             obj.UpdateDate = DateTime.Now;
             _context.Products.Update(obj);
@@ -129,6 +131,11 @@ public class ProductsServices : IProductsServices
         {
             return GeneralResponse.Fail(e);
         }
+    }
+
+    public async Task<string> GetCode(int userId)
+    {
+        return await GetProductMaxCode();
     }
 }
 

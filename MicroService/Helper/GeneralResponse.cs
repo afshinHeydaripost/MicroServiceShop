@@ -205,6 +205,14 @@ namespace Helper
                 Message = _SubmitAccessDenaid,
             };
         }
+        public static GeneralResponse<T> SuccessMessageDelete(T objItem)
+        {
+            return new GeneralResponse<T>()
+            {
+                isSuccess = true,
+                Message = _SubmitSuccessDelete
+            };
+        }
         public static GeneralResponse<T> Success(T objItem)
         {
             return new GeneralResponse<T>()

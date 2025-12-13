@@ -25,6 +25,13 @@ public class ProductsController : ControllerBase
     {
         var list = await _service.GetList(User.GetLoginedUserId(), text);
         return Ok(list);
+    } 
+    
+    [HttpGet("GetCode")]
+    public async Task<IActionResult> GetCode()
+    {
+        var list = await _service.GetCode(User.GetLoginedUserId());
+        return Ok(list);
     }
 
     [HttpGet("{id}")]

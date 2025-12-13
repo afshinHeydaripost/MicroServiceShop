@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,27 +15,39 @@ namespace Helper.VieModels
         public List<BrandViewModel> BrandsList { get; set; }
         public ProductViewModel Product { get; set; }
     }
-    public partial class ProductViewModel
+    public partial class ProductViewModel: GeneralProp
     {
-        public int ProductId { get; set; }
+        public int? ProductId { get; set; }
 
         public int? UserId { get; set; }
+
+        [Display(Name = "گروه کالا")]
+        [Required(ErrorMessage = "{0} را وارد کنید")]
         public int? CategoryId { get; set; }
         public string CategoryTitle { get; set; }
+
+        [Display(Name = "برند")]
+        [Required(ErrorMessage = "{0} را وارد کنید")]
         public int? BrandId { get; set; }
         public string BrandTitle { get; set; }
 
         public string Code { get; set; }
 
+        [Display(Name = "عنوان")]
+        [Required(ErrorMessage = "{0} را وارد کنید")]
+        [MaxLength(300, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد ")]
         public string Title { get; set; }
 
         public string Picture { get; set; }
 
+        [Display(Name = "توضیحات")]
+        [MaxLength(500, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد ")]
+
         public string Description { get; set; }
 
-        public bool IsHidden { get; set; }
-
+        public bool IsHidden { get; set; }    
     }
+
     public partial class ProductModelViewMode
     {
         public int? ProductModelId { get; set; }

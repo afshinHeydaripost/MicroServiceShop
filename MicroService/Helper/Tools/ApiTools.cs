@@ -54,7 +54,7 @@ public static class ApiService
         }
     }
 
-    public static TResponse SendAuthHeaderAndPostData<TRequest, TResponse>(this string url, TResponse data, string token)
+    public static TResponse SendAuthHeaderAndPostData<TRequest, TResponse>(this string url, TRequest data, string token)
     {
         string response = "";
         try
