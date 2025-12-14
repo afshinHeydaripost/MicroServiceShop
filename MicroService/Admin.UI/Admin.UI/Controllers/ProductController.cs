@@ -24,12 +24,15 @@ namespace Admin.UI.Controllers
             var list = await _productsServiceUrl.SendAuthHeaderAndGetData<List<ProductViewModel>>("api/Products/GetList", Request.GetCookiesValue("userToken"));
             var listProductCategory = await _productsServiceUrl.SendAuthHeaderAndGetData<List<ProductCategoryViewModel>>("api/ProductCategory/GetList", Request.GetCookiesValue("userToken"));
             var listBrands = await _productsServiceUrl.SendAuthHeaderAndGetData<List<BrandViewModel>>("api/Brand/GetList", Request.GetCookiesValue("userToken"));
+            var listProductColor = await _productsServiceUrl.SendAuthHeaderAndGetData<List<ProductColorViewModel>>("api/ProductColor/GetList", Request.GetCookiesValue("userToken"));
             ProductModel item = new ProductModel()
             {
                 Product = new ProductViewModel(),
                 ProductsList = new List<ProductViewModel>(),
                 ProductCategoryList = new List<ProductCategoryViewModel>(),
                 BrandsList = new List<BrandViewModel>(),
+                ProductColors = new List<ProductColorViewModel>(),
+                ProductModels = new ProductModelViewMode(),
             };
             if (list is not null)
                 item.ProductsList.AddRange(list);
@@ -37,6 +40,8 @@ namespace Admin.UI.Controllers
                 item.ProductCategoryList.AddRange(listProductCategory);
             if (listBrands is not null)
                 item.BrandsList.AddRange(listBrands);
+            if (listProductColor is not null)
+                item.ProductColors.AddRange(listProductColor);
             return View(item);
         }
         [HttpGet]
@@ -52,6 +57,12 @@ namespace Admin.UI.Controllers
         {
             var code = await _productsServiceUrl.SendAuthHeaderAndGetData<string>($"api/Products/GetCode", Request.GetCookiesValue("userToken"));
             return Json(code);
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetProductModel(int id)
+        {
+            var items = await _productsServiceUrl.SendAuthHeaderAndGetData<List<ProductModelViewMode>>($"api/ProductModels/GetList/{id}", Request.GetCookiesValue("userToken"));
+            return PartialView("_ProductModels",items);
         }
         [HttpGet]
         public async Task<IActionResult> Delete(int id)

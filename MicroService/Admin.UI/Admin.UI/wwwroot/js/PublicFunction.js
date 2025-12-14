@@ -332,7 +332,7 @@ function PostToServerByAntiForgeryToken(url, data, antiForgeryToken, callbackFun
         }
     });
 }
-function AddOrEditForm(Url, frm, callbackFunction,BeforeFunction = null, showLoader = false) {
+function AddOrEditForm(Url, frm, callbackFunction, BeforeFunction = null, showLoader = false) {
     if (showLoader)
         ShowLoaderGif();
     if (BeforeFunction != null && typeof BeforeFunction == 'function') {
@@ -370,9 +370,29 @@ function ToSelect2(selector) {
 function DestroySelect2(selector) {
     $(selector).select2('destroy');
 }
-function SetCheckBoxChecked(selector, checked=false) {
+function SetCheckBoxChecked(selector, checked = false) {
     $(selector).prop("checked", checked);
 }
-function SetSelect2Val(selector, val=null) {
+
+function SetSelect2Val(selector, val = null) {
     $(selector).select2().val(val).trigger("change");
+}
+
+function Confirmed(title, message, callbackFunction) {
+    
+    Swal.fire({
+        title: title,
+        text: message,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "بله",
+        cancelButtonText:"انصراف"
+
+    }).then(function (result) {
+        if (result.value) {
+            if (typeof callbackFunction == 'function') {
+                callbackFunction.call(this, result);
+            }
+        }
+    });
 }

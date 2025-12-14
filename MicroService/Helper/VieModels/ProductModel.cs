@@ -12,8 +12,10 @@ namespace Helper.VieModels
     {
         public List<ProductViewModel> ProductsList { get; set; }
         public List<ProductCategoryViewModel> ProductCategoryList { get; set; }
+        public List<ProductColorViewModel> ProductColors { get; set; }
         public List<BrandViewModel> BrandsList { get; set; }
         public ProductViewModel Product { get; set; }
+        public ProductModelViewMode ProductModels { get; set; }
     }
     public partial class ProductViewModel: GeneralProp
     {

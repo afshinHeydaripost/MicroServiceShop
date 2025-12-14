@@ -1,0 +1,24 @@
+﻿@model List<ProductModelViewMode>
+
+<table id="tblProductModels" class="table gy-5 datatable-custom">
+    <thead>
+        <tr>
+            <th>رنگ</th>
+            <th>قیمت </th>
+            <th>عملیات </th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model is not null && Model is not null)
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ColorTitle</td>
+                    <td>@((item.Price ?? 0).ToString().NumberWithComma())</td>
+                    <td></td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

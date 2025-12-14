@@ -75,6 +75,7 @@
                                                 <td>
                                                     <i onclick="DeleteProduct('@item.ProductId')" class="flaticon-delete mx-1 cursor-pointer" title="حذف"></i>
                                                     <i onclick="GetProduct('@item.ProductId')" class="flaticon-edit mx-1 cursor-pointer" title="ویرایش"></i>
+                                                    <i onclick="ShowProductModel('@item.ProductId')" class="flaticon-eye mx-1 cursor-pointer" title="مدل ها"></i>
                                                 </td>
                                             </tr>
                                         }
@@ -96,7 +97,6 @@
     <!--end::Entry-->
     <!-- Modal-->
     <div class="modal fade" id="ProductModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
-
         <div class="modal-dialog  modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -199,6 +199,68 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal-->
+    <div class="modal fade" id="ProductModelModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+        <div class="modal-dialog  modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ProductModalLabel"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#ProductModels" role="tab" aria-controls="ProductModels" aria-selected="true">مدل ها</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">مدل جدید</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content mt-5" id="myTabContent">
+                        <div class="tab-pane fade show active" id="ProductModels" role="tabpanel" aria-labelledby="home-tab">
+                        </div>
+                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                            <form method="post" enctype="multipart/form-data" class="form" id="frmProductModel">
+                                <input type="hidden" asp-for="ProductModels.ProductId" />
+                                <div class="container">
+
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div asp-validation-summary="All"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label asp-for="Product.CategoryId">گروه کالا</label>
+                                                <div></div>
+                                                <select asp-for="ProductModels.ColorId" class="custom-select form-control w-100">
+                                                    <option value="0" selected>--انتخاب کنید--</option>
+                                                    @if (Model.ProductColors is not null)
+                                                    {
+                                                        foreach (var item in Model.ProductColors)
+                                                        {
+                                                            <option value="@item.ProductColorId">@item.Title</option>
+                                                        }
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <partial name="/views/shared/Partials/_btnCloseModal.cshtml" />
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <!--end::Content-->
 @section Scripts {
@@ -232,6 +294,14 @@
             ToSelect2('.custom-select');
         });
 
+        function ShowProductModel(ID) {
+            if (ID > 0) {
+                GetFromServer("/Product/GetProductModel", { id: ID }, function (res) {
+                    $("#ProductModels").html(res);
+                    ShowModal("#ProductModelModal");
+                }, true)
+            }
+        }
         function GetProduct(ID) {
             if (ID > 0) {
                 GetFromServer("/Product/GetItem", { id: ID }, function (res) {
@@ -251,18 +321,19 @@
         }
         function DeleteProduct(ID) {
             if (ID > 0) {
-                GetFromServer("/Product/Delete", { id: ID }, function (res) {
-                    if (!res.isSuccess) {
-                        ToastMessageError(res.message);
-                    } else {
-                        HideModal("#ProductModal");
-                        loadPage();
-                    }
-                }, true)
+                Confirmed("پیفام", "آیا مایل به حذف این مورد هستید؟!", function () {
+                    GetFromServer("/Product/Delete", { id: ID }, function (res) {
+                        if (!res.isSuccess) {
+                            ToastMessageError(res.message);
+                        } else {
+                            loadPage();
+                        }
+                    }, true)
+                })
+
             }
         }
         function GetCode() {
-
             GetFromServer("/Product/GetCode", {}, function (res) {
                 $("#Product_Code").val(res);
             }, true)

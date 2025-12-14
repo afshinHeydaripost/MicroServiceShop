@@ -17,17 +17,27 @@ public static class Tools
     public static int GetLoginedUserId(this ClaimsPrincipal user)
     {
         var userId = user.FindFirst("UserId")?.Value;
-        if (userId == null || string.IsNullOrEmpty(userId)) {
+        if (userId == null || string.IsNullOrEmpty(userId))
+        {
             return 0;
         }
         return int.Parse(userId);
-    } public static string GetLoginedUserCode(this ClaimsPrincipal user)
+    }
+
+    public static string GetLoginedUserCode(this ClaimsPrincipal user)
     {
         var userCode = user.FindFirst("UserCode")?.Value;
-        if (userCode == null || string.IsNullOrEmpty(userCode)) {
+        if (userCode == null || string.IsNullOrEmpty(userCode))
+        {
             return "";
         }
         return userCode;
+    }
+    public static string NumberWithComma(this string text)
+    {
+        if (string.IsNullOrEmpty(text))
+            return "";
+        return string.Format("{0:#,##0.##}", text);
     }
 }
 
