@@ -33,11 +33,9 @@ public static class Tools
         }
         return userCode;
     }
-    public static string NumberWithComma(this string text)
+    public static string NumberWithComma(this int number)
     {
-        if (string.IsNullOrEmpty(text))
-            return "";
-        return string.Format("{0:#,##0.##}", text);
+        return string.Format("{0:#,##0.##}", number);
     }
 }
 

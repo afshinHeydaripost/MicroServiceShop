@@ -34,6 +34,7 @@ namespace Helper.VieModels
 
         public string UpdateDateTime { get; set; }
         public string Token { get; set; }
+        public string RefreshToken { get; set; }
 
     }
     public class LoginRequestViewModel

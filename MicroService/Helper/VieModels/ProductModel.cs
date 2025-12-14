@@ -64,6 +64,7 @@ namespace Helper.VieModels
         public int? Amount { get; set; }
 
         public int? Price { get; set; }
+        public string strPrice { get; set; }
     }
     public  class ProductStockViewModel
     {

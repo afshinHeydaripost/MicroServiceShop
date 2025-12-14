@@ -72,7 +72,7 @@ public class ProductModelsController : ControllerBase
     [HttpPost("delete/{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var res = await _service.Delete(1, id);
+        var res = await _service.Delete(User.GetLoginedUserId(), id);
         if (res.isSuccess)
         {
             await _producer.SendMessageToQueue(id, "productDeleteQueue");

@@ -194,7 +194,7 @@
                 </div>
                 <div class="modal-footer">
                     <partial name="/views/shared/Partials/_btnCloseModal.cshtml" />
-                    <partial name="/views/shared/Partials/_btnRegister.cshtml" />
+                    <partial name="/views/shared/Partials/_btnRegister.cshtml" model="@("btnRegister")" />
                 </div>
             </div>
         </div>
@@ -213,18 +213,19 @@
                 <div class="modal-body">
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#ProductModels" role="tab" aria-controls="ProductModels" aria-selected="true">مدل ها</a>
+                            <a class="nav-link active" id="hometab" data-toggle="tab" href="#ProductModels" role="tab" aria-controls="ProductModels" aria-selected="true">مدل ها</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">مدل جدید</a>
+                            <a class="nav-link" id="NewProductModelsTab" data-toggle="tab" href="#NewProductModels" role="tab" aria-controls="NewProductModels" aria-selected="false">مدل جدید</a>
                         </li>
                     </ul>
                     <div class="tab-content mt-5" id="myTabContent">
-                        <div class="tab-pane fade show active" id="ProductModels" role="tabpanel" aria-labelledby="home-tab">
+                        <div class="tab-pane fade show active" id="ProductModels" role="tabpanel" aria-labelledby="hometab">
                         </div>
-                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                        <div class="tab-pane fade" id="NewProductModels" role="tabpanel" aria-labelledby="NewProductModelsTab">
                             <form method="post" enctype="multipart/form-data" class="form" id="frmProductModel">
                                 <input type="hidden" asp-for="ProductModels.ProductId" />
+                                <input type="hidden" asp-for="ProductModels.ProductModelId" />
                                 <div class="container">
 
                                     <div class="row">
@@ -249,6 +250,18 @@
                                                 </select>
                                             </div>
                                         </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label asp-for="ProductModels.strPrice">قیمت</label>
+                                                <input asp-for="ProductModels.strPrice" type="text" class="form-control ltr placeholder-text-right JustDigit Number" placeholder="قیمت" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label asp-for="ProductModels.Amount">موجودی</label>
+                                                <input asp-for="ProductModels.Amount" type="text" class="form-control ltr placeholder-text-right JustDigit" placeholder="موجودی" />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </form>
@@ -257,6 +270,7 @@
                 </div>
                 <div class="modal-footer">
                     <partial name="/views/shared/Partials/_btnCloseModal.cshtml" />
+                    <partial name="/views/shared/Partials/_btnRegister.cshtml" model="@("btnRegisterModel")" />
                 </div>
             </div>
         </div>
@@ -286,8 +300,18 @@
                     if (!res.isSuccess) {
                         ToastMessageError(res.message);
                     } else {
+                        
                         HideModal("#ProductModal");
                         loadPage();
+                    }
+                }, null, true)
+            });
+            $("#btnRegisterModel").click(function () {
+                AddOrEditForm("/Product/AddOrEditProductModel", "#frmProductModel", function (res) {
+                    if (!res.isSuccess) {
+                        ToastMessageError(res.message);
+                    } else {
+                        ShowProductModel($("#ProductModels_ProductId").val())
                     }
                 }, null, true)
             });
@@ -297,8 +321,39 @@
         function ShowProductModel(ID) {
             if (ID > 0) {
                 GetFromServer("/Product/GetProductModel", { id: ID }, function (res) {
+                    SetSelect2Val("#ProductModels_ColorId", 0);
+                    $("#ProductModels_ProductId").val(ID);
+                    $("#ProductModels_strPrice").val(null);
+                    $("#ProductModels_Amount").val(null);
                     $("#ProductModels").html(res);
+                    TriggerClick("#hometab");
                     ShowModal("#ProductModelModal");
+                }, true)
+            }
+        }
+        function DeleteProductModel(ID) {
+            if (ID > 0) {
+                Confirmed("پیفام", "آیا مایل به حذف این مورد هستید؟!", function () {
+                    GetFromServer("/Product/DeleteProductModel", { id: ID }, function (res) {
+                        if (!res.isSuccess) {
+                            ToastMessageError(res.message);
+                        } else {
+                            ShowProductModel($("#ProductModels_ProductId").val())
+
+                        }
+                    }, true)
+                })
+            }
+        }
+        function GetProductModel(ID) {
+            if (ID > 0) {
+                GetFromServer("/Product/GetProductModelItem", { id: ID }, function (res) {
+                    SetSelect2Val("#ProductModels_ColorId", res.colorId);
+                    $("#ProductModels_strPrice").val(res.strPrice);
+                    $("#ProductModels_ProductModelId").val(res.productModelId);
+                    $("#ProductModels_ProductId").val(res.productId);
+                    $("#ProductModels_Amount").val(null);
+                    TriggerClick("#NewProductModelsTab");
                 }, true)
             }
         }

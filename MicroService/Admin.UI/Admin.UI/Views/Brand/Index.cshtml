@@ -1,0 +1,134 @@
+﻿	@model BrandModel
+<!--begin::Content-->
+@section Styles {
+
+}
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <!--begin::Subheader-->
+    <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+        <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+            <!--begin::Info-->
+            <div class="d-flex align-items-center flex-wrap mr-2">
+                <!--begin::Page Title-->
+                <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">محصولات</h5>
+                <!--end::Page Title-->
+            </div>
+            <!--end::Info-->
+            <!--begin::Toolbar-->
+            <div class="d-flex align-items-center">
+                <!--begin::Actions-->
+                <partial name="/views/shared/Partials/_btnAdd.cshtml" />
+                <!--end::Actions-->
+
+            </div>
+            <!--end::Toolbar-->
+        </div>
+    </div>
+    <!--end::Subheader-->
+    <!--begin::Entry-->
+    <div class="d-flex flex-column-fluid">
+        <!--begin::Container-->
+        <div class="container">
+            <!--begin::Dashboard-->
+            <!--begin::Row-->
+            <div class="row">
+                <div class="col-12 order-1 order-xxl-2">
+                    <!--begin::List Widget 8-->
+                    <div class="card card-custom card-stretch gutter-b">
+                        <!--begin::Header-->
+                        <div class="card-header border-0">
+                            <h3 class="card-title font-weight-bolder text-dark">محسولات</h3>
+
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body pt-0">
+                            <table id="tblProducts" class="table gy-5 datatable-custom">
+                                <thead>
+                                    <tr>
+
+                                        <th>عنوان </th>
+                                        <th> عدم نمایش</th>
+                                        <th>عملیات</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model is not null && Model.BrandsList is not null)
+                                    {
+                                        foreach (var item in Model.BrandsList)
+                                        {
+                                            <tr>
+                      
+                                                <td>@item.Title</td>
+                                                @if (item.IsHidden == true)
+                                                {
+                                                    <td>
+                                                        <input type="checkbox" disabled checked />
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td>
+                                                        <input type="checkbox" disabled />
+                                                    </td>
+                                                }
+                                                <td>
+                                                    <i onclick="DeleteProduct('@item.BrandId')" class="flaticon-delete mx-1 cursor-pointer" title="حذف"></i>
+                                                    <i onclick="GetProduct('@item.BrandId')" class="flaticon-edit mx-1 cursor-pointer" title="ویرایش"></i>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--end::Body-->
+                    </div>
+                    <!--end: Card-->
+                    <!--end::List Widget 8-->
+                </div>
+            </div>
+            <!--end::Row-->
+            <!--end::Dashboard-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Entry-->
+    <!-- Modal-->
+    <div class="modal fade" id="BrandModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+        <div class="modal-dialog  modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="BrandModalLabel"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" enctype="multipart/form-data" class="form" id="frmBrand">
+
+                        <div class="container">
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <div asp-validation-summary="All"></div>
+                                </div>
+                            </div>
+                            <div class="row">
+  
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <partial name="/views/shared/Partials/_btnCloseModal.cshtml" />
+                    <partial name="/views/shared/Partials/_btnRegister.cshtml" model="@("btnRegister")" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end::Content-->
+@section Scripts {
+}

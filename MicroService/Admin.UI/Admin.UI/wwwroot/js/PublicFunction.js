@@ -225,6 +225,9 @@ function ShowTag(selector) {
 function HideTag(selector) {
     $(selector).hide();
 }
+function TriggerClick(selector) {
+    $(selector).trigger("click");
+}
 
 function ShowModal(selector) {
     $(selector).modal('show');

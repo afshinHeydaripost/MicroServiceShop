@@ -5,6 +5,7 @@
         <tr>
             <th>رنگ</th>
             <th>قیمت </th>
+            <th>موجودی </th>
             <th>عملیات </th>
         </tr>
     </thead>
@@ -15,8 +16,12 @@
             {
                 <tr>
                     <td>@item.ColorTitle</td>
-                    <td>@((item.Price ?? 0).ToString().NumberWithComma())</td>
-                    <td></td>
+                    <td>@item.strPrice</td>
+                    <td>@item.Amount</td>
+                    <td>
+                        <i onclick="DeleteProductModel('@item.ProductModelId')" class="flaticon-delete mx-1 cursor-pointer" title="حذف"></i>
+                        <i onclick="GetProductModel('@item.ProductModelId')" class="flaticon-edit mx-1 cursor-pointer" title="ویرایش"></i>
+                    </td>
                 </tr>
             }
         }

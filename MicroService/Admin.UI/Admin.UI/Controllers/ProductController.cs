@@ -62,12 +62,24 @@ namespace Admin.UI.Controllers
         public async Task<IActionResult> GetProductModel(int id)
         {
             var items = await _productsServiceUrl.SendAuthHeaderAndGetData<List<ProductModelViewMode>>($"api/ProductModels/GetList/{id}", Request.GetCookiesValue("userToken"));
-            return PartialView("_ProductModels",items);
+            return PartialView("_ProductModels", items);
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetProductModelItem(int id)
+        {
+            var item = await _productsServiceUrl.SendAuthHeaderAndGetData<ProductModelViewMode>($"api/ProductModels/{id}", Request.GetCookiesValue("userToken"));
+            return Json(item);
         }
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
             var res = (_productsServiceUrl + $"api/Products/delete/{id}").SendAuthHeaderAndPostData<int, GeneralResponse>(id, Request.GetCookiesValue("userToken"));
+            return Json(res);
+        }
+        [HttpGet]
+        public async Task<IActionResult> DeleteProductModel(int id)
+        {
+            var res = (_productsServiceUrl + $"api/ProductModels/delete/{id}").SendAuthHeaderAndPostData<int, GeneralResponse>(id, Request.GetCookiesValue("userToken"));
             return Json(res);
         }
         #endregion
@@ -101,6 +113,29 @@ namespace Admin.UI.Controllers
             else
             {
                 var res = (_productsServiceUrl + $"api/Products/Update").SendAuthHeaderAndPostData<ProductViewModel, GeneralResponse>(model.Product, Request.GetCookiesValue("userToken"));
+                return Json(res);
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddOrEditProductModel([FromForm] ProductModel model)
+        {
+            if (model.ProductModels.ColorId == null || model.ProductModels.ColorId == 0)
+                return Json(GeneralResponse.Fail("رنگ را وارد کنید"));
+            if (string.IsNullOrEmpty(model.ProductModels.strPrice))
+                return Json(GeneralResponse.Fail("قیمت را وارد کنید"));
+            if (model.ProductModels.ProductId == null || model.ProductModels.ProductId == 0)
+            {
+                return Json(GeneralResponse.Fail(Message.InvalidData));
+            }
+            model.ProductModels.Price = int.Parse(model.ProductModels.strPrice.Replace(",", ""));
+            if (model.ProductModels.ProductModelId == null || model.ProductModels.ProductModelId == 0)
+            {
+                var res = (_productsServiceUrl + $"api/ProductModels/Create").SendAuthHeaderAndPostData<ProductModelViewMode, GeneralResponse>(model.ProductModels, Request.GetCookiesValue("userToken"));
+                return Json(res);
+            }
+            else
+            {
+                var res = (_productsServiceUrl + $"api/ProductModels/Update").SendAuthHeaderAndPostData<ProductModelViewMode, GeneralResponse>(model.ProductModels, Request.GetCookiesValue("userToken"));
                 return Json(res);
             }
         }

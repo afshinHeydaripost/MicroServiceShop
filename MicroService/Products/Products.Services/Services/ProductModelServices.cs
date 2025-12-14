@@ -18,8 +18,13 @@ public class ProductModelServices : IProductModelServices
     }
     public async Task<GeneralResponse<ProductModelViewMode>> Create(ProductModelViewMode item)
     {
+
         try
         {
+            if (await _context.ProductModels.AnyAsync(x => x.ProductId == item.ProductId && x.ColorId == item.ColorId))
+            {
+                return GeneralResponse<ProductModelViewMode>.Fail(item, "این رنگ قبلا ثبت شده است");
+            }
             var obj = item.ToProductModel();
             await _context.ProductModels.AddAsync(obj);
             await _context.SaveChangesAsync();
@@ -71,6 +76,7 @@ public class ProductModelServices : IProductModelServices
             ColorId = x.ColorId,
             ColorTitle = x.Color.Title,
             Price = x.Price ?? 0,
+            strPrice = (x.Price ?? 0).NumberWithComma(),
             ProductCode = x.Product.Code,
             ProductId = x.ProductId,
             ProductModelId = x.ProductModelId,
@@ -86,6 +92,8 @@ public class ProductModelServices : IProductModelServices
             ColorId = x.ColorId,
             ColorTitle = x.Color.Title,
             Price = x.Price ?? 0,
+            Amount=x.ProductStocks.Sum(z=>z.Amount),
+            strPrice = (x.Price ?? 0).NumberWithComma(),
             ProductCode = x.Product.Code,
             ProductId = x.ProductId,
             ProductModelId = x.ProductModelId,
@@ -101,6 +109,10 @@ public class ProductModelServices : IProductModelServices
             var obj = await GetById(item.ProductModelId ?? 0, true);
             if (obj == null)
                 return GeneralResponse.NotFound();
+            if (await _context.ProductModels.AnyAsync(x => x.ProductModelId != item.ProductModelId && x.ProductId == item.ProductId && x.ColorId == item.ColorId))
+            {
+                return GeneralResponse.Fail("این رنگ قبلا ثبت شده است");
+            }
             obj.ColorId = item.ColorId;
             obj.Price = item.Price;
             obj.UpdateDate = DateTime.Now;

@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 namespace Helper.VieModels
 {
-    internal class BrandModel
+    public class BrandModel
     {
+        public List<BrandViewModel> BrandsList { get; set; }
+        public BrandViewModel Brand { get; set; }
     }
     public partial class BrandViewModel
     {
