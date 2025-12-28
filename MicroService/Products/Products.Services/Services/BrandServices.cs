@@ -57,7 +57,7 @@ public class BrandServices : IBrandServices
         var item = await _context.Brands.Where(x => x.BrandId == id).Select(x => new BrandViewModel()
         {
             BrandId = x.BrandId,
-            IsHidden = x.IsHidden,
+            IsHidden = x.IsHidden??false,
             Logo = x.Logo,
             OrderView = x.OrderView,
             Title = x.Title,
@@ -71,7 +71,7 @@ public class BrandServices : IBrandServices
         var query = _context.Brands.Select(x => new BrandViewModel()
         {
             BrandId = x.BrandId,
-            IsHidden = x.IsHidden,
+            IsHidden = x.IsHidden ?? false,
             Logo = x.Logo,
             OrderView = x.OrderView,
             Title = x.Title,

@@ -33,7 +33,7 @@ namespace Admin.UI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetItem(int id)
         {
-            var item = await _productsServiceUrl.SendAuthHeaderAndGetData<ProductViewModel>($"api/Brand/{id}", Request.GetCookiesValue("userToken"));
+            var item = await _productsServiceUrl.SendAuthHeaderAndGetData<BrandViewModel>($"api/Brand/{id}", Request.GetCookiesValue("userToken"));
             return Json(item);
         }
         [HttpGet]
@@ -42,6 +42,38 @@ namespace Admin.UI.Controllers
             var res = (_productsServiceUrl + $"api/Brand/delete/{id}").SendAuthHeaderAndPostData<int, GeneralResponse>(id, Request.GetCookiesValue("userToken"));
             return Json(res);
         }
+        #endregion
+        #region Post
+        [HttpPost]
+        public async Task<IActionResult> AddOrEditBrand([FromForm] BrandModel model)
+        {
+            if (model.Brand.UploadedFile != null)
+            {
+                var resUpload = await model.Brand.UploadedFile.UploadFile(Guid.NewGuid().ToString().Replace("-", ""), new List<FileSizeType>() {
+                        new FileSizeType(){
+                            Size=2000,
+                            Type=FileType.Image
+                        }
+                }, _config.GetValue<string>("DomainName").ToString());
+                if (!resUpload.isSuccess)
+                    return Json(resUpload);
+                model.Brand.Logo = resUpload.obj;
+            }
+            model.Brand.UploadedFile = null;
+            if (string.IsNullOrEmpty(model.Brand.Title))
+                return Json(GeneralResponse.Fail("????? ?????? ????"));
+            if (model.Brand.BrandId == null || model.Brand.BrandId == 0)
+            {
+                var res = (_productsServiceUrl + $"api/Brand/Create").SendAuthHeaderAndPostData<BrandViewModel, GeneralResponse>(model.Brand, Request.GetCookiesValue("userToken"));
+                return Json(res);
+            }
+            else
+            {
+                var res = (_productsServiceUrl + $"api/Brand/Update").SendAuthHeaderAndPostData<BrandViewModel, GeneralResponse>(model.Brand, Request.GetCookiesValue("userToken"));
+                return Json(res);
+            }
+        }
+
         #endregion
     }
 }

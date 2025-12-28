@@ -12,7 +12,7 @@ namespace Helper.VieModels
         public List<BrandViewModel> BrandsList { get; set; }
         public BrandViewModel Brand { get; set; }
     }
-    public partial class BrandViewModel
+    public partial class BrandViewModel : GeneralProp
     {
         public int BrandId { get; set; }
 
@@ -23,13 +23,9 @@ namespace Helper.VieModels
 
         public string Logo { get; set; }
 
-        public bool? IsHidden { get; set; }
+        public bool IsHidden { get; set; }
 
         public int? OrderView { get; set; }
-
-
-        [DataType(DataType.Upload)]
-        public IFormFile? UploadedFile { get; set; }
 
     }
 }

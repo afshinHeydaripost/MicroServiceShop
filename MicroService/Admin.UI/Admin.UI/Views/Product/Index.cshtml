@@ -1,4 +1,7 @@
-﻿	@model ProductModel
+﻿@model ProductModel
+@{
+    ViewData["PageTitle"] = "محصولات";
+}
 <!--begin::Content-->
 @section Styles {
 
@@ -10,7 +13,7 @@
             <!--begin::Info-->
             <div class="d-flex align-items-center flex-wrap mr-2">
                 <!--begin::Page Title-->
-                <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">محصولات</h5>
+                <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">@ViewData["PageTitle"]</h5>
                 <!--end::Page Title-->
             </div>
             <!--end::Info-->
@@ -37,7 +40,7 @@
                     <div class="card card-custom card-stretch gutter-b">
                         <!--begin::Header-->
                         <div class="card-header border-0">
-                            <h3 class="card-title font-weight-bolder text-dark">محسولات</h3>
+                            <h3 class="card-title font-weight-bolder text-dark">@ViewData["PageTitle"]</h3>
 
                         </div>
                         <!--end::Header-->

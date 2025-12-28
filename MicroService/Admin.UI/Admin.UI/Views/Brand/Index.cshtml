@@ -1,4 +1,7 @@
-﻿	@model BrandModel
+﻿@model BrandModel
+@{
+    ViewData["PageTitle"] = "برندها";
+}
 <!--begin::Content-->
 @section Styles {
 
@@ -10,7 +13,7 @@
             <!--begin::Info-->
             <div class="d-flex align-items-center flex-wrap mr-2">
                 <!--begin::Page Title-->
-                <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">محصولات</h5>
+                <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">@ViewData["PageTitle"]</h5>
                 <!--end::Page Title-->
             </div>
             <!--end::Info-->
@@ -37,13 +40,13 @@
                     <div class="card card-custom card-stretch gutter-b">
                         <!--begin::Header-->
                         <div class="card-header border-0">
-                            <h3 class="card-title font-weight-bolder text-dark">محسولات</h3>
+                            <h3 class="card-title font-weight-bolder text-dark">@ViewData["PageTitle"]</h3>
 
                         </div>
                         <!--end::Header-->
                         <!--begin::Body-->
                         <div class="card-body pt-0">
-                            <table id="tblProducts" class="table gy-5 datatable-custom">
+                            <table id="tblBrand" class="table gy-5 datatable-custom">
                                 <thead>
                                     <tr>
 
@@ -58,7 +61,7 @@
                                         foreach (var item in Model.BrandsList)
                                         {
                                             <tr>
-                      
+
                                                 <td>@item.Title</td>
                                                 @if (item.IsHidden == true)
                                                 {
@@ -73,8 +76,8 @@
                                                     </td>
                                                 }
                                                 <td>
-                                                    <i onclick="DeleteProduct('@item.BrandId')" class="flaticon-delete mx-1 cursor-pointer" title="حذف"></i>
-                                                    <i onclick="GetProduct('@item.BrandId')" class="flaticon-edit mx-1 cursor-pointer" title="ویرایش"></i>
+                                                    <i onclick="Delete('@item.BrandId')" class="flaticon-delete mx-1 cursor-pointer" title="حذف"></i>
+                                                    <i onclick="GetItem('@item.BrandId')" class="flaticon-edit mx-1 cursor-pointer" title="ویرایش"></i>
                                                 </td>
                                             </tr>
                                         }
@@ -96,7 +99,7 @@
     <!--end::Entry-->
     <!-- Modal-->
     <div class="modal fade" id="BrandModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
-        <div class="modal-dialog  modal-dialog-centered modal-lg" role="document">
+        <div class="modal-dialog  modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="BrandModalLabel"></h5>
@@ -106,7 +109,8 @@
                 </div>
                 <div class="modal-body">
                     <form method="post" enctype="multipart/form-data" class="form" id="frmBrand">
-
+                        <input type="hidden" asp-for="Brand.BrandId" />
+                        <input type="hidden" asp-for="Brand.Logo" />
                         <div class="container">
 
                             <div class="row">
@@ -115,7 +119,30 @@
                                 </div>
                             </div>
                             <div class="row">
-  
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label asp-for="Brand.Title">عنوان </label>
+                                        <input asp-for="Brand.Title" type="text" class="form-control" placeholder="عنوان " />
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="checkbox-list">
+                                        <label asp-for="Brand.IsHidden" class="checkbox">
+                                            <input type="checkbox" asp-for="Brand.IsHidden" />
+                                            <span></span>
+                                            عدم نمایش
+                                        </label>
+                                    </div>
+                                    <div class="form-group mt-4">
+                                        <label asp-for="Brand.UploadedFile">لوگو</label>
+                                        <input type="file" asp-for="Brand.UploadedFile" onchange="loadFile(event,'ItemPicture')" />
+                                        <br />
+                                        <div class="fv-plugins-message-container text-center mt-3 w-150px m-auto" id="F-See">
+                                            <img id="ItemPicture" class="img-fluid" />
+                                        </div>
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
 
@@ -131,4 +158,57 @@
 </div>
 <!--end::Content-->
 @section Scripts {
+    <script>
+        $(document).ready(function () {
+            ToDataTable("#tblBrand");
+            $("#btnAdd").click(function () {
+                $("#BrandModalLabel").text("افزودن برند جدید");
+                $("#Brand_UploadedFile").val(null);
+                $("#Brand_Title").val(null);
+                SetCheckBoxChecked("#Brand_IsHidden");
+                $("#ItemPicture").attr("src", "");
+                ShowModal("#BrandModal");
+            });
+            $("#btnRegister").click(function () {
+                AddOrEditForm("/Brand/AddOrEditBrand", "#frmBrand", function (res) {
+                    if (!res.isSuccess) {
+                        ToastMessageError(res.message);
+                    } else {
+
+                        HideModal("#BrandModal");
+                        loadPage();
+                    }
+                }, null, true)
+            });
+        })
+        function GetItem(ID) {
+            if (ID > 0) {
+                GetFromServer("/Brand/GetItem", { id: ID }, function (res) {
+                    $("#BrandModalLabel").text("ویرایش برند " + res.title);
+                    $("#Brand_UploadedFile").val(null);
+     
+                    $("#Brand_Title").val(res.title);
+                    $("#Brand_BrandId").val(res.brandId);
+
+                    SetCheckBoxChecked("#Brand_IsHidden", res.isHidden);
+                    $("#ItemPicture").attr("src", res.logo);
+                    ShowModal("#BrandModal");
+                }, true)
+            }
+        }
+        function Delete(ID) {
+            if (ID > 0) {
+                Confirmed("پیفام", "آیا مایل به حذف این مورد هستید؟!", function () {
+                    GetFromServer("/Brand/Delete", { id: ID }, function (res) {
+                        if (!res.isSuccess) {
+                            ToastMessageError(res.message);
+                        } else {
+                            loadPage();
+
+                        }
+                    }, true)
+                })
+            }
+        }
+    </script>
 }
