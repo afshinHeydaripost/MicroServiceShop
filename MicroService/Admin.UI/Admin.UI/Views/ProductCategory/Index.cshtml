@@ -1,9 +1,9 @@
-﻿@model BrandModel
+﻿@model ProductCategoryModel
 @{
-    ViewData["PageTitle"] = "برندها";
+    ViewData["PageTitle"] = "گروه کالا";
 }
 <!--begin::Content-->
-@section Styles {
+@section Styles {`
 
 }
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
@@ -46,7 +46,7 @@
                         <!--end::Header-->
                         <!--begin::Body-->
                         <div class="card-body pt-0">
-                            <table id="tblBrand" class="table gy-5 datatable-custom">
+                            <table id="tblProductCategory" class="table gy-5 datatable-custom">
                                 <thead>
                                     <tr>
 
@@ -56,9 +56,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if (Model is not null && Model.BrandsList is not null)
+                                    @if (Model is not null && Model.List is not null)
                                     {
-                                        foreach (var item in Model.BrandsList)
+                                        foreach (var item in Model.List)
                                         {
                                             <tr>
 
@@ -76,8 +76,8 @@
                                                     </td>
                                                 }
                                                 <td>
-                                                    <i onclick="Delete('@item.BrandId')" class="flaticon-delete mx-1 cursor-pointer" title="حذف"></i>
-                                                    <i onclick="GetItem('@item.BrandId')" class="flaticon-edit mx-1 cursor-pointer" title="ویرایش"></i>
+                                                    <i onclick="Delete('@item.ProductCategoryId')" class="flaticon-delete mx-1 cursor-pointer" title="حذف"></i>
+                                                    <i onclick="GetItem('@item.ProductCategoryId')" class="flaticon-edit mx-1 cursor-pointer" title="ویرایش"></i>
                                                 </td>
                                             </tr>
                                         }
@@ -98,19 +98,19 @@
     </div>
     <!--end::Entry-->
     <!-- Modal-->
-    <div class="modal fade" id="BrandModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+    <div class="modal fade" id="ProductCategoryModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
         <div class="modal-dialog  modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="BrandModalLabel"></h5>
+                    <h5 class="modal-title" id="ProductCategoryModalLabel"></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <i aria-hidden="true" class="ki ki-close"></i>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="post" enctype="multipart/form-data" class="form" id="frmBrand">
-                        <input type="hidden" asp-for="Brand.BrandId" />
-                        <input type="hidden" asp-for="Brand.Logo" />
+                    <form method="post" enctype="multipart/form-data" class="form" id="frmProductCategory">
+                        <input type="hidden" asp-for="Item.ProductCategoryId" />
+                        <input type="hidden" asp-for="Item.ImageUrl" />
                         <div class="container">
 
                             <div class="row">
@@ -121,21 +121,21 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <label asp-for="Brand.Title">عنوان </label>
-                                        <input asp-for="Brand.Title" type="text" class="form-control" placeholder="عنوان " />
+                                        <label asp-for="Item.Title">عنوان </label>
+                                        <input asp-for="Item.Title" type="text" class="form-control" placeholder="عنوان " />
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="checkbox-list">
-                                        <label asp-for="Brand.IsHidden" class="checkbox">
-                                            <input type="checkbox" asp-for="Brand.IsHidden" />
+                                        <label asp-for="Item .IsHidden" class="checkbox">
+                                            <input type="checkbox" asp-for="Item .IsHidden" />
                                             <span></span>
                                             عدم نمایش
                                         </label>
                                     </div>
                                     <div class="form-group mt-4">
-                                        <label asp-for="Brand.UploadedFile">لوگو</label>
-                                        <input type="file" asp-for="Brand.UploadedFile" onchange="loadFile(event,'ItemPicture')" />
+                                        <label asp-for="Item.UploadedFile">لوگو</label>
+                                        <input type="file" asp-for="Item .UploadedFile" onchange="loadFile(event,'ItemPicture')" />
                                         <br />
                                         <div class="fv-plugins-message-container text-center mt-3 w-150px m-auto" id="F-See">
                                             <img id="ItemPicture" class="img-fluid" />
@@ -160,23 +160,23 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
-            ToDataTable("#tblBrand");
+            ToDataTable("#tblProductCategory");
             $("#btnAdd").click(function () {
-                $("#BrandModalLabel").text("افزودن برند جدید");
-                $("#Brand_UploadedFile").val(null);
-                $("#Brand_BrandId").val(null);
-                $("#Brand_Title").val(null);
-                SetCheckBoxChecked("#Brand_IsHidden");
+                $("#ProductCategoryModalLabel").text("افزودن گروه کالا جدید");
+                $("#Item_UploadedFile").val(null);
+                $("#Item_Title").val(null);
+                $("#Item_ProductCategoryId").val(null);
+                SetCheckBoxChecked("#Item_IsHidden");
                 $("#ItemPicture").attr("src", "");
-                ShowModal("#BrandModal");
+                ShowModal("#ProductCategoryModal");
             });
             $("#btnRegister").click(function () {
-                AddOrEditForm("/Brand/AddOrEditBrand", "#frmBrand", function (res) {
+                AddOrEditForm("/ProductCategory/AddOrEditProductCategory", "#frmProductCategory", function (res) {
                     if (!res.isSuccess) {
                         ToastMessageError(res.message);
                     } else {
 
-                        HideModal("#BrandModal");
+                        HideModal("#ProductCategoryModal");
                         loadPage();
                     }
                 }, null, true)
@@ -184,23 +184,23 @@
         })
         function GetItem(ID) {
             if (ID > 0) {
-                GetFromServer("/Brand/GetItem", { id: ID }, function (res) {
-                    $("#BrandModalLabel").text("ویرایش برند " + res.title);
-                    $("#Brand_UploadedFile").val(null);
-     
-                    $("#Brand_Title").val(res.title);
-                    $("#Brand_BrandId").val(res.brandId);
+                GetFromServer("/ProductCategory/GetItem", { id: ID }, function (res) {
+                    $("#ProductCategoryModalLabel").text("ویرایش گروه کالا " + res.title);
+                    $("#Item_UploadedFile").val(null);
 
-                    SetCheckBoxChecked("#Brand_IsHidden", res.isHidden);
-                    $("#ItemPicture").attr("src", res.logo);
-                    ShowModal("#BrandModal");
+                    $("#Item_Title").val(res.title);
+                    $("#Item_ProductCategoryId").val(res.productCategoryId);
+
+                    SetCheckBoxChecked("#Item_IsHidden", res.isHidden);
+                    $("#ItemPicture").attr("src", res.imageUrl);
+                    ShowModal("#ProductCategoryModal");
                 }, true)
             }
         }
         function Delete(ID) {
             if (ID > 0) {
                 Confirmed("پیفام", "آیا مایل به حذف این مورد هستید؟!", function () {
-                    GetFromServer("/Brand/Delete", { id: ID }, function (res) {
+                    GetFromServer("/ProductCategory/Delete", { id: ID }, function (res) {
                         if (!res.isSuccess) {
                             ToastMessageError(res.message);
                         } else {

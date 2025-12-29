@@ -38,7 +38,7 @@ internal static class CopyTo
     {
         return new ProductCategory()
         {
-            ProductCategoryId = x.ProductCategoryId,
+            ProductCategoryId = x.ProductCategoryId ?? 0,
             ImageUrl = x.ImageUrl,
             IsHidden = x.IsHidden,
             OrderView = x.OrderView,

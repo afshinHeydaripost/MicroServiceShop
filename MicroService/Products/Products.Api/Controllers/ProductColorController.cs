@@ -1,10 +1,13 @@
-﻿using Helper.VieModels;
+﻿using Helper;
+using Helper.VieModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Products.DataModel.Models;
 using Products.Services.Interfaces;
 
 
 namespace ProductService.Api.Controllers;
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 
@@ -19,9 +22,9 @@ public class ProductColorController : ControllerBase
 
     [HttpGet("GetList")]
 
-    public async Task<IActionResult> GetList(string text = "")
+    public async Task<IActionResult> GetList(bool showAll = true, string text = "")
     {
-        var list = await _service.GetList(1, text);
+        var list = await _service.GetList(User.GetLoginedUserId(), showAll, text);
         return Ok(list);
     }
 
@@ -54,7 +57,7 @@ public class ProductColorController : ControllerBase
 
     public async Task<IActionResult> Delete(int id)
     {
-        var res = await _service.Delete(id, 1);
+        var res = await _service.Delete(id, User.GetLoginedUserId());
         return Ok(res);
     }
 }

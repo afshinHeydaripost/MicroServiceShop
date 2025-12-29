@@ -56,24 +56,28 @@ public class ProductColorServices : IProductColorServices
     {
         var item = await _context.ProductColors.Where(x => x.ProductColorId == id).Select(x => new ProductColorViewModel()
         {
-            IsHidden = x.IsHidden,
-            ProductColorId=x.ProductColorId,
-            Rgb=x.Rgb,
+            IsHidden = x.IsHidden ?? false,
+            ProductColorId = x.ProductColorId,
+            Rgb = x.Rgb,
             Title = x.Title,
         }).FirstOrDefaultAsync();
         return item;
     }
 
-    public async Task<List<ProductColorViewModel>> GetList(int userId, string text = "")
+    public async Task<List<ProductColorViewModel>> GetList(int userId, bool showAll = true, string text = "")
     {
 
         var query = _context.ProductColors.Select(x => new ProductColorViewModel()
         {
-            IsHidden = x.IsHidden,
+            IsHidden = x.IsHidden ?? false,
             ProductColorId = x.ProductColorId,
             Rgb = x.Rgb,
             Title = x.Title,
         }).AsQueryable();
+        if (!showAll)
+        {
+            query = query.Where(x => !x.IsHidden).AsQueryable();
+        }
         if (!string.IsNullOrEmpty(text))
         {
             query = query.Where(x => x.Title.Contains(text)).AsQueryable();
@@ -86,7 +90,7 @@ public class ProductColorServices : IProductColorServices
         try
         {
 
-            var obj = await GetById(item.ProductColorId??0, true);
+            var obj = await GetById(item.ProductColorId ?? 0, true);
             if (obj == null)
                 return GeneralResponse.NotFound();
 

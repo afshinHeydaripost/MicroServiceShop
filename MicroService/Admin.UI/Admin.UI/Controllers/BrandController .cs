@@ -61,7 +61,7 @@ namespace Admin.UI.Controllers
             }
             model.Brand.UploadedFile = null;
             if (string.IsNullOrEmpty(model.Brand.Title))
-                return Json(GeneralResponse.Fail("????? ?????? ????"));
+                return Json(GeneralResponse.Fail("????? ?? ???? ????"));
             if (model.Brand.BrandId == null || model.Brand.BrandId == 0)
             {
                 var res = (_productsServiceUrl + $"api/Brand/Create").SendAuthHeaderAndPostData<BrandViewModel, GeneralResponse>(model.Brand, Request.GetCookiesValue("userToken"));

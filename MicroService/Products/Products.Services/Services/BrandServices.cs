@@ -57,7 +57,7 @@ public class BrandServices : IBrandServices
         var item = await _context.Brands.Where(x => x.BrandId == id).Select(x => new BrandViewModel()
         {
             BrandId = x.BrandId,
-            IsHidden = x.IsHidden??false,
+            IsHidden = x.IsHidden ?? false,
             Logo = x.Logo,
             OrderView = x.OrderView,
             Title = x.Title,
@@ -65,7 +65,7 @@ public class BrandServices : IBrandServices
         return item;
     }
 
-    public async Task<List<BrandViewModel>> GetList(int userId, string text = "")
+    public async Task<List<BrandViewModel>> GetList(int userId, bool showAll = true, string text = "")
     {
 
         var query = _context.Brands.Select(x => new BrandViewModel()
@@ -76,6 +76,10 @@ public class BrandServices : IBrandServices
             OrderView = x.OrderView,
             Title = x.Title,
         }).AsQueryable();
+        if (!showAll)
+        {
+            query = query.Where(x => !x.IsHidden).AsQueryable();
+        }
         if (!string.IsNullOrEmpty(text))
         {
             query = query.Where(x => x.Title.Contains(text)).AsQueryable();

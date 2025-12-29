@@ -14,6 +14,6 @@ public interface IProductCategoryServices
         Task<GeneralResponse> Update(ProductCategoryViewModel item);
         Task<GeneralResponse> Delete(int id ,int userId);
         Task<ProductCategoryViewModel> GetItem(int id);
-        Task<List<ProductCategoryViewModel>> GetList(int userId, string text = "");
+        Task<List<ProductCategoryViewModel>> GetList(int userId, bool showAll = true, string text = "");
     }
 

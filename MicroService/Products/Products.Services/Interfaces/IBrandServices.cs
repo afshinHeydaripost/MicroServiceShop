@@ -14,6 +14,6 @@ public interface IBrandServices
     Task<GeneralResponse> Update(BrandViewModel item);
     Task<GeneralResponse> Delete(int id,int userId);
     Task<BrandViewModel> GetItem(int id);
-    Task<List<BrandViewModel>> GetList(int userId, string text = "");
+    Task<List<BrandViewModel>> GetList(int userId,bool showAll=true, string text = "");
 }
 

@@ -21,9 +21,9 @@ public class ProductCategoryController : ControllerBase
 
     [HttpGet("GetList")]
 
-    public async Task<IActionResult> GetList(string text = "")
+    public async Task<IActionResult> GetList(bool showAll = true, string text = "")
     {
-        var list = await _service.GetList(User.GetLoginedUserId(), text);
+        var list = await _service.GetList(User.GetLoginedUserId(),showAll, text);
         return Ok(list);
     }
 

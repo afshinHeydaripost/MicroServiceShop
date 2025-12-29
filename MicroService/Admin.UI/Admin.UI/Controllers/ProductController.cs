@@ -21,10 +21,10 @@ namespace Admin.UI.Controllers
         #region Get   
         public async Task<IActionResult> Index()
         {
-            var list = await _productsServiceUrl.SendAuthHeaderAndGetData<List<ProductViewModel>>("api/Products/GetList", Request.GetCookiesValue("userToken"));
-            var listProductCategory = await _productsServiceUrl.SendAuthHeaderAndGetData<List<ProductCategoryViewModel>>("api/ProductCategory/GetList", Request.GetCookiesValue("userToken"));
-            var listBrands = await _productsServiceUrl.SendAuthHeaderAndGetData<List<BrandViewModel>>("api/Brand/GetList", Request.GetCookiesValue("userToken"));
-            var listProductColor = await _productsServiceUrl.SendAuthHeaderAndGetData<List<ProductColorViewModel>>("api/ProductColor/GetList", Request.GetCookiesValue("userToken"));
+            var list = await _productsServiceUrl.SendAuthHeaderAndGetData<List<ProductViewModel>>($"api/Products/GetList", Request.GetCookiesValue("userToken"));
+            var listProductCategory = await _productsServiceUrl.SendAuthHeaderAndGetData<List<ProductCategoryViewModel>>($"api/ProductCategory/GetList?showAll={false}", Request.GetCookiesValue("userToken"));
+            var listBrands = await _productsServiceUrl.SendAuthHeaderAndGetData<List<BrandViewModel>>($"api/Brand/GetList?showAll={false}", Request.GetCookiesValue("userToken"));
+            var listProductColor = await _productsServiceUrl.SendAuthHeaderAndGetData<List<ProductColorViewModel>>($"api/ProductColor/GetList?showAll={false}", Request.GetCookiesValue("userToken"));
             ProductModel item = new ProductModel()
             {
                 Product = new ProductViewModel(),

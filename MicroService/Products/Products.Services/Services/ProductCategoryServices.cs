@@ -56,7 +56,7 @@ public class ProductCategoryServices : IProductCategoryServices
         var item = await _context.ProductCategories.Where(x => x.ProductCategoryId == id).Select(x => new ProductCategoryViewModel()
         {
             ProductCategoryId = x.ProductCategoryId,
-            IsHidden = x.IsHidden,
+            IsHidden = x.IsHidden ?? false,
             ImageUrl = x.ImageUrl,
             OrderView = x.OrderView,
             Title = x.Title,
@@ -64,16 +64,20 @@ public class ProductCategoryServices : IProductCategoryServices
         return item;
     }
 
-    public async Task<List<ProductCategoryViewModel>> GetList(int userId, string text = "")
+    public async Task<List<ProductCategoryViewModel>> GetList(int userId, bool showAll = true, string text = "")
     {
         var query = _context.ProductCategories.Select(x => new ProductCategoryViewModel()
         {
             ProductCategoryId = x.ProductCategoryId,
-            IsHidden = x.IsHidden,
+            IsHidden = x.IsHidden ?? false,
             ImageUrl = x.ImageUrl,
             OrderView = x.OrderView,
             Title = x.Title,
         }).AsQueryable();
+        if (!showAll)
+        {
+            query = query.Where(x => !x.IsHidden).AsQueryable();
+        }
         if (!string.IsNullOrEmpty(text))
         {
             query = query.Where(x => x.Title.Contains(text)).AsQueryable();
@@ -85,7 +89,7 @@ public class ProductCategoryServices : IProductCategoryServices
     {
         try
         {
-            var obj = await GetById(item.ProductCategoryId, true);
+            var obj = await GetById(item.ProductCategoryId??0, true);
             if (obj == null)
                 return GeneralResponse.NotFound();
 

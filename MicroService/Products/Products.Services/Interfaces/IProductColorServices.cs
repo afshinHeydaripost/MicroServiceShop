@@ -14,6 +14,6 @@ public interface IProductColorServices
     Task<GeneralResponse> Update(ProductColorViewModel item);
     Task<GeneralResponse> Delete(int id,int userId);
     Task<ProductColorViewModel> GetItem(int id);
-    Task<List<ProductColorViewModel>> GetList(int userId, string text = "");
+    Task<List<ProductColorViewModel>> GetList(int userId, bool showAll = true, string text = "");
 }
 

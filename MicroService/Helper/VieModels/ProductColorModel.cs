@@ -18,6 +18,6 @@ namespace Helper.VieModels
 
         public string Rgb { get; set; }
 
-        public bool? IsHidden { get; set; }
+        public bool IsHidden { get; set; }
     }
 }
