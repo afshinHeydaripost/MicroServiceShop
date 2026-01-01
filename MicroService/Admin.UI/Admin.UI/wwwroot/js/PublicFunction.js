@@ -250,12 +250,11 @@ function isPhoneNumber(number) {
     return result;
 }
 function ShowLoaderGif() {
-    ShowTag("#gifLoader");
-    $("#gifLoader").css("display", "flex !important");
+    var html = '<div id="gifLoader" class="align-items-center d-flex justify-content-center"><div class="d-flex"><img src="/spinning-loading.gif" /></div></div>';
+    $("body").append(html);
 }
 function HidLoaderGif() {
-    HideTag("#gifLoader");
-    $("#gifLoader").css("display", "none  !important");
+    $("#gifLoader").remove();
 }
 function validateEmail(email) {
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

@@ -5,6 +5,21 @@
 .ltr {
     direction: ltr !important;
 }
+
 .placeholder-text-right::placeholder {
     text-align: right;
 }
+
+#gifLoader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index:10000 !important;
+}
+
+    #gifLoader div {
+        width: 150px;
+        height: 150px;
+    }
