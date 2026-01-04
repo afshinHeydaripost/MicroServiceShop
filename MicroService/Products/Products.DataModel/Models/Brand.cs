@@ -17,5 +17,7 @@ public partial class Brand
 
     public DateTime UpdateDate { get; set; }
 
+    public virtual ICollection<Discount> Discounts { get; set; } = new List<Discount>();
+
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 }

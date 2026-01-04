@@ -22,6 +22,21 @@ internal static class CopyTo
             UpdateDate = DateTime.Now
         };
     }
+
+    internal static Discount ToDiscount(this DiscountViewModel x)
+    {
+        return new Discount()
+        {
+            BrandId = x.BrandId,
+            Active=true,
+            DiscountId=x.DiscountId,
+            ProductCategoryId=x.ProductCategoryId,
+            ProductId=x.ProductId,
+            ProductModelId=x.ProductModelId,
+            Title = x.Title,
+            UpdateDate = DateTime.Now
+        };
+    }
     internal static ProductColor ToProductColor(this ProductColorViewModel x)
     {
         return new ProductColor()
@@ -53,7 +68,7 @@ internal static class CopyTo
             BrandId = x.BrandId,
             CategoryId = x.CategoryId,
             Code = x.Code,
-            Picture=x.Picture,
+            Picture = x.Picture,
             Description = x.Description,
             ProductId = x.ProductId ?? 0,
             IsHidden = x.IsHidden,

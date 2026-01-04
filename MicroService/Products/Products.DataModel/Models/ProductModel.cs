@@ -17,6 +17,8 @@ public partial class ProductModel
 
     public virtual ProductColor Color { get; set; }
 
+    public virtual ICollection<Discount> Discounts { get; set; } = new List<Discount>();
+
     public virtual Product Product { get; set; }
 
     public virtual ICollection<ProductStock> ProductStocks { get; set; } = new List<ProductStock>();

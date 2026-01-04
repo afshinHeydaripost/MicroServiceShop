@@ -27,5 +27,7 @@ public partial class Product
 
     public virtual ProductCategory Category { get; set; }
 
+    public virtual ICollection<Discount> Discounts { get; set; } = new List<Discount>();
+
     public virtual ICollection<ProductModel> ProductModels { get; set; } = new List<ProductModel>();
 }

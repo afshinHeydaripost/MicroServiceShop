@@ -335,13 +335,14 @@ function PostToServerByAntiForgeryToken(url, data, antiForgeryToken, callbackFun
     });
 }
 function AddOrEditForm(Url, frm, callbackFunction, BeforeFunction = null, showLoader = false) {
-    if (showLoader)
-        ShowLoaderGif();
+
     if (BeforeFunction != null && typeof BeforeFunction == 'function') {
         BeforeFunction.call(this, res);
     }
     $.validator.unobtrusive.parse(frm);
     if ($(frm).valid()) {
+        if (showLoader)
+            ShowLoaderGif();
         $.ajax({
             type: "POST",
             dataType: "json",

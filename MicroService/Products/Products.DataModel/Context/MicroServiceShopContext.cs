@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using Products.DataModel.Models;
 
 namespace Products.DataModel.Context;
@@ -16,6 +18,8 @@ public partial class MicroServiceShopContext : DbContext
 
     public virtual DbSet<Brand> Brands { get; set; }
 
+    public virtual DbSet<Discount> Discounts { get; set; }
+
     public virtual DbSet<Product> Products { get; set; }
 
     public virtual DbSet<ProductCategory> ProductCategories { get; set; }
@@ -28,7 +32,7 @@ public partial class MicroServiceShopContext : DbContext
 
 //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-//        => optionsBuilder.UseSqlServer("Server=DESKTOP-A7IIOP1\\LOCALSQL;Database=MicroServiceShop;Trusted_Connection=True;TrustServerCertificate=True;");
+//        => optionsBuilder.UseSqlServer("Server=localhost\\DBSQL;Database=MicroServiceShop;Trusted_Connection=True;Encrypt=False;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -44,6 +48,38 @@ public partial class MicroServiceShopContext : DbContext
                 .IsRequired()
                 .HasMaxLength(100);
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<Discount>(entity =>
+        {
+            entity.ToTable("Discount");
+
+            entity.Property(e => e.DiscountId).HasColumnName("DiscountID");
+            entity.Property(e => e.BrandId).HasColumnName("BrandID");
+            entity.Property(e => e.ProductCategoryId).HasColumnName("ProductCategoryID");
+            entity.Property(e => e.ProductId).HasColumnName("ProductID");
+            entity.Property(e => e.ProductModelId).HasColumnName("ProductModelID");
+            entity.Property(e => e.Title)
+                .IsRequired()
+                .HasMaxLength(100);
+            entity.Property(e => e.UpdateDate).HasColumnType("datetime");
+            entity.Property(e => e.ValidityDate).HasColumnType("datetime");
+
+            entity.HasOne(d => d.Brand).WithMany(p => p.Discounts)
+                .HasForeignKey(d => d.BrandId)
+                .HasConstraintName("FK_Discount_Brand");
+
+            entity.HasOne(d => d.ProductCategory).WithMany(p => p.Discounts)
+                .HasForeignKey(d => d.ProductCategoryId)
+                .HasConstraintName("FK_Discount_ProductCategory");
+
+            entity.HasOne(d => d.Product).WithMany(p => p.Discounts)
+                .HasForeignKey(d => d.ProductId)
+                .HasConstraintName("FK_Discount_Product");
+
+            entity.HasOne(d => d.ProductModel).WithMany(p => p.Discounts)
+                .HasForeignKey(d => d.ProductModelId)
+                .HasConstraintName("FK_Discount_ProductModel");
         });
 
         modelBuilder.Entity<Product>(entity =>

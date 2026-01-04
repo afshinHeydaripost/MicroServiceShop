@@ -1,0 +1,252 @@
+﻿@model DiscountModel
+@{
+    ViewData["PageTitle"] = "تخفیفات";
+}
+<!--begin::Content-->
+@section Styles {
+`
+
+}
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <!--begin::Subheader-->
+    <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+        <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+            <!--begin::Info-->
+            <div class="d-flex align-items-center flex-wrap mr-2">
+                <!--begin::Page Title-->
+                <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">@ViewData["PageTitle"]</h5>
+                <!--end::Page Title-->
+            </div>
+            <!--end::Info-->
+            <!--begin::Toolbar-->
+            <div class="d-flex align-items-center">
+                <!--begin::Actions-->
+                <partial name="/views/shared/Partials/_btnAdd.cshtml" />
+                <!--end::Actions-->
+
+            </div>
+            <!--end::Toolbar-->
+        </div>
+    </div>
+    <!--end::Subheader-->
+    <!--begin::Entry-->
+    <div class="d-flex flex-column-fluid">
+        <!--begin::Container-->
+        <div class="container">
+            <!--begin::Dashboard-->
+            <!--begin::Row-->
+            <div class="row">
+                <div class="col-12 order-1 order-xxl-2">
+                    <!--begin::List Widget 8-->
+                    <div class="card card-custom card-stretch gutter-b">
+                        <!--begin::Header-->
+                        <div class="card-header border-0">
+                            <h3 class="card-title font-weight-bolder text-dark">@ViewData["PageTitle"]</h3>
+
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body pt-0">
+                            <table id="tblProductCategory" class="table gy-5 datatable-custom">
+                                <thead>
+                                    <tr>
+
+                                        <th>عنوان </th>
+                                        <th> فعال</th>
+                                        <th> کالا</th>
+                                        <th> مدل</th>
+                                        <th> گروه کالا</th>
+                                        <th> برند</th>
+                                        <th>عملیات</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model is not null && Model.List is not null)
+                                    {
+                                        foreach (var item in Model.List)
+                                        {
+                                            <tr>
+
+                                                <td>@item.Title</td>
+                                                @if (item.Active == true)
+                                                {
+                                                    <td>
+                                                        <input type="checkbox" disabled checked />
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td>
+                                                        <input type="checkbox" disabled />
+                                                    </td>
+                                                }
+                                                <td>@item.ProductTitle</td>
+                                                <td>@item.ProductModelTitle</td>
+                                                <td>@item.ProductCategoryTitle</td>
+                                                <td>@item.BrandTitle</td>
+                                                <td>
+                                                    <i onclick="Delete('@item.DiscountId')" class="flaticon-delete mx-1 cursor-pointer" title="حذف"></i>
+                                                    <i onclick="GetItem('@item.DiscountId')" class="flaticon-edit mx-1 cursor-pointer" title="ویرایش"></i>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--end::Body-->
+                    </div>
+                    <!--end: Card-->
+                    <!--end::List Widget 8-->
+                </div>
+            </div>
+            <!--end::Row-->
+            <!--end::Dashboard-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Entry-->
+    <!-- Modal-->
+    <div class="modal fade" id="DiscountModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+        <div class="modal-dialog  modal-dialog-centered  modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="DiscountModalLabel"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" enctype="multipart/form-data" class="form" id="frmDiscount">
+                        <input type="hidden" asp-for="Item.DiscountId" />
+                        <div class="container">
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <div asp-validation-summary="All"></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="Item.Title">عنوان </label>
+                                        <input asp-for="Item.Title" type="text" class="form-control" placeholder="عنوان " />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="Item.ProductCategoryId">گروه کالا</label>
+                                        <div></div>
+                                        <select asp-for="Item.ProductCategoryId" class="custom-select form-control w-100">
+                                            <option value="0" selected>--انتخاب کنید--</option>
+                                            @if (Model.ProductCategoryList is not null)
+                                            {
+                                                foreach (var item in Model.ProductCategoryList)
+                                                {
+                                                    <option value="@item.ProductCategoryId">@item.Title</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+
+                                    <div class="form-group">
+                                        <label asp-for="Item.BrandId">برند کالا</label>
+                                        <div></div>
+                                        <select asp-for="Item.BrandId" class="custom-select form-control">
+                                            <option value="0" selected>--انتخاب کنید--</option>
+                                            @if (Model.BrandsList is not null)
+                                            {
+                                                foreach (var item in Model.BrandsList)
+                                                {
+                                                    <option value="@item.BrandId">@item.Title</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="checkbox-list">
+                                        <label asp-for="Item.Active" class="checkbox">
+                                            <input type="checkbox" asp-for="Item.Active" />
+                                            <span></span>
+                                            فعال
+                                        </label>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <partial name="/views/shared/Partials/_btnCloseModal.cshtml" />
+                    <partial name="/views/shared/Partials/_btnRegister.cshtml" model="@("btnRegister")" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end::Content-->
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            ToDataTable("#tblProductCategory");
+            $("#btnAdd").click(function () {
+                $("#DiscountModalLabel").text("افزودن تخفیف جدید");
+          
+                $("#Item_Title").val(null);
+
+                SetSelect2Val("#Item_ProductId", 0);
+                SetSelect2Val("#Item_ProductModelId", 0);
+                SetSelect2Val("#Item_ProductCategoryId", 0);
+                SetSelect2Val("#Item_BrandId", 0);
+                SetCheckBoxChecked("#Item_Active");
+
+                ShowModal("#DiscountModal");
+            });
+            $("#btnRegister").click(function () {
+                AddOrEditForm("/Discount/AddOrEditDiscount", "#frmDiscount", function (res) {
+                    if (!res.isSuccess) {
+                        ToastMessageError(res.message);
+                    } else {
+
+                        HideModal("#DiscountModal");
+                        loadPage();
+                    }
+                }, null, true)
+            });
+        })
+        function GetItem(ID) {
+            if (ID > 0) {
+                GetFromServer("/Discount/GetItem", { id: ID }, function (res) {
+                    $("#DiscountModalLabel").text("ویرایش تخفیف " + res.title);
+                    $("#Item_Title").val(res.title);
+                    $("#Item_ProductCategoryId").val(res.productCategoryId);
+                    $("#Item_ProductId").val(res.productId);
+                    $("#Item_ProductModelId").val(res.productModelId);
+                    $("#Item_ProductCategoryId").val(res.productCategoryId);
+                    $("#Item_BrandId").val(res.brandId);
+                    SetCheckBoxChecked("#Item_Active", res.active);
+                    ShowModal("#DiscountModal");
+                }, true)
+            }
+        }
+        function Delete(ID) {
+            if (ID > 0) {
+                Confirmed("پیفام", "آیا مایل به حذف این مورد هستید؟!", function () {
+                    GetFromServer("/Discount/Delete", { id: ID }, function (res) {
+                        if (!res.isSuccess) {
+                            ToastMessageError(res.message);
+                        } else {
+                            loadPage();
+
+                        }
+                    }, true)
+                })
+            }
+        }
+    </script>
+}
