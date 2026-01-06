@@ -367,6 +367,9 @@ function AddOrEditForm(Url, frm, callbackFunction, BeforeFunction = null, showLo
     }
 }
 
+function ValidationSummaryErrorsClear(selector = ".validation-summary-errors") {
+    $(selector).find("ul").html("");
+}
 function ToSelect2(selector) {
     $(selector).select2();
 }

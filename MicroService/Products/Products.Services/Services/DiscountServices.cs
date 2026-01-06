@@ -19,9 +19,18 @@ public class DiscountServices : IDiscountServices
     }
     public async Task<GeneralResponse> Create(DiscountViewModel item)
     {
+        if ((item.DiscountRate == null || item.DiscountRate == 0) && (string.IsNullOrEmpty(item.StrDiscountPrice) || item.StrDiscountPrice == "0"))
+        {
+            return GeneralResponse.Fail("مبلغ و درصد تخفیف معتبرنیست");
+        }
+        if (string.IsNullOrEmpty(item.ValidityDate) || string.IsNullOrEmpty(item.ValidityTime))
+            return GeneralResponse.Fail("تاریخ و زمان اعتبار را وارد کنید");
         try
         {
+            if (!string.IsNullOrEmpty(item.StrDiscountPrice))
+                item.DiscountPrice = decimal.Parse(item.StrDiscountPrice.Replace(",", ""));
             var obj = item.ToDiscount();
+            obj.ValidityDate = DateTools.ToDateTime(item.ValidityDate + "-" + item.ValidityTime);
             await _context.Discounts.AddAsync(obj);
             await _context.SaveChangesAsync();
             return GeneralResponse.Success();
@@ -67,7 +76,9 @@ public class DiscountServices : IDiscountServices
             ProductCategoryTitle = x.ProductCategory.Title,
             ProductModelTitle = x.ProductModel.Color.Title,
             ProductTitle = x.Product.Title,
-
+            DiscountPrice = x.DiscountPrice,
+            StrDiscountPrice = (int.Parse((x.DiscountPrice ?? 0).ToString())).NumberWithComma(),
+            DiscountRate = x.DiscountRate,
             Title = x.Title,
         }).FirstOrDefaultAsync();
         return item;
@@ -89,6 +100,9 @@ public class DiscountServices : IDiscountServices
             ProductCategoryTitle = x.ProductCategory.Title,
             ProductModelTitle = x.ProductModel.Color.Title,
             ProductTitle = x.Product.Title,
+            StrDiscountPrice = (int.Parse((x.DiscountPrice ?? 0).ToString())).NumberWithComma(),
+            DiscountPrice = x.DiscountPrice,
+            DiscountRate = x.DiscountRate,
         }).AsQueryable();
         if (!string.IsNullOrEmpty(text))
         {
@@ -99,14 +113,24 @@ public class DiscountServices : IDiscountServices
 
     public async Task<GeneralResponse> Update(DiscountViewModel item)
     {
+        if ((item.DiscountRate == null || item.DiscountRate == 0) && (string.IsNullOrEmpty(item.StrDiscountPrice) || item.StrDiscountPrice == "0"))
+        {
+            return GeneralResponse.Fail("مبلغ و درصد تخفیف معتبرنیست");
+        }
+        if (string.IsNullOrEmpty(item.ValidityDate) || string.IsNullOrEmpty(item.ValidityTime))
+            return GeneralResponse.Fail("تاریخ و زمان اعتبار را وارد کنید");
         try
         {
-
+            if (!string.IsNullOrEmpty(item.StrDiscountPrice))
+                item.DiscountPrice = decimal.Parse(item.StrDiscountPrice.Replace(",", ""));
             var obj = await GetById(item.DiscountId, true);
             if (obj == null)
                 return GeneralResponse.NotFound();
             obj.Title = item.Title;
+            obj.ValidityDate = DateTools.ToDateTime(item.ValidityDate + "-" + item.ValidityTime);
             obj.BrandId = item.BrandId;
+            obj.DiscountRate = item.DiscountRate;
+            obj.DiscountPrice = item.DiscountPrice;
             obj.Active = item.Active;
             obj.ProductCategoryId = item.ProductCategoryId;
             obj.ProductId = item.ProductId;

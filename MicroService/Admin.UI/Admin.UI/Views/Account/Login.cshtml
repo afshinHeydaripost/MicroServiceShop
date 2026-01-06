@@ -114,6 +114,7 @@
                 if (!res.isSuccess) {
                     ToastMessageError(res.message)
                 } else {
+                    ShowLoaderGif();
                     ChangeUrl("/")
                 }
             }, true)

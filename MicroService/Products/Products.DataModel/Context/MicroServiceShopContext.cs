@@ -59,6 +59,8 @@ public partial class MicroServiceShopContext : DbContext
             entity.Property(e => e.ProductCategoryId).HasColumnName("ProductCategoryID");
             entity.Property(e => e.ProductId).HasColumnName("ProductID");
             entity.Property(e => e.ProductModelId).HasColumnName("ProductModelID");
+            entity.Property(e => e.DiscountRate).HasColumnName("DiscountRate");
+            entity.Property(e => e.DiscountPrice).HasColumnName("DiscountPrice");
             entity.Property(e => e.Title)
                 .IsRequired()
                 .HasMaxLength(100);

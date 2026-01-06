@@ -22,6 +22,8 @@ public partial class Discount
     public DateTime UpdateDate { get; set; }
 
     public bool Active { get; set; }
+    public decimal? DiscountRate { get; set; }
+    public decimal? DiscountPrice { get; set; }
 
     public virtual Brand Brand { get; set; }
 

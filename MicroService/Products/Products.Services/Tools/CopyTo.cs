@@ -28,6 +28,8 @@ internal static class CopyTo
         return new Discount()
         {
             BrandId = x.BrandId,
+            DiscountPrice=x.DiscountPrice,
+            DiscountRate=x.DiscountRate,
             Active=true,
             DiscountId=x.DiscountId,
             ProductCategoryId=x.ProductCategoryId,

@@ -32,6 +32,12 @@ namespace Helper.VieModels
         [Required(ErrorMessage = "{0} را وارد کنید")]
         [MaxLength(100, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد ")]
         public string ValidityTime { get; set; }
+        [Display(Name = "درصد تخفبف")]
+        public decimal? DiscountRate { get; set; }
+
+        [Display(Name = "مبلغ تخفبف")]
+        public string StrDiscountPrice { get; set; }
+        public decimal? DiscountPrice { get; set; }
 
         public int? ProductId { get; set; }
         public string ProductTitle { get; set; }
