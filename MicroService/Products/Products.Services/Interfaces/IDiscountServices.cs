@@ -15,5 +15,6 @@ public interface IDiscountServices
     Task<GeneralResponse> Delete(int id,int userId);
     Task<DiscountViewModel> GetItem(int id);
     Task<List<DiscountViewModel>> GetList(int userId,bool showAll=true, string text = "");
+    Task<List<DiscountViewModel>> GetActiveList();
 }
 

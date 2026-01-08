@@ -4,7 +4,7 @@
 }
 <!--begin::Content-->
 @section Styles {
-    `
+        `
     <link href="~/lib/persiandatepicker/persiandatepicker-default.css" rel="stylesheet" />
 }
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
@@ -53,6 +53,7 @@
 
                                         <th>عنوان </th>
                                         <th> فعال</th>
+                                        <th> تاریخ و زمان اعتبار</th>
                                         <th> مبلغ تخفیف</th>
                                         <th> درسد تخفیف</th>
                                         <th> کالا</th>
@@ -82,6 +83,7 @@
                                                         <input type="checkbox" disabled />
                                                     </td>
                                                 }
+                                                <td>@item.ValidityDateTime</td>
                                                 <td>@item.StrDiscountPrice</td>
                                                 <td>@item.DiscountRate</td>
                                                 <td>@item.ProductTitle</td>
@@ -136,26 +138,26 @@
                                         <label asp-for="Item.Title">عنوان </label>
                                         <input asp-for="Item.Title" type="text" class="form-control" placeholder="عنوان " />
                                     </div>
-                                </div> 
-                                
+                                </div>
+
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label asp-for="Item.ValidityDate">تاریخ اعتبار</label>
                                         <input asp-for="Item.ValidityDate" type="text" class="form-control" placeholder="تاریخ اعتبار" />
                                     </div>
-                                </div>   
+                                </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label asp-for="Item.ValidityTime">زمان اعتیار </label>
-                                        <input asp-for="Item.ValidityTime" type="text" class="form-control" placeholder="زمان اعتیار " />
+                                        <input asp-for="Item.ValidityTime" type="time" class="form-control" placeholder="زمان اعتیار " />
                                     </div>
-                                </div> 
+                                </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label asp-for="Item.StrDiscountPrice">مبلغ تخفبف </label>
                                         <input asp-for="Item.StrDiscountPrice" type="text" class="form-control" placeholder="مبلغ تخفبف " />
                                     </div>
-                                </div>   
+                                </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label asp-for="Item.DiscountRate">درصد تخفبف </label>
@@ -222,8 +224,10 @@
 @section Scripts {
     <script src="~/lib/persiandatepicker/persiandatepicker.min.js"></script>
     <script>
+        $('#Item_ValidityDate').persianDatepicker();
         $(document).ready(function () {
             $("#Item_ValidityDate").persianDatepicker();
+
             ToDataTable("#tblProductCategory");
             $("#btnAdd").click(function () {
                 $("#DiscountModalLabel").text("افزودن تخفیف جدید");
@@ -266,8 +270,9 @@
                     $("#Item_ProductModelId").val(res.productModelId);
                     $("#Item_ProductCategoryId").val(res.productCategoryId);
                     $("#Item_ValidityDate").val(res.validityDate);
-                    $("#Item_ValidityTime").val(res.validityTim);
+                    $("#Item_ValidityTime").val(res.validityTime);
                     $("#Item_BrandId").val(res.brandId);
+                    $("#Item_DiscountId").val(res.discountId);
                     SetCheckBoxChecked("#Item_Active", res.active);
                     ShowModal("#DiscountModal");
                 }, true)

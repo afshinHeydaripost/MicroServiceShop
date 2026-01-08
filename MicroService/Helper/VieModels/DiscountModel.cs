@@ -35,9 +35,13 @@ namespace Helper.VieModels
         [Display(Name = "درصد تخفبف")]
         public decimal? DiscountRate { get; set; }
 
+
+        [Display(Name = "تاریخ و زمان اعتبار")]
+        public string ValidityDateTime { get; set; }
+
         [Display(Name = "مبلغ تخفبف")]
         public string StrDiscountPrice { get; set; }
-        public decimal? DiscountPrice { get; set; }
+        public int? DiscountPrice { get; set; }
 
         public int? ProductId { get; set; }
         public string ProductTitle { get; set; }

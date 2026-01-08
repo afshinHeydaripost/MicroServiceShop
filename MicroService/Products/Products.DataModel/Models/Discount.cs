@@ -23,7 +23,7 @@ public partial class Discount
 
     public bool Active { get; set; }
     public decimal? DiscountRate { get; set; }
-    public decimal? DiscountPrice { get; set; }
+    public int? DiscountPrice { get; set; }
 
     public virtual Brand Brand { get; set; }
 

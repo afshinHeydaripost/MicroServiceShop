@@ -56,8 +56,6 @@ namespace Admin.UI.Controllers
         [HttpPost]
         public async Task<IActionResult> AddOrEditDiscount([FromForm] DiscountModel model)
         {
-            if (string.IsNullOrEmpty(model.Item.Title))
-                return Json(GeneralResponse.Fail("????? ?? ???? ????"));
             if (model.Item.DiscountId == null || model.Item.DiscountId == 0)
             {
                 var res = (_productsServiceUrl + $"api/Discount/Create").SendAuthHeaderAndPostData<DiscountViewModel, GeneralResponse>(model.Item, Request.GetCookiesValue("userToken"));

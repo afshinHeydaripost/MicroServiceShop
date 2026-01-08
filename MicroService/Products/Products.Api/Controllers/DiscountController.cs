@@ -19,6 +19,14 @@ public class DiscountController : ControllerBase
     {
         _service = service;
     }
+    [HttpGet("GetAll")]
+    [AllowAnonymous]
+
+    public async Task<IActionResult> GetAll()
+    {
+        var list = await _service.GetActiveList();
+        return Ok(list);
+    }
 
     [HttpGet("GetList")]
 

@@ -9,14 +9,23 @@ using System.Threading.Tasks;
 namespace Helper;
 public static class DateTools
 {
-    public static string ToDateTimeFa(DateTime? dateTime = null)
+    public static string ToDateFa(this DateTime dateTime)
     {
-        if (dateTime is null)
-            dateTime = DateTime.Now;
+
         PersianCalendar pc = new PersianCalendar();
-        return string.Format("{0}/{1}/{2}", pc.GetYear(dateTime.Value), pc.GetMonth(dateTime.Value).ToString().PadLeft(2, '0'), pc.GetDayOfMonth(dateTime.Value).ToString().PadLeft(2, '0'));
+        return string.Format("{0}/{1}/{2}", pc.GetYear(dateTime), pc.GetMonth(dateTime).ToString().PadLeft(2, '0'), pc.GetDayOfMonth(dateTime).ToString().PadLeft(2, '0'));
     }
-    public static DateTime ToDateTime(string dateTime)
+    public static string ToTimeFa(this DateTime dateTime)
+    {
+        PersianCalendar pc = new PersianCalendar();
+        return string.Format("{0}:{1}", pc.GetHour(dateTime), pc.GetMinute(dateTime).ToString().PadLeft(2, '0'));
+    }
+    public static string ToDateTimeFa(this DateTime dateTime)
+    {
+        PersianCalendar pc = new PersianCalendar();
+        return string.Format("{0}/{1}/{2} {3}:{4}", pc.GetYear(dateTime), pc.GetMonth(dateTime).ToString().PadLeft(2, '0'), pc.GetDayOfMonth(dateTime).ToString().PadLeft(2, '0'), pc.GetHour(dateTime), pc.GetMinute(dateTime).ToString().PadLeft(2, '0'));
+    }
+    public static DateTime ToDateTime(this string dateTime)
     {
         if (string.IsNullOrEmpty(dateTime))
             return DateTime.Now;
