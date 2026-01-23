@@ -33,7 +33,6 @@ public class GeneralServices<T> : IGeneralServices<T> where T : BaseEntity
 
     public async Task<GeneralResponse> Edit(T item)
     {
-        var res = new GeneralResponse();
         try
         {
             _Context.DetachLocal(item, item.Id);
@@ -48,14 +47,12 @@ public class GeneralServices<T> : IGeneralServices<T> where T : BaseEntity
 
     public async Task<GeneralResponse> Delete(int id)
     {
-        var res = new GeneralResponse();
         try
         {
             var item = await GetById(id);
             if (item == null)
             {
-                res.Message = Message.NotFound;
-                return res;
+                return GeneralResponse.NotFound();
             }
             entities.Remove(item);
             await Save();
@@ -69,7 +66,6 @@ public class GeneralServices<T> : IGeneralServices<T> where T : BaseEntity
 
     public async Task<GeneralResponse> Delete(T entity)
     {
-        var res = new GeneralResponse();
         try
         {
             entities.Remove(entity);

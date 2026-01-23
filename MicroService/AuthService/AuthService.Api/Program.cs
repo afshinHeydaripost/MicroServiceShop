@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Helper.VieModels;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,33 +29,55 @@ builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
 
 #region JWT
+//// --- تنظیمات JWT (می‌توانید مقدار Secret را امن‌تر کنید) ---
+//var jwtSection = builder.Configuration.GetSection("JwtSettings");
+//var jwtSettings = jwtSection.Get<JwtSettingsViewModel>();
+
+//// --- اضافه کردن Authentication/JWT ---
+//var keyBytes = Encoding.UTF8.GetBytes(jwtSettings.SecretKey);
+
+//builder.Services.AddAuthentication(options =>
+//{
+//    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+//    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+//})
+//.AddJwtBearer(options =>
+//{
+//    options.RequireHttpsMetadata = false;
+//    options.SaveToken = true;
+//    options.TokenValidationParameters = new TokenValidationParameters
+//    {
+//        ValidateIssuer = true,
+//        ValidIssuer = jwtSettings.Issuer,
+//        ValidateAudience = true,
+//        ValidAudience = jwtSettings.Audience,
+//        ValidateLifetime = true,
+//        ValidateIssuerSigningKey = true,
+//        IssuerSigningKey = new SymmetricSecurityKey(keyBytes)
+//    };
+//});
+
 // --- تنظیمات JWT (می‌توانید مقدار Secret را امن‌تر کنید) ---
 var jwtSection = builder.Configuration.GetSection("JwtSettings");
 var jwtSettings = jwtSection.Get<JwtSettingsViewModel>();
-
-// --- اضافه کردن Authentication/JWT ---
+//// --- اضافه کردن Authentication/JWT ---
 var keyBytes = Encoding.UTF8.GetBytes(jwtSettings.SecretKey);
-
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
-{
-    options.RequireHttpsMetadata = false;
-    options.SaveToken = true;
-    options.TokenValidationParameters = new TokenValidationParameters
+builder.Services.AddAuthentication("Bearer")
+    .AddJwtBearer("Bearer", options =>
     {
-        ValidateIssuer = true,
-        ValidIssuer = jwtSettings.Issuer,
-        ValidateAudience = true,
-        ValidAudience = jwtSettings.Audience,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(keyBytes)
-    };
-});
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = jwtSettings.Issuer,
+            ValidAudience = jwtSettings.Audience,
+            IssuerSigningKey = new SymmetricSecurityKey(keyBytes)
+        };
+    });
+
+builder.Services.AddAuthorization();
 
 #endregion
 
@@ -98,7 +121,6 @@ app.MapGet("/weatherforecast", () =>
         .ToArray();
     return forecast;
 });
-
 app.Run();
 
 internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)

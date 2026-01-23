@@ -46,7 +46,7 @@ public class UserService : GeneralServices<User>, IUserService
             {
                 return GeneralResponse<UserViewModel>.Fail(new UserViewModel(), access.Message, access.ErrorMessage);
             }
-            var refresh = _tokenService.GenerateRefreshToken(req.ipAddress);
+            var refresh = _tokenService.GenerateRefreshToken(user.Id, req.RememberMe, req.ipAddress);
 
             user.RefreshTokens.Add(refresh);
             await Save();
@@ -61,7 +61,8 @@ public class UserService : GeneralServices<User>, IUserService
                 UserName = user.UserName,
                 Id = user.Id,
                 Token = access.obj,
-                RefreshToken= refresh.Token
+                RememberMe=req.RememberMe,
+                RefreshToken = refresh.Token
             });
         }
         catch (Exception e)
@@ -174,45 +175,60 @@ public class UserService : GeneralServices<User>, IUserService
             return GeneralResponse.Fail(e);
         }
     }
+
     public async Task<GeneralResponse<UserViewModel>> RefreshTokenAsync(LoginRequestViewModel req)
     {
         try
         {
-            var stored = await _Context.RefreshTokens.Include(rt => rt.User)
-                            .FirstOrDefaultAsync(rt => rt.Token == req.Token);
+            var stored = await _Context.RefreshTokens
+                .Include(rt => rt.User)
+                    .ThenInclude(u => u.UserRoles)
+                        .ThenInclude(ur => ur.Role)
+                .FirstOrDefaultAsync(rt => rt.Token == req.Token);
 
-            if (stored == null || stored.Revoked || stored.ExpiresDateTime <= DateTime.UtcNow)
+            if (stored == null ||
+                stored.Revoked ||
+                stored.ExpiresDateTime <= DateTime.UtcNow ||
+                stored.ReplacedByToken != null)
                 return GeneralResponse<UserViewModel>.Fail(Message.LoginFail);
 
-            // rotate
             stored.Revoked = true;
-            var newRefresh = _tokenService.GenerateRefreshToken(req.ipAddress);
+
+            var newRefresh = _tokenService.GenerateRefreshToken(
+                stored.UserId,
+                stored.RememberMe,
+                req.ipAddress);
+
             stored.ReplacedByToken = newRefresh.Token;
-            stored.User!.RefreshTokens.Add(newRefresh);
+
+            _Context.RefreshTokens.Add(newRefresh);
 
             var roles = stored.User.UserRoles.Select(r => r.Role!.Name);
+
             var newAccess = _tokenService.GenerateAccessToken(stored.User, roles);
             if (!newAccess.isSuccess)
-            {
-                return GeneralResponse<UserViewModel>.Fail(new UserViewModel(), newAccess.Message, newAccess.ErrorMessage);
-            }
+                return GeneralResponse<UserViewModel>.Fail(
+                    new UserViewModel(), newAccess.Message, newAccess.ErrorMessage);
+
             await Save();
 
-            return GeneralResponse<UserViewModel>.Success(new UserViewModel()
+            return GeneralResponse<UserViewModel>.Success(new UserViewModel
             {
+                Id = stored.User.Id,
+                UserCode = stored.User.UserCode,
+                UserName = stored.User.UserName,
                 FirstName = stored.User.FirstName,
                 LastName = stored.User.LastName,
-                UserCode = stored.User.UserCode,
                 Email = stored.User.Email,
                 PhoneNumber = stored.User.PhoneNumber,
-                UserName = stored.User.UserName,
-                Id = stored.User.Id,
-                Token = newAccess.obj
+                Token = newAccess.obj,
+                RefreshToken = newRefresh.Token,
+                RememberMe= newRefresh.RememberMe
             });
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            return GeneralResponse<UserViewModel>.Fail(e);
+            return GeneralResponse<UserViewModel>.Fail(ex);
         }
     }
 }

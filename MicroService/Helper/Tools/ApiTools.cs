@@ -10,7 +10,7 @@ namespace Helper;
 
 public static class ApiService
 {
-    public static async Task<TResponse> GetData<TRequest, TResponse>(this string baseUrl, string relativeUrl)
+    public static async Task<TResponse> GetData<TResponse>(this string baseUrl, string relativeUrl)
     {
         string response = "";
         try

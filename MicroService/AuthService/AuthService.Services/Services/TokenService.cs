@@ -28,27 +28,40 @@ public class TokenService : ITokenService
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim(ClaimTypes.Name, user.UserName),
-            new Claim("email", user.Email ?? string.Empty),
-            new Claim("UserCode", user.UserCode ?? string.Empty),
-            new Claim("FirstName", user.FirstName ?? string.Empty),
-            new Claim("LastName", user.LastName ?? string.Empty),
-            new Claim("UserId", user.Id.ToString())
-        };
+                {
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                    new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim("email", user.Email ?? string.Empty),
+                    new Claim("UserCode", user.UserCode ?? string.Empty),
+                    new Claim("FirstName", user.FirstName ?? string.Empty),
+                    new Claim("LastName", user.LastName ?? string.Empty),
+                    new Claim("UserId", user.Id.ToString())
+                };
             claims.AddRange(roles.Select(r => new Claim(ClaimTypes.Role, r)));
 
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddMinutes(double.Parse(_config["JwtSettings:AccessTokenExpirationMinutes"])),
-                Issuer = _config["JwtSettings:Issuer"],
-                Audience = _config["JwtSettings:Audience"],
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(_key), SecurityAlgorithms.HmacSha256Signature)
-            };
 
-            var token = tokenHandler.CreateToken(tokenDescriptor);
+
+            var key = new SymmetricSecurityKey(_key);
+
+            var token = new JwtSecurityToken(
+                issuer: _config["JwtSettings:Issuer"],
+                audience: _config["JwtSettings:Audience"],
+                claims: claims,
+                expires: DateTime.UtcNow.AddMinutes(
+                    int.Parse(_config["JwtSettings:AccessTokenExpirationMinutes"])),
+                signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
+            );
+
+            //var tokenDescriptor = new SecurityTokenDescriptor
+            //{
+            //    Subject = new ClaimsIdentity(claims),
+            //    Expires = DateTime.UtcNow.AddMinutes(double.Parse(_config["JwtSettings:AccessTokenExpirationMinutes"])),
+            //    Issuer = _config["JwtSettings:Issuer"],
+            //    Audience = _config["JwtSettings:Audience"],
+            //    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(_key), SecurityAlgorithms.HmacSha256Signature)
+            //};
+
+            ////var token = tokenHandler.CreateToken(tokenDescriptor);
             var userToken = tokenHandler.WriteToken(token);
             return GeneralResponse<string>.Success(userToken);
         }
@@ -58,15 +71,18 @@ public class TokenService : ITokenService
         }
     }
 
-    public RefreshToken GenerateRefreshToken(string ipAddress)
+    public RefreshToken GenerateRefreshToken(int userId, bool rememberMe, string ipAddress)
     {
-        var token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(256));
         return new RefreshToken
         {
-            Token = token,
-            ExpiresDateTime = DateTime.UtcNow.AddDays(double.Parse(_config["JwtSettings:RefreshTokenExpirationDays"])),
-            CreateDateTime = DateTime.UtcNow,
-            CreatedByIp = ipAddress
+            UserId = userId,
+            Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
+            ExpiresDateTime = DateTime.UtcNow.AddDays(
+                int.Parse(_config["JwtSettings:RefreshTokenExpirationDays"])),
+            CreateDateTime = DateTime.Now,
+            CreatedByIp = ipAddress,
+            RememberMe= rememberMe,
+            Revoked = false
         };
     }
 

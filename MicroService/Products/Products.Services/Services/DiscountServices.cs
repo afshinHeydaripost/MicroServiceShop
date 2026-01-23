@@ -155,7 +155,7 @@ public class DiscountServices : IDiscountServices
 
     public async  Task<List<DiscountViewModel>> GetActiveList()
     {
-        var query = _context.Discounts.Where(x=>x.Active==false && x.ValidityDate>DateTime.Now).Select(x => new DiscountViewModel()
+        var query = _context.Discounts.Where(x=>x.Active && x.ValidityDate>DateTime.Now).Select(x => new DiscountViewModel()
         {
             Title = x.Title,
             BrandId = x.BrandId,

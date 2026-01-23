@@ -20,13 +20,27 @@ public class ProductsController : ControllerBase
         _service = service;
     }
 
+    [HttpGet("GetValidProductList")]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetValidProductList(string text = "")
+    {
+        var list = await _service.GetValidProductList(text);
+        return Ok(list);
+    }
+    [HttpGet("GetNewestProductList")]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetNewestProductList(int rowInPage = 10, string text = "")
+    {
+        var list = await _service.GetNewestProductList(rowInPage,null,text);
+        return Ok(list);
+    }
     [HttpGet("GetList")]
     public async Task<IActionResult> GetList(string text = "")
     {
         var list = await _service.GetList(User.GetLoginedUserId(), text);
         return Ok(list);
-    } 
-    
+    }
+
     [HttpGet("GetCode")]
     public async Task<IActionResult> GetCode()
     {

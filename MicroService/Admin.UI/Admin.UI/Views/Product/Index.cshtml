@@ -78,7 +78,7 @@
                                                 <td>
                                                     <i onclick="DeleteProduct('@item.ProductId')" class="flaticon-delete mx-1 cursor-pointer" title="حذف"></i>
                                                     <i onclick="GetProduct('@item.ProductId')" class="flaticon-edit mx-1 cursor-pointer" title="ویرایش"></i>
-                                                    <i onclick="ShowProductModel('@item.ProductId')" class="flaticon-eye mx-1 cursor-pointer" title="مدل ها"></i>
+                                                    <i onclick="ShowProductModel('@item.ProductId','@item.Title')" class="flaticon-eye mx-1 cursor-pointer" title="مدل ها"></i>
                                                 </td>
                                             </tr>
                                         }
@@ -208,7 +208,7 @@
         <div class="modal-dialog  modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="ProductModalLabel"></h5>
+                    <h5 class="modal-title" id="ProductModalListLabel"></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <i aria-hidden="true" class="ki ki-close"></i>
                     </button>
@@ -303,7 +303,7 @@
                     if (!res.isSuccess) {
                         ToastMessageError(res.message);
                     } else {
-                        
+
                         HideModal("#ProductModal");
                         loadPage();
                     }
@@ -321,9 +321,11 @@
             ToSelect2('.custom-select');
         });
 
-        function ShowProductModel(ID) {
+        function ShowProductModel(ID, title = "") {
             if (ID > 0) {
                 GetFromServer("/Product/GetProductModel", { id: ID }, function (res) {
+                    if (!isNullOrEmpty(title))
+                        $("#ProductModalListLabel").text("مدل های مربوط به کالا " + title)
                     SetSelect2Val("#ProductModels_ColorId", 0);
                     $("#ProductModels_ProductId").val(ID);
                     $("#ProductModels_strPrice").val(null);

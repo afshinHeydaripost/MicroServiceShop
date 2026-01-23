@@ -24,6 +24,10 @@
                     </td>
                 </tr>
             }
+            <tr>
+                <th colspan="2" class="text-right">مجموع </th>
+                <th colspan="2">@Model.Sum(x => x.Amount ?? 0) </th>
+            </tr>
         }
     </tbody>
 </table>

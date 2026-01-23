@@ -17,7 +17,7 @@ public static class CookiesTools
     }
     public static void CreateCookies(this HttpResponse httpRequest, string cookieName, string cookieValue, DateTime? expires = null)
     {
-        if (expires != null)
+        if (expires == null)
             expires = DateTime.Now.AddMinutes(30);
         httpRequest.Cookies.Append(cookieName, cookieValue, new CookieOptions
         {

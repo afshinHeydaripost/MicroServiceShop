@@ -13,6 +13,7 @@ public partial class RefreshToken : BaseEntity
 
     public DateTime ExpiresDateTime { get; set; }
 
+    public bool RememberMe { get; set; }
     public bool Revoked { get; set; }
 
     public DateTime CreateDateTime { get; set; }

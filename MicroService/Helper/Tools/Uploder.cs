@@ -43,7 +43,7 @@ public static class Uploder
 
             if (validFile)
             {
-                var dirName = Guid.NewGuid().ToString().Replace("-","");
+                var dirName = Guid.NewGuid().ToString().Replace("-", "");
                 serverPath = serverPath + "\\" + dirName;
                 checkDirectoryIsExist(serverPath);
                 string file = serverPath + "\\" + fileName + ext;
@@ -56,6 +56,63 @@ public static class Uploder
                     file = domainName + $"Upload/{dirName}/{fileName}{ext}";
                 }
                 return GeneralResponse<string>.Success(file);
+            }
+            if (string.IsNullOrEmpty(errorMessage))
+                errorMessage = errorMessage + " " + Message.InvalidFile;
+            return GeneralResponse<string>.Fail(errorMessage);
+        }
+        catch (Exception ex)
+        {
+            return GeneralResponse<string>.Fail(ex);
+        }
+    }
+    public static async Task<GeneralResponse<string>> FileToBase64(this IFormFile userfile, List<FileSizeType> fileSizeTypes)
+    {
+        var ext = Path.GetExtension(userfile.FileName);
+        bool validFile = false;
+        var errorMessage = "";
+        try
+        {
+            if (extImage.Contains(ext) && fileSizeTypes.Any(x => x.Type == FileType.Image))
+            {
+                var fileSetting = fileSizeTypes.First(x => x.Type == FileType.Image);
+                if (userfile.Length / 1024f < fileSetting.Size)
+                    validFile = true;
+                else
+                    errorMessage = Message.InvalidFileSize;
+
+            }
+            if (extMovie.Contains(ext) && fileSizeTypes.Any(x => x.Type == FileType.Video))
+            {
+                var fileSetting = fileSizeTypes.First(x => x.Type == FileType.Video);
+                if (userfile.Length / 1024f < fileSetting.Size)
+                    validFile = true;
+                else
+                    errorMessage = Message.InvalidFileSize;
+            }
+            if (extDocument.Contains(ext) && fileSizeTypes.Any(x => x.Type == FileType.Document))
+            {
+                var fileSetting = fileSizeTypes.First(x => x.Type == FileType.Document);
+                if (userfile.Length / 1024f < fileSetting.Size)
+                    validFile = true;
+                else
+                    errorMessage = Message.InvalidFileSize;
+            }
+
+            if (validFile)
+            {
+                string fileString = "";
+                if (userfile.Length > 0)
+                {
+                    using (var ms = new MemoryStream())
+                    {
+                        userfile.CopyTo(ms);
+                        var fileBytes = ms.ToArray();
+                        fileString = Convert.ToBase64String(fileBytes);
+                        // act on the Base64 data
+                    }
+                }
+                return GeneralResponse<string>.Success("data:image/jpeg;base64," + fileString);
             }
             if (string.IsNullOrEmpty(errorMessage))
                 errorMessage = errorMessage + " " + Message.InvalidFile;

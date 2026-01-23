@@ -94,7 +94,8 @@ public class ProductCategoryServices : IProductCategoryServices
                 return GeneralResponse.NotFound();
 
             obj.Title = item.Title;
-            obj.ImageUrl = item.ImageUrl;
+            if (!string.IsNullOrEmpty(item.ImageUrl))
+                obj.ImageUrl = item.ImageUrl;
             obj.IsHidden = item.IsHidden;
             obj.OrderView = item.OrderView;
             obj.UpdateDate = DateTime.Now;

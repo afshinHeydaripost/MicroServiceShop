@@ -1,0 +1,41 @@
+﻿@model ProductViewModel
+<!--  = Product =  -->
+<!--  ==========  -->
+<div class="span3">
+    <div class="product">
+        <div class="product-img">
+            <div class="picture">
+                <div class="custome-image-container">
+                    <img src="@Model.Picture" alt="" />
+                </div>
+                <div class="img-overlay">
+                    @*                     <a href="#" class="btn more btn-primary">توضیحات بیشتر</a> *@
+                    <a href="#" class="btn buy btn-danger">اضافه به سبد خرید</a>
+                </div>
+            </div>
+        </div>
+        <div class="main-titles no-margin">
+            <div class="custome-price-container">
+                <span class="title">@Model.Price.Price.NumberWithComma()</span>
+                @if (Model.Price.DisPercent > 0)
+                {
+                    <span class="badge badge-important">@Model.Price.DisPercent</span>
+                    <span class="text-decoration-line-through">@Model.Price.BasePrice.NumberWithComma()</span>
+             
+                }
+            </div>
+            <h5 class="no-margin">@Model.Title</h5>
+        </div>
+        <p class="desc">
+            @Model.BrandTitle
+        </p>
+        <p class="center-align stars">
+            <span class="icon-star stars-clr"></span>
+            <span class="icon-star stars-clr"></span>
+            <span class="icon-star stars-clr"></span>
+            <span class="icon-star stars-clr"></span>
+            <span class="icon-star stars-clr"></span>
+        </p>
+    </div>
+</div>
+<!-- /product -->

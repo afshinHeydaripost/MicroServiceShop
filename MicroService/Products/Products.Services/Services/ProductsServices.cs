@@ -1,10 +1,12 @@
 ﻿using Helper;
+using Helper.Base;
 using Helper.VieModels;
 using Microsoft.EntityFrameworkCore;
 using Products.DataModel.Context;
 using Products.DataModel.Models;
 using Products.Services.Interfaces;
 using Products.Services.Tools;
+using System.Collections.Generic;
 
 namespace Products.Services;
 
@@ -33,6 +35,31 @@ public class ProductsServices : IProductsServices
     private async Task<Product> GetById(int id, bool isModel)
     {
         return await _context.Products.FirstOrDefaultAsync(x => x.ProductId == id);
+    }
+
+    private async Task<List<int>> GetValidProductIds()
+    {
+        try
+        {
+            var products = await _context.ProductsList.FromSqlRaw("exec dbo.GetValidProductIds").ToListAsync();
+            return products.Select(x => x.Id).ToList();
+        }
+        catch (Exception e)
+        {
+            return new List<int>();
+        }
+    }
+    private async Task<List<int>> GetValidProductModelIds(int productId, int? userId = null)
+    {
+        try
+        {
+            var products = await _context.ProductsList.FromSqlRaw("exec dbo.GetValidProductModelIds @ProductId=@P0,@UserId=@P1", productId, userId).ToListAsync();
+            return products.Select(x => x.Id).ToList();
+        }
+        catch (Exception e)
+        {
+            return new List<int>();
+        }
     }
     public async Task<GeneralResponse<ProductViewModel>> Delete(int userId, int id)
     {
@@ -137,5 +164,66 @@ public class ProductsServices : IProductsServices
     {
         return await GetProductMaxCode();
     }
+
+    public async Task<List<ProductViewModel>> GetValidProductList(string text = "")
+    {
+        var validIds = await GetValidProductIds();
+        var query = _context.Products.Where(x => validIds.Contains(x.ProductId)).Select(x => new ProductViewModel()
+        {
+            IsHidden = x.IsHidden ?? false,
+            ProductId = x.ProductId,
+            BrandId = x.BrandId,
+            CategoryId = x.CategoryId,
+            Code = x.Code,
+            BrandTitle = x.Brand.Title,
+            CategoryTitle = x.Category.Title,
+            Picture = x.Picture,
+            Title = x.Title,
+        }).AsQueryable();
+        if (!string.IsNullOrEmpty(text))
+        {
+            query = query.Where(x => x.Title.Contains(text) || x.Code.Contains(text)).AsQueryable();
+        }
+        return CalculatePriceProducts(await  query.ToListAsync(), validIds);
+    }
+    public async Task<List<ProductViewModel>> GetNewestProductList(int rowInPage = 10, int? userId = null, string text = "")
+    {
+        var validIds = await GetValidProductIds();
+        var query = _context.Products.Where(x => validIds.Contains(x.ProductId)).OrderByDescending(x => x.ProductId).Select(x => new ProductViewModel()
+        {
+            IsHidden = x.IsHidden ?? false,
+            ProductId = x.ProductId,
+            BrandId = x.BrandId,
+            CategoryId = x.CategoryId,
+            Code = x.Code,
+            BrandTitle = x.Brand.Title,
+            CategoryTitle = x.Category.Title,
+            Picture = x.Picture,
+            Title = x.Title,
+        }).Take(rowInPage).AsQueryable();
+        if (!string.IsNullOrEmpty(text))
+        {
+            query = query.Where(x => x.Title.Contains(text) || x.Code.Contains(text)).AsQueryable();
+        }
+        return CalculatePriceProducts(await query.ToListAsync(), validIds);
+    }
+    private List<ProductViewModel> CalculatePriceProducts(
+        List<ProductViewModel> products,
+        List<int> validProductIds)
+    {
+        if (products == null || products.Count == 0)
+            return products ?? new List<ProductViewModel>();
+
+        var priceService = new BestPrice(_context, validProductIds);
+
+        foreach (var product in products.Where(p => p.ProductId.HasValue))
+        {
+            product.Price = priceService.ByProductID(product.ProductId.Value);
+        }
+
+        return products;
+    }
+
+
 }
 

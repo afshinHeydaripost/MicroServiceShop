@@ -47,7 +47,9 @@ namespace Helper.VieModels
 
         public string Description { get; set; }
 
-        public bool IsHidden { get; set; }    
+        public bool IsHidden { get; set; }
+
+        public resBestPrice Price { get; set; }
     }
 
     public partial class ProductModelViewMode
@@ -65,6 +67,9 @@ namespace Helper.VieModels
 
         public int? Price { get; set; }
         public string strPrice { get; set; }
+
+
+        public int? BrandId { get; set; }
     }
     public  class ProductStockViewModel
     {
@@ -97,5 +102,11 @@ namespace Helper.VieModels
         public string BrandLogo { get; set; }
         public bool BrandIsHidden { get; set; }
     }
-
+    public class resBestPrice
+    {
+        public int Price { get; set; }
+        public int BasePrice { get; set; }
+        public int DiscountID { get; set; }
+        public float DisPercent { get; set; }
+    }
 }

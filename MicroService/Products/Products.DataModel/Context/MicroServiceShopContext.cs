@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Helper.Base;
+using Helper.VieModels;
 using Microsoft.EntityFrameworkCore;
 using Products.DataModel.Models;
 
@@ -21,12 +23,13 @@ public partial class MicroServiceShopContext : DbContext
     public virtual DbSet<Discount> Discounts { get; set; }
 
     public virtual DbSet<Product> Products { get; set; }
+    public virtual DbSet<BaseEntity> ProductsList { get; set; }
 
     public virtual DbSet<ProductCategory> ProductCategories { get; set; }
 
     public virtual DbSet<ProductColor> ProductColors { get; set; }
 
-    public virtual DbSet<ProductModel> ProductModels { get; set; }
+    public virtual DbSet<Models.ProductModel> ProductModels { get; set; }
 
     public virtual DbSet<ProductStock> ProductStocks { get; set; }
 
@@ -43,7 +46,7 @@ public partial class MicroServiceShopContext : DbContext
             entity.ToTable("Brand");
 
             entity.Property(e => e.BrandId).HasColumnName("BrandID");
-            entity.Property(e => e.Logo).HasMaxLength(500);
+            entity.Property(e => e.Logo);
             entity.Property(e => e.Title)
                 .IsRequired()
                 .HasMaxLength(100);
@@ -92,7 +95,7 @@ public partial class MicroServiceShopContext : DbContext
             entity.Property(e => e.BrandId).HasColumnName("BrandID");
             entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
             entity.Property(e => e.Code).HasMaxLength(100);
-            entity.Property(e => e.Picture).HasMaxLength(500);
+            entity.Property(e => e.Picture);
             entity.Property(e => e.Title).HasMaxLength(300);
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
 
@@ -110,7 +113,7 @@ public partial class MicroServiceShopContext : DbContext
             entity.ToTable("ProductCategory");
 
             entity.Property(e => e.ProductCategoryId).HasColumnName("ProductCategoryID");
-            entity.Property(e => e.ImageUrl).HasMaxLength(500);
+            entity.Property(e => e.ImageUrl);
             entity.Property(e => e.Title)
                 .IsRequired()
                 .HasMaxLength(100);
@@ -133,7 +136,7 @@ public partial class MicroServiceShopContext : DbContext
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
         });
 
-        modelBuilder.Entity<ProductModel>(entity =>
+        modelBuilder.Entity<Models.ProductModel>(entity =>
         {
             entity.ToTable("ProductModel");
 

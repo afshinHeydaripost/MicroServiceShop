@@ -97,7 +97,8 @@ public class BrandServices : IBrandServices
                 return GeneralResponse.NotFound();
 
             obj.Title = item.Title;
-            obj.Logo = item.Logo;
+            if (!string.IsNullOrEmpty(item.Logo))
+                obj.Logo = item.Logo;
             obj.IsHidden = item.IsHidden;
             obj.OrderView = item.OrderView;
             obj.UpdateDate = DateTime.Now;

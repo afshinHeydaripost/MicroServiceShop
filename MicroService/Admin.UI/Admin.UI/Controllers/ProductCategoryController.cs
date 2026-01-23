@@ -49,12 +49,12 @@ namespace Admin.UI.Controllers
         {
             if (model.Item.UploadedFile != null)
             {
-                var resUpload = await model.Item.UploadedFile.UploadFile(Guid.NewGuid().ToString().Replace("-", ""), new List<FileSizeType>() {
+                var resUpload = await model.Item.UploadedFile.FileToBase64(new List<FileSizeType>() {
                         new FileSizeType(){
                             Size=2000,
                             Type=FileType.Image
                         }
-                }, _config.GetValue<string>("DomainName").ToString());
+                });
                 if (!resUpload.isSuccess)
                     return Json(resUpload);
                 model.Item.ImageUrl = resUpload.obj;

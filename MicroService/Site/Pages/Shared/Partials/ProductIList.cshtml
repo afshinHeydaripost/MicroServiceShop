@@ -1,0 +1,8 @@
+﻿@model List<ProductViewModel>
+@if (Model is not null)
+{
+    foreach (var item in Model)
+    {
+        <partial name="/Pages/Shared/Partials/ProductItem.cshtml" model="@item" />
+    }
+}

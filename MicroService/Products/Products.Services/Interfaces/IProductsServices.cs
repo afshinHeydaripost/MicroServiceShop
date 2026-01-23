@@ -15,5 +15,7 @@ namespace Products.Services.Interfaces;
         Task<GeneralResponse<ProductViewModel>> Delete(int userId,int id);
         Task<ProductViewModel> GetItem(int id);
         Task<List<ProductViewModel>> GetList(int userId, string text = "");
+        Task<List<ProductViewModel>> GetValidProductList(string text = "");
+        Task<List<ProductViewModel>> GetNewestProductList(int rowInPage=10,int? userId=null,string text = "");
         Task<string> GetCode(int userId);
     }

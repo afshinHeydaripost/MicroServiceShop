@@ -13,9 +13,14 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
 }
 app.UseStaticFiles();
-app.UseMiddleware<AuthMiddleware>();
-app.UseRouting();
 
+
+app.UseRouting();
+app.UseMiddleware<AuthMiddleware>();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 app.UseAuthorization();
 
 app.MapControllerRoute(
