@@ -4,3 +4,171 @@
     ViewData["Title"] = "فروشکاه";
 }
 
+<!-- Start Partner Area -->
+<div class="partner-area f5f6fa-bg-color ptb-100">
+	<div class="container">
+		<div class="partner-wrap owl-theme owl-carousel">
+			<div class="partner-item">
+				<a href="#">
+					<img src="~/img//partner-logo/partner-logo-1.png" alt="تصویر">
+				</a>
+			</div>
+
+			<div class="partner-item">
+				<a href="#">
+					<img src="~/img//partner-logo/partner-logo-2.png" alt="تصویر">
+				</a>
+			</div>
+
+			<div class="partner-item">
+				<a href="#">
+					<img src="~/img//partner-logo/partner-logo-3.png" alt="تصویر">
+				</a>
+			</div>
+
+			<div class="partner-item">
+				<a href="#">
+					<img src="~/img//partner-logo/partner-logo-4.png" alt="تصویر">
+				</a>
+			</div>
+
+			<div class="partner-item">
+				<a href="#">
+					<img src="~/img//partner-logo/partner-logo-5.png" alt="تصویر">
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- End Partner Area -->
+<!-- Start Popular Courses Area -->
+<section class="courses-area pt-100 pb-70">
+	<div class="container">
+		<div class="section-title">
+			<span>محصولات محبوب</span>
+		</div>
+		<partial name="/Pages/Shared/Partials/ProductIList.cshtml" model="@Model.Products.ProductsList" />
+	</div>
+</section>
+<!-- End Popular Courses Area -->
+<!-- Start News Area -->
+<section class="news-area f5f6fa-bg-color pt-100 pb-70">
+	<div class="container">
+		<div class="section-title">
+			<span>اخبار ما</span>
+			<h2>اخبار اخیر را کاوش کنید</h2>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-6">
+				<div class="single-news">
+					<a href="single-blog.html">
+						<img src="~/img//news-img/news-img-1.jpg" alt="تصویر">
+					</a>
+
+					<div class="news-content">
+						<span class="tag">توسعه</span>
+
+						<a href="single-blog.html">
+							<h3>یادگیری مادام العمر چیست و چگونه می تواند به یادگیری شما کمک کند؟</h3>
+						</a>
+
+						<ul class="lessons">
+							<li>توسط: <a href="#">مدیر</a></li>
+							<li class="float">تاریخ ارسال نشده 1398/02/02</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-6">
+				<div class="row mb-30">
+					<div class="col-lg-4 col-sm-4 pr-0">
+						<div class="news-img bg-2"></div>
+					</div>
+
+					<div class="col-lg-8 col-sm-8 pl-0">
+						<div class="news-listing-content">
+							<span class="tag">روندهای بازار</span>
+
+							<a href="single-blog.html">
+								<h3>همه دانشجویان مشتاق اکنون کارت دانشجویی واجد شرایط هستند!</h3>
+							</a>
+
+							<ul class="lessons">
+								<li>توسط: <a href="#">مدیر</a></li>
+								<li class="float">ارسال شده در 1398/02/02</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<div class="row mb-30">
+					<div class="col-lg-4 col-sm-4 pr-0">
+						<div class="news-img bg-3"></div>
+					</div>
+
+					<div class="col-lg-8 col-sm-8 pl-0">
+						<div class="news-listing-content">
+							<span class="tag">پژوهش</span>
+
+							<a href="single-blog.html">
+								<h3>تعیین هدف واقعی یک آموزش خوب دشوار است.</h3>
+							</a>
+
+							<ul class="lessons">
+								<li>توسط: <a href="#">مدیر</a></li>
+								<li class="float">ارسال شده در 1398/02/02</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<div class="row r-p-mb">
+					<div class="col-lg-4 col-sm-4 pr-0">
+						<div class="news-img bg-4"></div>
+					</div>
+
+					<div class="col-lg-8 col-sm-8 pl-0">
+						<div class="news-listing-content">
+							<span class="tag">نصیحت شغلی</span>
+
+							<a href="single-blog.html">
+								<h3>همه دانشجویان مشتاق اکنون کارت دانشجویی واجد شرایط هستند!</h3>
+							</a>
+
+							<ul class="lessons">
+								<li>توسط: <a href="#">مدیر</a></li>
+								<li class="float">ارسال شده در 1398/02/02</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- End News Area -->
+<!-- Start Subscribe Area -->
+<section class="subscribe-area ebeef5-bg-color ptb-100">
+	<div class="container">
+		<div class="subscribe-wrap">
+			<h2>اشتراک در</h2>
+			<p>در خبرنامه ما مشترک شوید و به روز باشید</p>
+
+			<form class="newsletter-form" data-toggle="validator">
+				<input type="email" class="form-control" placeholder="آدرس ایمیل شما" name="EMAIL" required="" autocomplete="off">
+
+				<button class="default-btn" type="submit">
+					مشترک شوید
+				</button>
+
+				<div id="validator-newsletter" class="form-result"></div>
+			</form>
+			<div class="subscribe-img">
+				<img src="~/img//subscribe-img.png" alt="تصویر">
+			</div>
+		</div>
+	</div>
+</section>
+<!-- End Subscribe Area -->
