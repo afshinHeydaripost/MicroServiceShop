@@ -34,7 +34,7 @@ public class ProductModelServices : IProductModelServices
                 ProductStockViewModel objProductStock = new ProductStockViewModel()
                 {
                     Amount = item.Amount,
-                    ProductModelId = item.ProductModelId ?? 0,
+                    ProductModelId = obj.ProductModelId,
                     UpdateDate = DateTime.Now
                 };
                 await productStockServices.Create(objProductStock);
@@ -124,7 +124,7 @@ public class ProductModelServices : IProductModelServices
                 ProductStockViewModel objProductStock = new ProductStockViewModel()
                 {
                     Amount = item.Amount,
-                    ProductModelId = item.ProductModelId ?? 0,
+                    ProductModelId = obj.ProductModelId,
                     UpdateDate = DateTime.Now
                 };
                 await productStockServices.Create(objProductStock);

@@ -314,6 +314,7 @@
                     if (!res.isSuccess) {
                         ToastMessageError(res.message);
                     } else {
+
                         ShowProductModel($("#ProductModels_ProductId").val())
                     }
                 }, null, true)
@@ -330,6 +331,7 @@
                     $("#ProductModels_ProductId").val(ID);
                     $("#ProductModels_strPrice").val(null);
                     $("#ProductModels_Amount").val(null);
+                    $("#ProductModels_ProductModelId").val(null);
                     $("#ProductModels").html(res);
                     TriggerClick("#hometab");
                     ShowModal("#ProductModelModal");

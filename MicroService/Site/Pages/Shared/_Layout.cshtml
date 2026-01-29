@@ -1,127 +1,863 @@
-﻿
-<!DOCTYPE html>
-<!--[if lt IE 8]>      <html class="no-js lt-ie10 lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie10 lt-ie9"> <![endif]-->
-<!--[if IE 9]>         <html class="no-js lt-ie10"> <![endif]-->
-<!--[if gt IE 8]><!-->
-<html class="no-js">
- <!--<![endif]-->
+﻿<!doctype html>
+<html lang="fa">
 <head>
-    <meta charset="utf-8">
-    <title>Webmarket HTML Template - Home Page</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="ProteusThemes">
-    <partial name="/Pages/Shared/Partials/_Styles.cshtml" />
-    <!-- Fav and touch icons -->
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/apple-touch/144.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/apple-touch/114.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/apple-touch/72.png">
-    <link rel="apple-touch-icon-precomposed" href="images/apple-touch/57.png">
-    <link rel="shortcut icon" href="images/apple-touch/57.png">
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="keywords" content="HTML5,CSS3,HTML,Template,multi-page,Eduon - Education Online Courses & Training HTML Template">
+	<meta name="description" content="Eduon - Education Online Courses & Training HTML Template">
+	<meta name="author" content="Barat Hadian">
+	<!-- Title -->
+	<title>Eduon - قالب HTML ادوون , پوسته سایت شرکتی دوره های آموزش مجازی و یادگیری</title>
+	<partial name="/Pages/Shared/Partials/_Styles.cshtml" />
+
+
+	<!-- Favicon -->
+	<link rel="icon" type="image/png" href="assets/img/favicon.png">
+
+
 </head>
 
+<body>
+@* 	<!-- Start Preloader Area -->
+	<div class="loader-wrapper">
+		<div class="loader">
+			<div class="dot-wrap">
+				<span class="dot"></span>
+				<span class="dot"></span>
+				<span class="dot"></span>
+				<span class="dot"></span>
+			</div>
+		</div>
+	</div>
+	<!-- End Preloader Area --> *@
+	<!-- Start Newsletter Modal -->
+	<div class="modal-newsletter-area">
+		<div class="modal fade" id="exampleModal" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<button type="button" class="close" data-dismiss="modal">
+						<i class="bx bx-x"></i>
+					</button>
 
-<body class="">
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-lg-5 col-sm-5 p-0">
+								<div class="newsletter-img">
+									<img src="~/img//newsletter-img.jpg" alt="تصویر">
+								</div>
+							</div>
 
-    <div class="master-wrapper">
-        <partial name="/Pages/Shared/Partials/_Header.cshtml" />
-        <partial name="/Pages/Shared/Partials/_MainMenu.cshtml" />
+							<div class="col-lg-7 col-sm-7 pl-0">
+								<div class="modal-newsletter-wrap">
+									<h3>مشترک شدن در خبرنامه ما</h3>
+									<p>برای دریافت آخرین به روزرسانی ها و پیشنهادات ما ثبت نام کنید.</p>
 
-        @RenderBody()
-        <partial name="/Pages/Shared/Partials/_Footer.cshtml" />
-        <!--  = Modal Windows =  -->
-        <!--  ==========  -->
-        <!--  = Login =  -->
-        <div id="loginModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h3 id="loginModalLabel"><span class="light">ورود</span> در وبمارکت</h3>
-            </div>
-            <div class="modal-body">
-                <form method="post" action="#">
-                    <div class="control-group">
-                        <label class="control-label hidden shown-ie8" for="inputEmail">نام کاربری</label>
-                        <div class="controls">
-                            <input type="text" class="input-block-level" id="inputEmail" placeholder="Username">
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label hidden shown-ie8" for="inputPassword">رمز عبور</label>
-                        <div class="controls">
-                            <input type="password" class="input-block-level" id="inputPassword" placeholder="Password">
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <div class="controls">
-                            <label class="checkbox">
-                                <input type="checkbox">
-                                مرا به خاطر بسپار
-                            </label>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary input-block-level bold higher">
-                        ورود
-                    </button>
-                </form>
-                <p class="center-align push-down-0">
-                    <a href="#" data-dismiss="modal">رمز عبورتان را فراموش کرده اید؟</a>
-                </p>
-            </div>
-        </div>
+									<form class="newsletter-form" data-toggle="validator">
+										<input type="email" class="form-control" placeholder="آدرس ایمیل شما" name="EMAIL" required="" autocomplete="off">
 
-        <!--  = Register =  -->
-        <div id="registerModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h3 id="registerModalLabel"><span class="light">ثبت نام</span> در وبمارکت</h3>
-            </div>
-            <div class="modal-body">
-                <form method="post" action="#">
-                    <div class="control-group">
-                        <label class="control-label hidden shown-ie8" for="inputUsernameRegister">نام کاربری</label>
-                        <div class="controls">
-                            <input type="text" class="input-block-level" id="inputUsernameRegister" placeholder="Username">
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label hidden shown-ie8" for="inputEmailRegister">ایمیل</label>
-                        <div class="controls">
-                            <input type="email" class="input-block-level" id="inputEmailRegister" placeholder="Email">
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label hidden shown-ie8" for="inputPasswordRegister">رمز عبور</label>
-                        <div class="controls">
-                            <input type="password" class="input-block-level" id="inputPasswordRegister" placeholder="Password">
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-danger input-block-level bold higher">
-                        ثبت نام
-                    </button>
-                </form>
-                <p class="center-align push-down-0">
-                    <a data-toggle="modal" role="button" href="#loginModal" data-dismiss="modal">قبلا ثبت نام کرده اید؟</a>
-                </p>
+										<button class="default-btn" type="submit">
+											مشترک شدن
+										</button>
 
-            </div>
-        </div>
+										<div id="validator-newsletter-2" class="form-result"></div>
 
+										<div class="agree-label">
+											<input type="checkbox" id="chb1">
+											<label for="chb1">
+												این پنجره را دوباره نشان ندهید.
+											</label>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End Newsletter Modal -->
+	<!-- Start Navbar Area -->
+	<div class="navbar-area">
+		<!-- Menu For Mobile Device -->
+		<div class="mobile-nav">
+			<a href="index.html" class="logo">
+				<img src="~/img//logo.png" alt="لوگو">
+			</a>
+		</div>
 
-    </div> <!-- end of master-wrapper -->
-    <!--  ==========  -->
-    <!--  = JavaScript =  -->
-    <!--  ==========  -->
-    <!--  = FB =  -->
+		<!-- Menu For Desktop Device -->
+		<div class="main-nav">
+			<div class="container-fluid">
+				<nav class="navbar navbar-expand-md">
+					<a class="navbar-brand" href="index.html">
+						<img src="~/img//logo.png" alt="لوگو">
+					</a>
 
-    <div id="fb-root"></div>
+					<div class="collapse navbar-collapse mean-menu">
+						<ul class="navbar-nav m-auto">
+							<li class="nav-item">
+								<a href="#" class="nav-link active">
+									خانه
+									<i class="bx bx-chevron-down"></i>
+								</a>
 
+								<ul class="dropdown-menu">
+									<li class="nav-item">
+										<a href="index.html" class="nav-link active">خانه یک</a>
+									</li>
+									<li class="nav-item">
+										<a href="index-2.html" class="nav-link">خانه دو</a>
+									</li>
+									<li class="nav-item">
+										<a href="index-3.html" class="nav-link">خانه سه</a>
+									</li>
+								</ul>
+							</li>
 
-    <partial name="/Pages/Shared/Partials/_Scripts.cshtml" />
-    @await RenderSectionAsync("Scripts", required: false)
+							<li class="nav-item">
+								<a href="#" class="nav-link">
+									دوره های آموزشی
+									<i class="bx bx-chevron-down"></i>
+								</a>
+
+								<ul class="dropdown-menu">
+									<li class="nav-item">
+										<a href="courses.html" class="nav-link">دوره های آموزشی</a>
+									</li>
+									<li class="nav-item">
+										<a href="single-course.html" class="nav-link">دوره تک</a>
+									</li>
+								</ul>
+							</li>
+
+							<li class="nav-item">
+								<a href="#" class="nav-link">
+									صفحات
+									<i class="bx bx-chevron-down"></i>
+								</a>
+
+								<ul class="dropdown-menu">
+									<li class="nav-item">
+										<a href="about.html" class="nav-link">در باره</a>
+									</li>
+									<li class="nav-item">
+										<a href="feedback.html" class="nav-link">بازخورد</a>
+									</li>
+									<li class="nav-item">
+										<a href="#" class="nav-link">
+											مناسبت ها
+											<i class="bx bx-chevron-left"></i>
+										</a>
+
+										<ul class="dropdown-menu">
+											<li class="nav-item">
+												<a href="events.html" class="nav-link">مناسبت ها</a>
+											</li>
+											<li class="nav-item">
+												<a href="single-event.html" class="nav-link">رویداد منفرد</a>
+											</li>
+										</ul>
+									</li>
+									<li class="nav-item">
+										<a href="instructors.html" class="nav-link">مدرسان</a>
+									</li>
+									<li class="nav-item">
+										<a href="#" class="nav-link">
+											کاربر
+											<i class="bx bx-chevron-left"></i>
+										</a>
+
+										<ul class="dropdown-menu">
+											<li class="nav-item">
+												<a href="my-account.html" class="nav-link">حساب من</a>
+											</li>
+											<li class="nav-item">
+												<a href="log-in.html" class="nav-link">وارد شدن</a>
+											</li>
+											<li class="nav-item">
+												<a href="registration.html" class="nav-link">ثبت</a>
+											</li>
+											<li class="nav-item">
+												<a href="recover-password.html" class="nav-link">بازیابی رمز عبور</a>
+											</li>
+										</ul>
+									</li>
+
+									<li class="nav-item">
+										<a href="gallery.html" class="nav-link">گالری</a>
+									</li>
+									<li class="nav-item">
+										<a href="faq.html" class="nav-link">سوالات متداول</a>
+									</li>
+									<li class="nav-item">
+										<a href="privacy-policy.html" class="nav-link">سیاست حفظ حریم خصوصی</a>
+									</li>
+									<li class="nav-item">
+										<a href="terms-conditions.html" class="nav-link">شرایط و ضوابط</a>
+									</li>
+									<li class="nav-item">
+										<a href="coming-soon.html" class="nav-link">به زودی</a>
+									</li>
+									<li class="nav-item">
+										<a href="404.html" class="nav-link">صفحه خطای 404</a>
+									</li>
+								</ul>
+							</li>
+
+							<li class="nav-item">
+								<a href="#" class="nav-link">
+									خرید کنید
+									<i class="bx bx-chevron-down"></i>
+								</a>
+
+								<ul class="dropdown-menu">
+									<li class="nav-item">
+										<a href="shop.html" class="nav-link">خرید کنید</a>
+									</li>
+									<li class="nav-item">
+										<a href="cart.html" class="nav-link">سبد خرید</a>
+									</li>
+									<li class="nav-item">
+										<a href="checkout.html" class="nav-link">وارسی</a>
+									</li>
+									<li class="nav-item">
+										<a href="single-product.html" class="nav-link">تک محصول</a>
+									</li>
+									<li class="nav-item">
+										<a href="wishlist.html" class="nav-link">لیست علاقه مندیها</a>
+									</li>
+								</ul>
+							</li>
+
+							<li class="nav-item">
+								<a href="#" class="nav-link">
+									وبلاگ
+									<i class="bx bx-chevron-down"></i>
+								</a>
+
+								<ul class="dropdown-menu">
+									<li class="nav-item">
+										<a href="blog-column-one.html" class="nav-link">ستون یک وبلاگ</a>
+									</li>
+									<li class="nav-item">
+										<a href="blog-column-two.html" class="nav-link">ستون دو وبلاگ</a>
+									</li>
+									<li class="nav-item">
+										<a href="blog-column-three.html" class="nav-link">ستون سه وبلاگ</a>
+									</li>
+									<li class="nav-item">
+										<a href="blog-left-sidebar.html" class="nav-link">نوار کناری سمت چپ وبلاگ</a>
+									</li>
+									<li class="nav-item">
+										<a href="single-blog.html" class="nav-link">وبلاگ تنها</a>
+									</li>
+								</ul>
+							</li>
+
+							<li class="nav-item">
+								<a href="contact.html" class="nav-link">مخاطب</a>
+							</li>
+						</ul>
+
+						<!-- Start Other Option -->
+						<div class="others-option">
+							<div class="option-item">
+								<i class="search-btn bx bx-search"></i>
+								<i class="close-btn bx bx-x"></i>
+
+								<div class="search-overlay search-popup">
+									<div class="search-box">
+										<form class="search-form">
+											<input class="search-input" name="search" placeholder="جستجو کردن" type="text">
+
+											<button class="search-button" type="submit"><i class="bx bx-search"></i></button>
+										</form>
+									</div>
+								</div>
+							</div>
+
+							<div class="cart-icon">
+								<a href="cart.html">
+									<i class="flaticon-shopping-cart"></i>
+									<span>0</span>
+								</a>
+							</div>
+
+							<div class="register">
+								<a href="my-account.html" class="default-btn">
+									ورود / ثبت نام
+								</a>
+							</div>
+						</div>
+						<!-- End Other Option -->
+					</div>
+				</nav>
+			</div>
+		</div>
+
+		<!-- Start Others Option For Responsive -->
+		<div class="others-option-for-responsive">
+			<div class="container">
+				<div class="dot-menu">
+					<div class="inner">
+						<div class="circle circle-one"></div>
+						<div class="circle circle-two"></div>
+						<div class="circle circle-three"></div>
+					</div>
+				</div>
+
+				<div class="container">
+					<div class="option-inner">
+						<div class="others-option justify-content-center d-flex align-items-center">
+							<div class="option-item">
+								<i class="search-btn bx bx-search"></i>
+								<i class="close-btn bx bx-x"></i>
+
+								<div class="search-overlay search-popup">
+									<div class="search-box">
+										<form class="search-form">
+											<input class="search-input" name="search" placeholder="جستجو کردن" type="text">
+
+											<button class="search-button" type="submit"><i class="bx bx-search"></i></button>
+										</form>
+									</div>
+								</div>
+							</div>
+
+							<div class="cart-icon">
+								<a href="cart.html">
+									<i class="flaticon-shopping-cart"></i>
+									<span>0</span>
+								</a>
+							</div>
+
+							<div class="register">
+								<a href="my-account.html" class="default-btn">
+									ورود / ثبت نام
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- End Others Option For Responsive -->
+	</div>
+	<!-- End Navbar Area -->
+	<!-- Start Banner Area -->
+	<section class="banner-area f5f6fa-bg-color">
+		<div class="container-fluid social">
+			<div class="row align-items-center">
+				<div class="col-lg-6">
+					<div class="banner-content">
+						<h1 class="wow fadeInLeft" data-wow-delay="0.3s">تحصیلات لازم را با متخصصان آموزش آنلاین انجام دهید</h1>
+						<p class="wow fadeInLeft" data-wow-delay="0.6s">لورم ایپسوم به سادگی ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم به مدت 40 سال استاندارد صنعت بوده است.</p>
+
+						<a href="courses.html" class="default-btn wow fadeInLeft" data-wow-delay="0.9s">
+							مشاهده دوره ها
+						</a>
+					</div>
+				</div>
+
+				<div class="col-lg-6">
+					<div class="banner-img wow fadeInRight" data-wow-delay="0.3s">
+						<img src="~/img//banner-img/banner-img-1.jpg" alt="تصویر">
+					</div>
+				</div>
+			</div>
+
+			<!-- Start Social Wrap -->
+			<ul class="social-wrap">
+				<li class="follow-us">
+					ما را دنبال کنید:
+				</li>
+				<li>
+					<a href="#" target="_blank">
+						<i class="bx bxl-twitter"></i>
+					</a>
+				</li>
+				<li>
+					<a href="#" target="_blank">
+						<i class="bx bxl-instagram"></i>
+					</a>
+				</li>
+				<li>
+					<a href="#" target="_blank">
+						<i class="bx bxl-facebook"></i>
+					</a>
+				</li>
+				<li>
+					<a href="#" target="_blank">
+						<i class="bx bxl-linkedin"></i>
+					</a>
+				</li>
+			</ul>
+			<!-- End Social Wrap -->
+		</div>
+	</section>
+	<!-- End Banner Area -->
+	<!-- Start Partner Area -->
+	<div class="partner-area f5f6fa-bg-color ptb-100">
+		<div class="container">
+			<div class="partner-wrap owl-theme owl-carousel">
+				<div class="partner-item">
+					<a href="#">
+						<img src="~/img//partner-logo/partner-logo-1.png" alt="تصویر">
+					</a>
+				</div>
+
+				<div class="partner-item">
+					<a href="#">
+						<img src="~/img//partner-logo/partner-logo-2.png" alt="تصویر">
+					</a>
+				</div>
+
+				<div class="partner-item">
+					<a href="#">
+						<img src="~/img//partner-logo/partner-logo-3.png" alt="تصویر">
+					</a>
+				</div>
+
+				<div class="partner-item">
+					<a href="#">
+						<img src="~/img//partner-logo/partner-logo-4.png" alt="تصویر">
+					</a>
+				</div>
+
+				<div class="partner-item">
+					<a href="#">
+						<img src="~/img//partner-logo/partner-logo-5.png" alt="تصویر">
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End Partner Area -->
+
+	<!-- Start Popular Courses Area -->
+	<section class="courses-area pt-100 pb-70">
+		<div class="container">
+			<div class="section-title">
+				<span>دوره های محبوب</span>
+				<h2>برای کسب اطلاعات بیشتر یک دوره را انتخاب کنید</h2>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-4 col-md-6">
+					<div class="single-course">
+						<a href="single-course.html">
+							<img src="~/img//course-img/course-img-1.jpg" alt="تصویر">
+						</a>
+
+						<div class="course-content">
+							<span class="price">39 ت </span>
+							<span class="tag">آموزش</span>
+
+							<a href="single-course.html">
+								<h3>تدوین استراتژی برای آموزش و یادگیری آنلاین</h3>
+							</a>
+
+							<ul class="rating">
+								<li>
+									<i class="bx bxs-star"></i>
+								</li>
+								<li>
+									<i class="bx bxs-star"></i>
+								</li>
+								<li>
+									<i class="bx bxs-star"></i>
+								</li>
+								<li>
+									<i class="bx bxs-star"></i>
+								</li>
+								<li>
+									<i class="bx bxs-star"></i>
+								</li>
+								<li>
+									<span>0.5 </span>
+									<a href="#">(1 امتیاز)</a>
+								</li>
+							</ul>
+
+							<p>لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است. لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است.</p>
+
+							<ul class="lessons">
+								<li>0 درس</li>
+								<li class="float">44 دانشجو</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-4 col-md-6">
+					<div class="single-course">
+						<a href="single-course.html">
+							<img src="~/img//course-img/course-img-2.jpg" alt="تصویر">
+						</a>
+
+						<div class="course-content">
+							<span class="price">59 ت </span>
+							<span class="tag">حسابداری</span>
+
+							<a href="single-course.html">
+								<h3>دوره مدیریت منابع انسانی و حقوق و دستمزد</h3>
+							</a>
+
+							<ul class="rating">
+								<li>
+									<i class="bx bxs-star"></i>
+								</li>
+								<li>
+									<i class="bx bxs-star"></i>
+								</li>
+								<li>
+									<i class="bx bxs-star"></i>
+								</li>
+								<li>
+									<i class="bx bxs-star"></i>
+								</li>
+								<li>
+									<i class="bx bxs-star"></i>
+								</li>
+								<li>
+									<span>0.5 </span>
+									<a href="#">(3 امتیاز)</a>
+								</li>
+							</ul>
+
+							<p>لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است. لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است.</p>
+
+							<ul class="lessons">
+								<li>0 درس</li>
+								<li class="float">24 دانشجو</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-4 col-md-6">
+					<div class="single-course">
+						<a href="single-course.html">
+							<img src="~/img//course-img/course-img-3.jpg" alt="تصویر">
+						</a>
+
+						<div class="course-content">
+							<span class="price">29 ت </span>
+							<span class="tag">زبان</span>
+
+							<a href="single-course.html">
+								<h3>انگلیسی: املا ، علائم نگارشی و دستور زبان خود را تقویت کنید</h3>
+							</a>
+
+							<ul class="rating">
+								<li>
+									<i class="bx bxs-star"></i>
+								</li>
+								<li>
+									<i class="bx bxs-star"></i>
+								</li>
+								<li>
+									<i class="bx bxs-star"></i>
+								</li>
+								<li>
+									<i class="bx bxs-star"></i>
+								</li>
+								<li>
+									<i class="bx bxs-star"></i>
+								</li>
+								<li>
+									<span>0.5 </span>
+									<a href="#">(5 امتیاز)</a>
+								</li>
+							</ul>
+
+							<p>لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است. لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است.</p>
+
+							<ul class="lessons">
+								<li>0 درس</li>
+								<li class="float">39 دانشجو</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-4 col-md-6">
+					<div class="single-course">
+						<a href="single-course.html">
+							<img src="~/img//course-img/course-img-4.jpg" alt="تصویر">
+						</a>
+
+						<div class="course-content">
+							<span class="price">49 ت </span>
+							<span class="tag">تدریس</span>
+
+							<a href="single-courses.html">
+								<h3>آشنایی با امنیت سایبری برای معلمان</h3>
+							</a>
+
+							<ul class="rating">
+								<li>
+									<i class="bx bxs-star"></i>
+								</li>
+								<li>
+									<i class="bx bxs-star"></i>
+								</li>
+								<li>
+									<i class="bx bxs-star"></i>
+								</li>
+								<li>
+									<i class="bx bxs-star"></i>
+								</li>
+								<li>
+									<i class="bx bxs-star"></i>
+								</li>
+								<li>
+									<span>0.5 </span>
+									<a href="#">(2 امتیاز)</a>
+								</li>
+							</ul>
+
+							<p>لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است. لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است.</p>
+
+							<ul class="lessons">
+								<li>0 درس</li>
+								<li class="float">50 دانشجو</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-4 col-md-6">
+					<div class="single-course">
+						<a href="single-course.html">
+							<img src="~/img//course-img/course-img-5.jpg" alt="تصویر">
+						</a>
+
+						<div class="course-content">
+							<span class="price">39 ت </span>
+							<span class="tag">تدریس</span>
+
+							<a href="single-course.html">
+								<h3>یادگیری اجرای ارزیابی ارزیابی</h3>
+							</a>
+
+							<ul class="rating">
+								<li>
+									<i class="bx bxs-star"></i>
+								</li>
+								<li>
+									<i class="bx bxs-star"></i>
+								</li>
+								<li>
+									<i class="bx bxs-star"></i>
+								</li>
+								<li>
+									<i class="bx bxs-star"></i>
+								</li>
+								<li>
+									<i class="bx bxs-star"></i>
+								</li>
+								<li>
+									<span>0.5 </span>
+									<a href="#">(1 امتیاز)</a>
+								</li>
+							</ul>
+
+							<p>لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است. لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است.</p>
+
+							<ul class="lessons">
+								<li>0 درس</li>
+								<li class="float">44 دانشجو</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-4 col-md-6">
+					<div class="single-course">
+						<a href="single-course.html">
+							<img src="~/img//course-img/course-img-6.jpg" alt="تصویر">
+						</a>
+
+						<div class="course-content">
+							<span class="price">59 ت </span>
+							<span class="tag">آموزش</span>
+
+							<a href="single-course.html">
+								<h3>آموزش زبان در مدارس ابتدایی: تحقیق</h3>
+							</a>
+
+							<ul class="rating">
+								<li>
+									<i class="bx bxs-star"></i>
+								</li>
+								<li>
+									<i class="bx bxs-star"></i>
+								</li>
+								<li>
+									<i class="bx bxs-star"></i>
+								</li>
+								<li>
+									<i class="bx bxs-star"></i>
+								</li>
+								<li>
+									<i class="bx bxs-star"></i>
+								</li>
+								<li>
+									<span>0.5 </span>
+									<a href="#">(3 امتیاز)</a>
+								</li>
+							</ul>
+
+							<p>لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است. لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است.</p>
+
+							<ul class="lessons">
+								<li>0 درس</li>
+								<li class="float">44 دانشجو</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- End Popular Courses Area -->
+	<!-- Start News Area -->
+	<section class="news-area f5f6fa-bg-color pt-100 pb-70">
+		<div class="container">
+			<div class="section-title">
+				<span>اخبار ما</span>
+				<h2>اخبار اخیر را کاوش کنید</h2>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="single-news">
+						<a href="single-blog.html">
+							<img src="~/img//news-img/news-img-1.jpg" alt="تصویر">
+						</a>
+
+						<div class="news-content">
+							<span class="tag">توسعه</span>
+
+							<a href="single-blog.html">
+								<h3>یادگیری مادام العمر چیست و چگونه می تواند به یادگیری شما کمک کند؟</h3>
+							</a>
+
+							<ul class="lessons">
+								<li>توسط: <a href="#">مدیر</a></li>
+								<li class="float">تاریخ ارسال نشده 1398/02/02</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-6">
+					<div class="row mb-30">
+						<div class="col-lg-4 col-sm-4 pr-0">
+							<div class="news-img bg-2"></div>
+						</div>
+
+						<div class="col-lg-8 col-sm-8 pl-0">
+							<div class="news-listing-content">
+								<span class="tag">روندهای بازار</span>
+
+								<a href="single-blog.html">
+									<h3>همه دانشجویان مشتاق اکنون کارت دانشجویی واجد شرایط هستند!</h3>
+								</a>
+
+								<ul class="lessons">
+									<li>توسط: <a href="#">مدیر</a></li>
+									<li class="float">ارسال شده در 1398/02/02</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+					<div class="row mb-30">
+						<div class="col-lg-4 col-sm-4 pr-0">
+							<div class="news-img bg-3"></div>
+						</div>
+
+						<div class="col-lg-8 col-sm-8 pl-0">
+							<div class="news-listing-content">
+								<span class="tag">پژوهش</span>
+
+								<a href="single-blog.html">
+									<h3>تعیین هدف واقعی یک آموزش خوب دشوار است.</h3>
+								</a>
+
+								<ul class="lessons">
+									<li>توسط: <a href="#">مدیر</a></li>
+									<li class="float">ارسال شده در 1398/02/02</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+					<div class="row r-p-mb">
+						<div class="col-lg-4 col-sm-4 pr-0">
+							<div class="news-img bg-4"></div>
+						</div>
+
+						<div class="col-lg-8 col-sm-8 pl-0">
+							<div class="news-listing-content">
+								<span class="tag">نصیحت شغلی</span>
+
+								<a href="single-blog.html">
+									<h3>همه دانشجویان مشتاق اکنون کارت دانشجویی واجد شرایط هستند!</h3>
+								</a>
+
+								<ul class="lessons">
+									<li>توسط: <a href="#">مدیر</a></li>
+									<li class="float">ارسال شده در 1398/02/02</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- End News Area -->
+	<!-- Start Subscribe Area -->
+	<section class="subscribe-area ebeef5-bg-color ptb-100">
+		<div class="container">
+			<div class="subscribe-wrap">
+				<h2>اشتراک در</h2>
+				<p>در خبرنامه ما مشترک شوید و به روز باشید</p>
+
+				<form class="newsletter-form" data-toggle="validator">
+					<input type="email" class="form-control" placeholder="آدرس ایمیل شما" name="EMAIL" required="" autocomplete="off">
+
+					<button class="default-btn" type="submit">
+						مشترک شوید
+					</button>
+
+					<div id="validator-newsletter" class="form-result"></div>
+				</form>
+				<div class="subscribe-img">
+					<img src="~/img//subscribe-img.png" alt="تصویر">
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- End Subscribe Area -->
+	<partial name="/Pages/Shared/Partials/_Footer.cshtml" />
+	<!-- Start Go Top Area -->
+	<div class="go-top">
+		<i class='bx bx-chevrons-up'></i>
+		<i class='bx bx-chevrons-up'></i>
+	</div>
+	<!-- End Go Top Area -->
+	<partial name="/Pages/Shared/Partials/_Scripts.cshtml" />
+	@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
 
+@RenderBody()
 
 
 

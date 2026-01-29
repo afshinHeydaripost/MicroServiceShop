@@ -73,7 +73,7 @@ namespace Admin.UI.Class.Middlewares
         //    try
         //    {
         //        var tokenHandler = new JwtSecurityTokenHandler();
-        //        var key = Encoding.UTF8.GetBytes(_config["Jwt:Key"]);
+        //        var key = Encoding.UTF8.GetBytes(_config["JwtSettings:SecretKey"]);
 
         //        return tokenHandler.ValidateToken(token, new TokenValidationParameters
         //        {
@@ -81,8 +81,8 @@ namespace Admin.UI.Class.Middlewares
         //            ValidateAudience = true,
         //            ValidateLifetime = true,
         //            ValidateIssuerSigningKey = true,
-        //            ValidIssuer = _config["Jwt:Issuer"],
-        //            ValidAudience = _config["Jwt:Audience"],
+        //            ValidIssuer = _config["JwtSettings:Issuer"],
+        //            ValidAudience = _config["JwtSettings:Audience"],
         //            IssuerSigningKey = new SymmetricSecurityKey(key),
         //            ClockSkew = TimeSpan.Zero
         //        }, out _);
