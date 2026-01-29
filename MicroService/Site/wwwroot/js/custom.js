@@ -1,602 +1,445 @@
-/*jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true, strict:true, undef:true, unused:true, curly:true, browser:true, jquery:true, indent:4, maxerr:50 */
-/* global _, Tour */
+﻿(function($) {
+	'use strict';
+	// Mean Menu JS
+	jQuery('.mean-menu').meanmenu({ 
+		meanScreenWidth: "991"
+	});
 
-//  ========== 
-//  = Custom JS and jQuery = 
-//  ========== 
-// variables
-var WebMarketVars = {
-    currencyBefore: true, // true foe the currencies like USD, where the symbol comes before the number ($123.45). False for the symbol after the number (123,45 €) 
-    currencySymbol: "$",
-    priceRange: [ 0, 1750 ], // minimum and maximum range for the price range selector
-    priceStep: 50
-};
+	// Preloader JS
+	$(function() {
+		$('body').addClass('loaded');
+	});
 
-jQuery(document).ready(function($) {
-    "use strict";
-    
-    /**
-     * Set the ie10 class to html tag for IE10
-     */
-    if (/*@cc_on!@*/false) {  
-        document.documentElement.className+=' ie10';  
-    }  
-    
-    /**
-     * Below the first responsive break we assume touch behaviour
-     */
-    var isTouch = function() {
-        return $(window).width() < 980 ? true : false;
-    };
-    var determineScreenClass = function() {
-        $("html").toggleClass("large-screen", !isTouch());
-    };
+	// Nice Select JS
+	$('select').niceSelect();
+	
+	// Header Sticky JS
+	$(window).on('scroll', function() {
+		if ($(this).scrollTop() >150){  
+			$('.navbar-area').addClass("is-sticky");
+		}
+		else{
+			$('.navbar-area').removeClass("is-sticky");
+		}
+	});
 
+	// Partner Wrap JS
+	$('.partner-wrap').owlCarousel({
+		loop: true,
+		margin: 30,
+		nav: false,
+		dots: false,
+		autoplay: true,
+		smartSpeed: 1000,
+		autoplayHoverPause: true,
+		rtl :true,
+		responsive:{
+			0:{
+				items:2,
+			},
+			576:{
+				items:3,
+			},
+			768:{
+				items:4,
+			},
+			992:{
+				items:6,
+			},
+			1200:{
+				items:6,
+			}
+		}
+	});
 
+	// Feedback Wrap JS
+	$('.feedback-slider').owlCarousel({
+		loop: true,
+		margin: 30,
+		nav: false,
+		items:1,
+		dots: true,
+		autoplay: true,
+		smartSpeed: 1000,
+		autoplayHoverPause: true,
+		rtl :true,
+	});
+	
+	// Discover Slider JS
+	$('.discover-slider').owlCarousel({
+		loop: true,
+		margin: 30,
+		nav: false,
+		dots: true,
+		autoplay: true,
+		smartSpeed: 1000,
+		autoplayHoverPause: true,
+		rtl: true,
+		responsive:{
+			0:{
+				items:1,
+			},
+			576:{
+				items:2,
+			},
+			768:{
+				items:2,
+			},
+			992:{
+				items:2,
+			},
+			1200:{
+				items:2,
+			}
+		}
+	});
 
-    //  ========== 
-    //  = Smooth scroll to the top of the page & scroll menu = 
-    //  ==========
-    $("#toTheTop").click(function() {
-        $("html, body").animate({
-            scrollTop: 0
-        }, 2e3, "easeInOutQuart");
-        return false;
-    });
-    $("#spyMenu a").click(function() {
-        var $this = $(this);
-        $("html, body").animate({
-            scrollTop: $($this.attr("href")).offset().top - 70
-        }, 700, "easeInOutQuart");
-        return false;
-    });
-    //  ========== 
-    //  = Carousel = 
-    //  ==========
-    $(window).load(function() {
-        var configuration = {
-            debug: false,
-            auto: {
-                play: false
-            },
-            width: "100%",
-            height: "variable",
-            items: {
-                height: "variable"
-            },
-            prev: {},
-            next: {},
-            pagination: {},
-            scroll: {
-                duration: 1e3,
-                items: 1
-            },
-            transition: true
-        };
-        $(".carouFredSel").each(function() {
-            var $this = $(this);
-            // prev and next buttons
-            configuration.prev.button = $("#" + $this.data("nav") + "Left");
-            configuration.next.button = $("#" + $this.data("nav") + "Right");
-            // responsive param
-            if ($this.data("responsive")) {
-                configuration.responsive = true;
-            } else {
-                configuration.responsive = false;
-            }
-            // autoplay param
-            if (true === $this.data("autoplay")) {
-                configuration.auto.play = true;
-            }
-            // onCreate the slides should not be wider than the container, no matter what
-            configuration.onCreate = function() {
-                $this.find(".slide").css({
-                    width: $this.parent().width()
-                });
-            };
-            // RUN THE CAROUSEL
-            $this.carouFredSel(configuration);
-        });
-    });
+	// Courses Slider Two JS
+	$('.courses-slider-two').owlCarousel({
+		loop: true,
+		margin: 30,
+		nav: false,
+		dots: true,
+		autoplay: true,
+		smartSpeed: 1000,
+		autoplayHoverPause: true,
+		rtl :true,
+		responsive:{
+			0:{
+				items:1,
+			},
+			576:{
+				items:2,
+			},
+			768:{
+				items:2,
+			},
+			992:{
+				items:3,
+			},
+			1200:{
+				items:3,
+			}
+		}
+	});
 
+	// Courses Slider Three JS
+	$('.courses-slider-three').owlCarousel({
+		loop: true,
+		margin: 30,
+		nav: true,
+		dots: false,
+		autoplay: true,
+		smartSpeed: 1000,
+		autoplayHoverPause: true,
+		rtl :true,
+		navText: [
+			"<i class='bx bx-left-arrow-alt'></i>",
+			"<i class='bx bx-right-arrow-alt'></i>",
+		],
+		responsive:{
+			0:{
+				items:1,
+			},
+			576:{
+				items:2,
+			},
+			768:{
+				items:2,
+			},
+			992:{
+				items:3,
+			},
+			1200:{
+				items:3,
+			}
+		}
+	});
+	
+	// Go To Top JS
+	// Scroll Event
+	$(window).on('scroll', function(){
+		var scrolled = $(window).scrollTop();
+		if (scrolled > 300) $('.go-top').addClass('active');
+		if (scrolled < 300) $('.go-top').removeClass('active');
+	});  
 
+	// Click Event JS
+	$('.go-top').on('click', function() {
+		$("html, body").animate({ scrollTop: "0" },  500);
+	});
 
-    //  ========== 
-    //  = Revolution Slider = 
-    //  ========== 
-    if (jQuery().revolution) {
-        var $mainSlider = $(".fullwidthbanner").revolution({
-            delay: 1e4,
-            startheight: 377,
-            startwidth: 1400,
-            navigationType: "bullet",
-            navigationStyle: "round",
-            navigationVAlign: "bottom",
-            touchenabled: "on",
-            onHoverStop: "on",
-            navigationArrows: "none",
-            soloArrowLeftHalign: "left",
-            soloArrowLeftValign: "center",
-            soloArrowRightHalign: "right",
-            soloArrowRightValign: "center",
-            navigationVOffset: $('body').hasClass('boxed') ? 10 : 60,
-            navOffsetHorizontal: 0,
-            navOffsetVertical: 20,
-            // no captions for mobile devices
-            hideAllCaptionAtLilmit: 481,
-            hideSliderAtLimit: 300,
-            stopAtSlide: -1,
-            stopAfterLoops: -1,
-            shadow: 0,
-            fullWidth: "on"
-        });
-        
-        $('#sliderRevLeft').on('click', function() {
-            $mainSlider.revprev();
-            return false;
-        });
-        $('#sliderRevRight').on('click', function() {
-            $mainSlider.revnext();
-            return false;
-        });
-        
-    }
-    //  ==========
-    //  = Add prettyPhoto for images with class .add-prettyphoto =
-    //  ==========
-    $(".add-prettyphoto").prettyPhoto({
-        default_width: 720,
-        default_height: 405
-    });
-    //  ==========
-    //  = Accordion group toggle classes =
-    //  ==========
-    $(".accordion-group .accordion-toggle").click(function() {
-        var $accordionGroup = $(this).parent().parent();
-        if ($accordionGroup.hasClass("active")) {
-            $accordionGroup.removeClass("active");
-        } else {
-            $accordionGroup.addClass("active").siblings().removeClass("active");
-        }
-    });
+	// FAQ Accordion JS
+	$('.accordion').find('.accordion-title').on('click', function(){
+		// Adds Active Class
+		$(this).toggleClass('active');
+		// Expand or Collapse This Panel
+		$(this).next().slideToggle('fast');
+		// Hide The Other Panels
+		$('.accordion-content').not($(this).next()).slideUp('fast');
+		// Removes Active Class From Other Titles
+		$('.accordion-title').not($(this)).removeClass('active');		
+	});
 
+	// Count Time JS
+	function makeTimer() {
+		var endTime = new Date("november  30, 2021 17:00:00 PDT");			
+		var endTime = (Date.parse(endTime)) / 1000;
+		var now = new Date();
+		var now = (Date.parse(now) / 1000);
+		var timeLeft = endTime - now;
+		var days = Math.floor(timeLeft / 86400); 
+		var hours = Math.floor((timeLeft - (days * 86400)) / 3600);
+		var minutes = Math.floor((timeLeft - (days * 86400) - (hours * 3600 )) / 60);
+		var seconds = Math.floor((timeLeft - (days * 86400) - (hours * 3600) - (minutes * 60)));
+		if (hours < "10") { hours = "0" + hours; }
+		if (minutes < "10") { minutes = "0" + minutes; }
+		if (seconds < "10") { seconds = "0" + seconds; }
+		$("#days").html(days + "<span>روز</span>");
+		$("#hours").html(hours + "<span>ساعت</span>");
+		$("#minutes").html(minutes + "<span>دقیقه</span>");
+		$("#seconds").html(seconds + "<span>ثانیه</span>");
+	}
+	setInterval(function() { makeTimer(); }, 300);
+		
+	// Popup Video JS
+	$('.popup-youtube, .popup-vimeo').magnificPopup({
+		disableOn: 300,
+		type: 'iframe',
+		mainClass: 'mfp-fade',
+		removalDelay: 160,
+		preloader: false,
+		fixedContentPos: false,
+	});
 
+	// Gallery Popup JS
+	$('.gallery-popup').each(function() {
+		$(this).magnificPopup({
+			delegate: 'a', 
+			type: 'image',
+			gallery: {
+			  enabled:true
+			}
+		});
+	});
 
-    //  ========== 
-    //  = Nav Search = 
-    //  ========== 
-    $(document).on("focus", ".large-screen #navSearchInput", function() {
-        $(this).parent().parent().addClass("search-mode");
-        repositionLine();
-    });
-    $(document).on("blur", ".large-screen #navSearchInput", function() {
-        $(this).parent().parent().removeClass("search-mode");
-        repositionLine();
-    });
-    var repositionLine = function() {
-        setTimeout(function() {
-            $("#mainNavigation > li.active").trigger("mouseover");
-        }, 200);
-    };
+	// Tabs JS
+	$('.tab ul.tabs').addClass('active').find('> li:eq(0)').addClass('current');
+	$('.tab ul.tabs li').on('click', function (g) {
+		var tab = $(this).closest('.tab'), 
+		index = $(this).closest('li').index();
+		tab.find('ul.tabs > li').removeClass('current');
+		$(this).closest('li').addClass('current');
+		tab.find('.tab_content').find('div.tabs_item').not('div.tabs_item:eq(' + index + ')').slideUp();
+		tab.find('.tab_content').find('div.tabs_item:eq(' + index + ')').slideDown();
+		g.preventDefault();
+	});
 
+	// Subscribe form JS
+	$(".newsletter-form").validator().on("submit", function (event) {
+		if (event.isDefaultPrevented()) {
+		// handle the invalid form...
+			formErrorSub();
+			submitMSGSub(false, "لطفا ایمیل خود را به درستی وارد کنید.");
+		} else {
+			// everything looks good!
+			event.preventDefault();
+		}
+	});
+	function callbackFunction (resp) {
+		if (resp.result === "success") {
+			formSuccessSub();
+		}
+		else {
+			formErrorSub();
+		}
+	}
+	function formSuccessSub(){
+		$(".newsletter-form")[0].reset();
+		submitMSGSub(true, "با تشکر ثبت شد!");
+		setTimeout(function() {
+			$("#validator-newsletter, #validator-newsletter-2").addClass('hide');
+		}, 4000)
+	}
+	function formErrorSub(){
+		$(".newsletter-form").addClass("animated shake");
+		setTimeout(function() {
+			$(".newsletter-form").removeClass("animated shake");
+		}, 1000)
+	}
+	function submitMSGSub(valid, msg){
+		if(valid){
+			var msgClasses = "validation-success";
+		} else {
+			var msgClasses = "validation-danger";
+		}
+		$("#validator-newsletter, #validator-newsletter-2").removeClass().addClass(msgClasses).text(msg);
+	}
+	
+	// AJAX MailChimp JS
+	$(".newsletter-form").ajaxChimp({
+		url: "https://Envy Theme.us20.list-manage.com/subscribe/post?u=60e1ffe2e8a68ce1204cd39a5&amp;id=42d6d188d9", // Your url MailChimp
+		callback: callbackFunction
+	});
 
+	// Input Plus & Minus Number JS
+	$('.input-counter').each(function() {
+		var spinner = jQuery(this),
+		input = spinner.find('input[type="text"]'),
+		btnUp = spinner.find('.plus-btn'),
+		btnDown = spinner.find('.minus-btn'),
+		min = input.attr('min'),
+		max = input.attr('max');
+		
+		btnUp.on('click', function() {
+			var oldValue = parseFloat(input.val());
+			if (oldValue >= max) {
+				var newVal = oldValue;
+			} else {
+				var newVal = oldValue + 1;
+			}
+			spinner.find("input").val(newVal);
+			spinner.find("input").trigger("change");
+		});
+		btnDown.on('click', function() {
+			var oldValue = parseFloat(input.val());
+			if (oldValue <= min) {
+				var newVal = oldValue;
+			} else {
+				var newVal = oldValue - 1;
+			}
+			spinner.find("input").val(newVal);
+			spinner.find("input").trigger("change");
+		});
+	});
 
-    //  ========== 
-    //  = Scroll inspector = 
-    //  ========== 
-    var stickyNavbar = function() {
-        if (isTouch()) {
-            $(window).off("scroll.onlyDesktop");
-        } else {
-            var $headerHeight = $("#header").height(), $navbarHeight = $("#stickyNavbar").height();
-            $(window).on("scroll.onlyDesktop", function() {
-                var scrollX = $(window).scrollTop();
-                if (scrollX > $headerHeight) {
-                    $("#stickyNavbar").removeClass("navbar-static-top").addClass("navbar-fixed-top");
-                    $(".large-screen #header").css({
-                        marginBottom: $navbarHeight
-                    });
-                } else {
-                    $("#stickyNavbar").removeClass("navbar-fixed-top").addClass("navbar-static-top");
-                    $(".large-screen #header").css({
-                        marginBottom: 0
-                    });
-                }
-            });
-        }
-    };
+	// Newsletter Modal JS
+	$('#exampleModal').modal({
+		show: true
+	});
 
+	// Odometer JS
+	$('.odometer').appear(function(e) {
+		var odo = $(".odometer");
+		odo.each(function() {
+			var countNumber = $(this).attr("data-count");
+			$(this).html(countNumber);
+		});
+	});
 
+	// Search Popup JS
+	$('.close-btn').on('click',function() {
+		$('.search-overlay').fadeOut();
+		$('.search-btn').show();
+		$('.close-btn').removeClass('active');
+	});
+	$('.search-btn').on('click',function() {
+		$(this).hide();
+		$('.search-overlay').fadeIn();
+		$('.close-btn').addClass('active');
+	});
 
-    //  ========== 
-    //  = Thumbnail selector = 
-    //  ========== 
-    $(".product-preview .thumbs a").click(function(ev) {
-        ev.preventDefault();
-        $($(this).attr("href")).attr("src", $(this).find("img").attr("src"));
-        $(this).parent().addClass("active").siblings(".active").removeClass("active");
-    });
+	// Others Option For Responsive JS
+	$(".others-option-for-responsive .dot-menu").on("click", function(){
+		$(".others-option-for-responsive .container .container").toggleClass("active");
+	});
 
+	//WOW JS
+	new WOW().init();
 
+	// Product View Slider
+	var bigimage = $("#big");
+	var thumbs = $("#thumbs");
+	//var totalslides = 10;
+	var syncedSecondary = true;
+	
+	bigimage
+		.owlCarousel({
+		items: 1,
+		slideSpeed: 2000,
+		nav: true,
+		autoplay: true,
+		dots: false,
+		loop: true,
+		responsiveRefreshRate: 200,
+		rtl: true,
+		navText: [
+			"<i class='bx bx-left-arrow-alt'></i>",
+			"<i class='bx bx-right-arrow-alt'></i>",
+		]
+	})
+	.on("changed.owl.carousel", syncPosition);
+	
+	thumbs
+		.on("initialized.owl.carousel", function() {
+		thumbs
+		.find(".owl-item")
+		.eq(0)
+		.addClass("current");
+	})
+	.owlCarousel({
+		items: 5,
+		dots: false,
+		nav: false,
+		rtl: true,
+		navText: [
+			"<i class='bx bx-left-arrow-alt'></i>",
+			"<i class='bx bx-right-arrow-alt'></i>",
+		],
+		smartSpeed: 200,
+		slideSpeed: 500,
+		slideBy: 4,
+		responsiveRefreshRate: 100
+	})
+	.on("changed.owl.carousel", syncPosition2);
+	
+	function syncPosition(el) {
+		//if loop is set to false, then you have to uncomment the next line
+		//var current = el.item.index;
+	
+		//to disable loop, comment this block
+		var count = el.item.count - 1;
+		var current = Math.round(el.item.index - el.item.count / 2 - 0.5);
+	
+		if (current < 0) {
+			current = count;
+		}
+		if (current > count) {
+			current = 0;
+		}
 
-    //  ========== 
-    //  = Forms = 
-    //  ==========
-    $(".numbered > .clickable").click(function(ev) {
-        ev.preventDefault();
-        var number = parseInt($(this).siblings('input[type="text"]').val(), 10);
-        if (isNaN(number)) {
-            number = 1;
-        }
-        if ($(this).hasClass("add-one")) {
-            $(this).siblings('input[type="text"]').val(number + 1);
-        } else {
-            number = number < 2 ? 2 : number;
-            $(this).siblings('input[type="text"]').val(number - 1);
-        }
-    });
-
-
-
-    //  ========== 
-    //  = Isotope = 
-    //  ========== 
-    (function() {
-        var $container = $("#isotopeContainer");
-    
-        $container.imagesLoaded(function() {
-            $container.isotope({
-                itemSelector: ".span3",
-                layoutMode: "fitRows",
-                getSortData: {
-                    price: function($elm) {
-                        return $elm.data("price");
-                    },
-                    name: function($elm) {
-                        return $elm.find(".isotope--title").text();
-                    },
-                    popularity: function($elm) {
-                        return $elm.data("popularity");
-                    }
-                }
-            });
-            
-            // jQuery UI slider
-            var prepareCurrency = function(value) {
-                return WebMarketVars.currencyBefore ? WebMarketVars.currencySymbol + value : value + WebMarketVars.currencySymbol;
-            };
-            var $slider = $(".jqueryui-slider-container > div");
-            $slider.slider({
-                range: true,
-                min: WebMarketVars.priceRange[0],
-                max: WebMarketVars.priceRange[1],
-                values: WebMarketVars.priceRange,
-                step: WebMarketVars.priceStep,
-                slide: function(ev, ui) {
-                    $(this).parent().siblings(".min-val").val(prepareCurrency(ui.values[0]));
-                    $(this).parent().siblings(".max-val").val(prepareCurrency(ui.values[1]));
-                },
-                change: function() {
-                    updateIsotopeFiltering();
-                },
-                create: function() {
-                    var $sliderParent = $(this).parents(".accordion-body");
-                    $sliderParent.find(".min-val").val(prepareCurrency($(this).slider("values", 0)));
-                    $sliderParent.find(".max-val").val(prepareCurrency($(this).slider("values", 1)));
-                }
-            });
-            //  ========== 
-            //  = Filters for sidebar = 
-            //  ========== 
-            var $selectableElms = $(".sidebar-filters .selectable");
-            $selectableElms.click(function(ev) {
-                ev.preventDefault();
-                $(this).toggleClass("selected");
-                updateIsotopeFiltering();
-            });
-            $(".sidebar-filters .accordion-toggle").click(function() {
-                setTimeout(updateIsotopeFiltering, 350);
-            });
-            $("#removeFilters").click(function(ev) {
-                ev.preventDefault();
-                $selectableElms.removeClass("selected");
-                updateIsotopeFiltering();
-            });
-            var updateIsotopeFiltering = function() {
-                var selectedElms = $(".sidebar-filters .in").find(".selectable.selected[data-target]").not(".detailed"), detailedElms = $(".sidebar-filters .in").find(".detailed.selected[data-target]"), filterString, filter, types = [];
-                if (selectedElms.length > 0 || detailedElms.length > 0) {
-                    $("#removeFilters").fadeIn();
-                } else {
-                    $("#removeFilters").fadeOut();
-                }
-                if (selectedElms.length < 1) {
-                    filterString = ".isotope-container .span3";
-                } else {
-                    var filterArr = [];
-                    selectedElms.each(function() {
-                        var data = $(this).data("target");
-                        if ("undefined" !== typeof data) {
-                            filterArr.push($(this).data("target"));
-                        }
-                    });
-                    filterString = filterArr.join(",");
-                }
-                // basic filtering
-                filter = $(filterString);
-                // slider price filtering, after we have the right categories already
-                if ($slider.parents(".accordion-body").hasClass("in")) {
-                    filter = filter.filter(function() {
-                        var $this = $(this);
-                        return $this.data("price") >= $slider.slider("values", 0) && $this.data("price") <= $slider.slider("values", 1);
-                    });
-                }
-                // more precise filters for the size, color, brand ...
-                detailedElms.each(function() {
-                    types.push($(this).data("type"));
-                });
-                types = _.uniq(types);
-                if (detailedElms.length > 0) {
-                    _.each(types, function(type) {
-                        var allowedValues = [];
-                        detailedElms.filter('[data-type="' + type + '"]').each(function() {
-                            allowedValues.push($(this).data("target"));
-                        });
-                        filter = filter.filter(function() {
-                            var $this = $(this);
-                            return _.some($this.data(type).split("|"), function(val) {
-                                return _.contains(allowedValues, val);
-                            });
-                        });
-                    });
-                }
-                $container.isotope({
-                    filter: filter
-                });
-            };
-            updateIsotopeFiltering();
-            //  ========== 
-            //  = Sorting = 
-            //  ========== 
-            $("#isotopeSorting").change(function() {
-                var parameters = jQuery.parseJSON($(this).val());
-                parameters.sortAscending = "true" === parameters.sortAscending ? true : false;
-                $container.isotope(parameters);
-            });
-            $("#isotopeSorting").trigger("change");
-        });
-    })();
-
-
-
-    //  ========== 
-    //  = Tour = 
-    //  ========== 
-    (function() {
-        var tour = new Tour({
-            useLocalStorage: true,
-            backdrop: false
-        });
-        tour.addSteps([ {
-            element: "#tourStep1",
-            title: "فیلتر کردن",
-            content: "فیلتر کردن محصولات در وبمارکت خیلی جالب است!"
-        }, {
-            element: "#tourStep2",
-            title: "دسته بندی ها",
-            content: "روی دسته بندی ها کلیک کنید، محتویات به صورت اتوماتیک نمایان/مخفی میشوند."
-        }, {
-            element: "#filterPrices",
-            title: "فیلتر بازه قیمت",
-            content: "بازه قیمت را انتخاب کنید، خواهید دید که بدون ریفرش کردن صفحه، محصولات موجود در باره نمایش داده میشوند."
-        }, {
-            element: "#tourStep3",
-            title: "باز کردن فیلتر های دیگر",
-            content: "با یک کلیک روی عنوان، پنل را باز کنید و فیلتر کردن را شروع کنید. <br/> به همان شکل میتوانید فیلتر ها را حذف کنید، کافی است پنل را ببندید.",
-            placement: "top"
-        }, {
-            element: "#tourStep4",
-            title: "بهترین قسمت : مرتب سازی!",
-            content: "برای مرتب سازی، اصلا نیازی به ریفرش کردن صفحه نیست. همه ی تغییرات به صورت آنی اعمال می شوند و شما میتوانید نتیجه را ببینید!",
-            placement: "bottom"
-        } ]);
-        tour.start();
-    })();
-
-
-
-    //  ========== 
-    //  = Google Maps API with GoMap jQuery plugin = 
-    //  ========== 
-    $(".add-googlemap").each(function() {
-        var $this = $(this);
-        $this.css("height", typeof $this.data("height") === "undefined" ? 200 : parseInt($this.data("height"), 10));
-        if (jQuery.goMap) {
-            $this.goMap({
-                markers: [ {
-                    address: $this.data("addr"),
-                    title: "undefined" === typeof $this.data("title") ? false : $this.data("title")
-                } ],
-                scrollwheel: false,
-                zoom: "undefined" === typeof $this.data("zoom") ? 13 : parseInt($this.data("zoom"), 10),
-                maptype: "undefined" === typeof $this.data("type") ? "ROADMAP" : $this.data("type").toUpperCase()
-            });
-        }
-    });
-
-
-
-    //  ========== 
-    //  = Cart Container Effects = 
-    //  ========== 
-    $("#cartContainer").hover(function() {
-        $(this).children(".cart").addClass("opened");
-        $(this).children(".open-panel").stop(true, true).slideDown(150);
-    }, function() {
-        var $this = $(this);
-        setTimeout(function() {
-            $this.children(".cart").removeClass("opened");
-        }, 120);
-        $(this).children(".open-panel").stop(true, true).slideUp(150);
-    });
-    // delete item from the popover cart
-    $(".item-in-cart .icon-remove-sign").click(function() {
-        $(this).parents(".item-in-cart").animate({
-            opacity: 0
-        }, "swing", function() {
-            $(this).slideUp();
-        });
-        return false;
-    });
-
-
-
-    //  ========== 
-    //  = Checkout Process Effects = 
-    //  ========== 
-    // delete the item from review table
-    $(".table-items .icon-remove-sign").click(function() {
-        $(this).parents("tr").animate({
-            opacity: 0
-        }, "swing", function() {
-            $(this).remove();
-        });
-        return false;
-    });
-    $(".card-num-input").on("keyup", function() {
-        if ($(this).val().length > 3) {
-            $(this).next(".card-num-input").focus();
-        }
-    });
-    $(".add-tooltip").tooltip({
-        title: $(this).attr("data-title"),
-        placement: "right",
-        trigger: "manual"
-    }).tooltip("show");
-
-
-
-    //  ========== 
-    //  = Functions which has to be reinitiated when the window size is changed = 
-    //  ==========
-    var triggeredOnResize = function() {
-        if ($("html").hasClass("lt-ie9")) {
-            // do never this for IE8
-            return;
-        }
-        // rebuild carousels
-        $(".carouFredSel").each(function() {
-            var $this = $(this);
-            $this.trigger("configuration", [ "debug", false, true ]);
-        });
-        //  = Embedded video iframes = 
-        $('iframe[src*="vimeo.com"], iframe[src*="youtube.com"]').each(function() {
-            var $this = $(this);
-            $this.css("height", parseInt($this.width() * $this.attr("height") / $this.attr("width"), 10));
-        });
-        // sticky navbar
-        stickyNavbar();
-        
-        
-        //  ========== 
-        //  = Magic Line = 
-        //  ========== 
-        /**
-         * @see http://css-tricks.com/jquery-magicline-navigation/
-         */
-        (function() {
-            var $el, leftPos, newWidth, $mainNav = $("#mainNavigation");
-            $mainNav.prepend('<li id="magic-line"></li>');
-            var $magicLine = $("#magic-line");
-            if ($(".large-screen #mainNavigation > .active").length > 0) {
-                $magicLine.width($(".large-screen #mainNavigation > .active").width()).css("left", $("#mainNavigation > .active").position().left).data("origLeft", $magicLine.position().left).data("origWidth", $magicLine.width());
-                $(document).on({
-                    mouseenter: function() {
-                        $el = $(this);
-                        leftPos = $el.position().left;
-                        newWidth = $el.width();
-                        $magicLine.stop().animate({
-                            left: leftPos,
-                            width: newWidth
-                        });
-                    },
-                    mouseleave: function() {
-                        $magicLine.stop().animate({
-                            left: $magicLine.data("origLeft"),
-                            width: $magicLine.data("origWidth")
-                        });
-                    }
-                }, ".large-screen #mainNavigation > li");
-            }
-        })();
-        // width of carousel slides
-        $(".carouFredSel").each(function() {
-            var $this = $(this);
-            $this.find(".slide").css({
-                width: $this.parent().width()
-            });
-            $this.trigger("configuration", [ "debug", false, true ]);
-        });
-        // position of the bullets in the slider revolution
-        if ($(window).width() < 768) {
-            $(".fullwidthbanner-container .tp-bullets").css({
-                bottom: 10
-            });
-        }
-        
-        
-        var recalculateFromBottom = function() {
-            if ( !isTouch() ) {
-                $('.large-screen #spyMenu').affix({
-                    offset : {
-                        top: $('.large-screen #spyMenu').offset().top - 70,
-                        bottom: function() {
-                            return $('footer').outerHeight(true) + 30;
-                        }
-                    }
-                });
-            }
-            setTimeout(recalculateFromBottom, 2000); // recalculate every 2 seconds
-        };
-        if($('#spyMenu').length > 0) {
-            recalculateFromBottom();
-        }
-        
-    };
-    var fromLastResize;
-    // counter in miliseconds
-    $(window).resize(function() {
-        determineScreenClass();
-        clearTimeout(fromLastResize);
-        fromLastResize = setTimeout(function() {
-            triggeredOnResize();
-        }, 250);
-    });
-    
-    $(window).on('scroll', function() {
-        if( $('#spyMenu').hasClass('affix-bottom') ) {
-            $('#spyMenu').css({
-                bottom: $('footer').outerHeight(true) + 30
-            });
-        } else {
-            $('#spyMenu').removeAttr('style');
-        }
-    });
-    
-
-    //  ========== 
-    //  = The language and currency switcher = 
-    //  ========== 
-    $('.js-selectable-dropdown').on('click', '.js-possibilities a', function (ev) {
-        if( "#" === $(this).attr('href') ) {
-            ev.preventDefault();
-            var parent = $(this).parents('.js-selectable-dropdown');
-            parent.find('.js-change-text').html($(this).html());
-        }
-    });
-
-
-    //  ========== 
-    //  = Last but not the least - trigger the page scroll and resize = 
-    //  ========== 
-    $(window).trigger("scroll").trigger("resize");
-});
+		//to this
+		thumbs
+		.find(".owl-item")
+		.removeClass("current")
+		.eq(current)
+		.addClass("current");
+		var onscreen = thumbs.find(".owl-item.active").length - 1;
+		var start = thumbs
+		.find(".owl-item.active")
+		.first()
+		.index();
+		var end = thumbs
+		.find(".owl-item.active")
+		.last()
+		.index();
+	
+		if (current > end) {
+			thumbs.data("owl.carousel").to(current, 100, true);
+		}
+		if (current < start) {
+			thumbs.data("owl.carousel").to(current - onscreen, 100, true);
+		}
+	}
+	function syncPosition2(el) {
+		if (syncedSecondary) {
+			var number = el.item.index;
+			bigimage.data("owl.carousel").to(number, 100, true);
+		}
+	}
+	thumbs.on("click", ".owl-item", function(e) {
+		e.preventDefault();
+		var number = $(this).index();
+		bigimage.data("owl.carousel").to(number, 300, true);
+	});
+})(jQuery);

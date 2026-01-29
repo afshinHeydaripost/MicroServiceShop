@@ -190,3 +190,5 @@ Thumbs.db
 # Docker
 docker-compose.override.yml
 .docker/
+/MicroService/Site/wwwroot/js/bootstrap.min.js
+/MicroService/Site/wwwroot/js/custom.js
