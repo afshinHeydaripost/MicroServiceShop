@@ -3,15 +3,17 @@
 <!--  ==========  -->
 <div class="col-lg-4 col-md-6">
     <div class="single-course">
-        <a href="single-course.html">
-            <img src="@Model.Picture" alt="@Model.Title">
+        <a href="single-course.html" class="w-100">
+            <div class="image-box m-auto">
+                    <img src="@Model.Picture" alt="@Model.Title">
+                </div>
         </a>
 
         <div class="course-content">
             <span class="tag">@Model.CategoryTitle</span>
 
             <a href="single-course.html">
-                <h3>@Model.Title</h3>
+                <h3 class="text-title">@Model.Titleupdate</h3>
             </a>
 
             <ul class="rating">
@@ -41,8 +43,8 @@
             </p>
 
             <ul class="lessons">
-                <li>@Model.Price.Price</li>
-                <li class="float">@Model.Price.BasePrice</li>
+                <li>@Model.Price.strPrice</li>
+                <li class="float">@Model.Price.strBasePrice</li>
             </ul>
         </div>
     </div>

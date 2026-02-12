@@ -105,7 +105,9 @@ namespace Helper.VieModels
     public class resBestPrice
     {
         public int Price { get; set; }
+        public string strPrice => Price.ToString("N0");
         public int BasePrice { get; set; }
+        public string strBasePrice => BasePrice.ToString("N0");
         public int DiscountID { get; set; }
         public float DisPercent { get; set; }
     }
