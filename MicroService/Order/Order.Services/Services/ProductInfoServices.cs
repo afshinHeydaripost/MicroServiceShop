@@ -48,7 +48,7 @@ namespace Order.Services.Services
             {
                 var obj = await GetByProductModelID(item.ProductModelID, true);
                 if (obj == null)
-                    return GeneralResponse.NotFound();
+                    return await Create(item);
                 obj.ColorTitle = item.ColorTitle;
                 obj.Price = item.Price;
                 obj.Title = item.Title;

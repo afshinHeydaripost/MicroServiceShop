@@ -32,7 +32,7 @@ namespace Order.Services.Services
                     Status = null,
                     TotalPrice = 0,
                     UserId = userId,
-                    OrderDateFa = DateTools.ToDateTimeFa()
+                    OrderDateFa = DateTools.ToDateTimeFa(DateTime.Now)
                 }.ToOrder();
                 await _context.AddAsync(obj);
                 await _context.SaveChangesAsync();

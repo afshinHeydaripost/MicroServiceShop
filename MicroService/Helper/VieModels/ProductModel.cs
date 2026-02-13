@@ -17,7 +17,7 @@ namespace Helper.VieModels
         public ProductViewModel Product { get; set; }
         public ProductModelViewMode ProductModels { get; set; }
     }
-    public partial class ProductViewModel: GeneralProp
+    public partial class ProductViewModel : GeneralProp
     {
         public int? ProductId { get; set; }
 
@@ -66,12 +66,12 @@ namespace Helper.VieModels
         public int? Amount { get; set; }
 
         public int? Price { get; set; }
-        public string strPrice { get; set; }
+        public string strPrice => (Price != null) ? Price.Value.ToString("N0") : "";
 
 
         public int? BrandId { get; set; }
     }
-    public  class ProductStockViewModel
+    public class ProductStockViewModel
     {
         public int ProductModelId { get; set; }
 

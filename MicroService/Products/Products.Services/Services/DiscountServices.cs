@@ -81,7 +81,6 @@ public class DiscountServices : IDiscountServices
             ValidityDateTime = x.ValidityDate.ToDateTimeFa(),
             ProductTitle = x.Product.Title,
             DiscountPrice = x.DiscountPrice,
-            StrDiscountPrice = ((x.DiscountPrice ?? 0)).NumberWithComma(),
             DiscountRate = x.DiscountRate,
             Title = x.Title,
         }).FirstOrDefaultAsync();
@@ -106,7 +105,6 @@ public class DiscountServices : IDiscountServices
             ProductCategoryTitle = x.ProductCategory.Title,
             ProductModelTitle = x.ProductModel.Color.Title,
             ProductTitle = x.Product.Title,
-            StrDiscountPrice = ((x.DiscountPrice ?? 0)).NumberWithComma(),
             DiscountPrice = x.DiscountPrice,
             DiscountRate = x.DiscountRate,
         }).AsQueryable();
@@ -170,7 +168,6 @@ public class DiscountServices : IDiscountServices
             ProductCategoryTitle = x.ProductCategory.Title,
             ProductModelTitle = x.ProductModel.Color.Title,
             ProductTitle = x.Product.Title,
-            StrDiscountPrice = ((x.DiscountPrice ?? 0)).NumberWithComma(),
             DiscountPrice = x.DiscountPrice,
             DiscountRate = x.DiscountRate,
         }).AsQueryable();
