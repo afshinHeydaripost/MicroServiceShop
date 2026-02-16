@@ -27,6 +27,10 @@ public class Message
     public const string InvalidFile = "این فایل مجاز به بارگذاری نیست";
     public const string FileUploadExeption = "خطا در آپلود فایل";
     public const string FileIsRequired = "فایل را بارگذاری کنید.";
+    public const string EmailOrPhoneNumberIsRequired = "ایمیل یا شماره تلفن را وارد کنید";
+    public const string PasswordIsRequired = "کلمه عبور را وارد کنید";
+    public const string FirstNameIsRequired = "نام را وارد کنید";
+    public const string LastNameIsRequired = "نام خانوادگی را وارد کنید";
     public const string InvalidFileExtention = "پسوند فایل انتخاب شده مجاز نیست.";
     public const string DuplicateUserName = "نام کاربری تکراری است";
     public const string InvalidData = "اطلاعات ارسالی معتبر نیست";

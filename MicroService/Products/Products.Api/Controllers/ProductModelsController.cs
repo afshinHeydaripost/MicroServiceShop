@@ -42,7 +42,7 @@ public class ProductModelsController : ControllerBase
         {
             var obj = await _service.GetItemInfo(res.obj.ProductModelId ?? 0);
             await _producer.SendMessageToQueue(obj, "productCreateQueue");
-            if (item.Amount != null && item.Amount > 0) {
+            if (item.Amount != null && item.Amount != 0) {
                 item.ProductModelId = res.obj.ProductModelId ?? 0;
                 await _producer.SendMessageToQueue(item, "productModelAmountQueue");
             }
@@ -60,7 +60,7 @@ public class ProductModelsController : ControllerBase
         {
             var obj = await _service.GetItemInfo(item.ProductModelId ?? 0);
             await _producer.SendMessageToQueue(obj, "productUpdateQueue");
-            if (item.Amount != null && item.Amount > 0)
+            if (item.Amount != null && item.Amount != 0)
             {
                 await _producer.SendMessageToQueue(item, "productModelAmountQueue");
             }

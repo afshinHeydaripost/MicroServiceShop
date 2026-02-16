@@ -56,13 +56,13 @@ public partial class MicroServiceShopOrderContext : DbContext
             entity.ToTable("ProductInfo");
             entity.Property(e => e.Code).HasMaxLength(100).IsRequired();
             entity.Property(e => e.Title).HasMaxLength(300).IsRequired();
-            entity.Property(e => e.Picture).HasMaxLength(500);
+            entity.Property(e => e.Picture);
             entity.Property(e => e.Price).HasColumnType("decimal(38, 0)").IsRequired();
             entity.Property(e => e.ColorTitle).HasMaxLength(50).IsRequired();
             entity.Property(e => e.CategotyTitle).HasMaxLength(100).IsRequired();
-            entity.Property(e => e.CategotyImageUrl).HasMaxLength(500);
+            entity.Property(e => e.CategotyImageUrl);
             entity.Property(e => e.BrandTitle).HasMaxLength(100).IsRequired();
-            entity.Property(e => e.BrandLogo).HasMaxLength(500);
+            entity.Property(e => e.BrandLogo);
             entity.Property(e => e.CreateDateTime).IsRequired();
         });
         modelBuilder.Entity<ProductStock>(entity =>

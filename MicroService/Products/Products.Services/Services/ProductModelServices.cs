@@ -28,7 +28,7 @@ public class ProductModelServices : IProductModelServices
             var obj = item.ToProductModel();
             await _context.ProductModels.AddAsync(obj);
             await _context.SaveChangesAsync();
-            if (item.Amount is not null && item.Amount > 0)
+            if (item.Amount is not null && item.Amount != 0)
             {
                 var productStockServices = new ProductStockServices(_context);
                 ProductStockViewModel objProductStock = new ProductStockViewModel()
@@ -116,7 +116,7 @@ public class ProductModelServices : IProductModelServices
             obj.UpdateDate = DateTime.Now;
             _context.ProductModels.Update(obj);
             await _context.SaveChangesAsync();
-            if (item.Amount is not null && item.Amount > 0)
+            if (item.Amount is not null && item.Amount != 0)
             {
                 var productStockServices = new ProductStockServices(_context);
                 ProductStockViewModel objProductStock = new ProductStockViewModel()

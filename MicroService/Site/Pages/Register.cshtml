@@ -1,0 +1,89 @@
+﻿@page
+@model Site.Pages.RegisterModel
+@{
+}
+
+<!-- Start Page Title Area -->
+<div class="page-title-area bg-7">
+    <div class="container">
+        <div class="page-title-content">
+            <h2>حساب من</h2>
+            <ul>
+                <li>
+                    <a asp-page="Index">
+                        خانه
+                    </a>
+                </li>
+
+                <li class="active">ثبت نام</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- End Page Title Area -->
+<!-- Start Log In Area -->
+<section class="user-area-style ptb-100">
+    <div class="container">
+        <div class="row  justify-content-center">
+            <div class="col-lg-6 col-md-8 col-12">
+                <div class="section-title">
+                    <h2 class="text-center">عضویت</h2>
+                </div>
+
+                <div class="contact-form-action">
+                    <form method="post" id="frmRegister">
+                        <div class="row">
+                            <div class="col-12">
+                                <div asp-validation-summary="All" class="text-danger"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>نام</label>
+                                    <input class="form-control" asp-for="user.FirstName" type="text">
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>نام خانوادگی</label>
+                                    <input class="form-control" asp-for="user.LastName" type="text">
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>شماره موبایل</label>
+                                    <input class="form-control JustDigit text-left ltr" asp-for="user.PhoneNumber" type="text" maxlength="11">
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>گذرواژه</label>
+                                    <input class="form-control " asp-for="user.Password" type="password">
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="row align-items-center">
+                                    <div class="col-12">
+                                        <button class="default-btn register w-100" type="submit">
+                                            ثبت نام
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <p>حساب کاربری داری؟ <a href="log-in.html">وارد شوید!</a></p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Log In Area -->

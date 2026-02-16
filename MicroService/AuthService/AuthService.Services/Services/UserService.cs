@@ -61,7 +61,7 @@ public class UserService : GeneralServices<User>, IUserService
                 UserName = user.UserName,
                 Id = user.Id,
                 Token = access.obj,
-                RememberMe=req.RememberMe,
+                RememberMe = req.RememberMe,
                 RefreshToken = refresh.Token
             });
         }
@@ -76,27 +76,25 @@ public class UserService : GeneralServices<User>, IUserService
     {
         try
         {
-            if (string.IsNullOrEmpty(user.UserName))
-            {
-                return GeneralResponse<UserViewModel>.Fail("تام کاربری را وارد کنید");
-            }
-
             if (string.IsNullOrEmpty(user.Password))
             {
-                return GeneralResponse<UserViewModel>.Fail("کلمه عبور را وارد کنید");
+                return GeneralResponse<UserViewModel>.Fail(Message.PasswordIsRequired);
             }
-
             if (string.IsNullOrEmpty(user.FirstName))
             {
-                return GeneralResponse<UserViewModel>.Fail("نام را وارد کنید");
+                return GeneralResponse<UserViewModel>.Fail(Message.FirstNameIsRequired);
             }
             if (string.IsNullOrEmpty(user.LastName))
             {
-                return GeneralResponse<UserViewModel>.Fail("نام خانوادگی را وارد کنید");
+                return GeneralResponse<UserViewModel>.Fail(Message.LastNameIsRequired);
             }
-            if (string.IsNullOrEmpty(user.Email) && string.IsNullOrEmpty(user.PhoneNumber))
+            if (string.IsNullOrEmpty(user.PhoneNumber))
             {
-                return GeneralResponse<UserViewModel>.Fail("شماره تلفن یا ایمیل باید وارد شود");
+                return GeneralResponse<UserViewModel>.Fail(Message.EmailOrPhoneNumberIsRequired);
+            }
+            if (!user.PhoneNumber.IsValidMobileNumber())
+            {
+                return GeneralResponse<UserViewModel>.Fail(Message.InvalidPhoneNumber);
             }
             if (await _Context.Users.AnyAsync(u => u.UserName.ToLower() == user.UserName.ToLower()))
                 return GeneralResponse<UserViewModel>.Fail(Message.DuplicateUserName);
@@ -114,6 +112,7 @@ public class UserService : GeneralServices<User>, IUserService
             }
 
             user.UserCode = await GetUserMaxCode();
+            user.UserName = user.PhoneNumber;
             var objUser = user.ToUser();
             objUser.Password = _passwordHasher.HashPassword(objUser, user.Password);
             var res = await Add(objUser);
@@ -130,6 +129,7 @@ public class UserService : GeneralServices<User>, IUserService
             };
             await _UserRolService.Add(userRole);
             user.Password = "";
+            await Save();
             return GeneralResponse<UserViewModel>.Success(user);
         }
         catch (Exception e)
@@ -223,7 +223,7 @@ public class UserService : GeneralServices<User>, IUserService
                 PhoneNumber = stored.User.PhoneNumber,
                 Token = newAccess.obj,
                 RefreshToken = newRefresh.Token,
-                RememberMe= newRefresh.RememberMe
+                RememberMe = newRefresh.RememberMe
             });
         }
         catch (Exception ex)

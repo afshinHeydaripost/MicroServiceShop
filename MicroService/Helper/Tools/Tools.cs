@@ -5,11 +5,23 @@ using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Helper;
 public static class Tools
 {
+    public static bool IsValidMobileNumber(this string mobile)
+    {
+        if (string.IsNullOrWhiteSpace(mobile))
+            return false;
+
+        mobile = mobile.Trim();
+
+        string pattern = @"^(?:\+98|0)?9\d{9}$";
+
+        return Regex.IsMatch(mobile, pattern);
+    }
     public static string GetRemoteIpAddress(this HttpContext item)
     {
         return item.Connection.RemoteIpAddress?.ToString() ?? "unknown";
