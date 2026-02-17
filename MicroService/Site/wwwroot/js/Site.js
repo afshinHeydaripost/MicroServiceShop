@@ -10,3 +10,32 @@
         }
     });
 })
+
+
+function AddEdit(
+    frm,
+    Url,
+    callbackFunction = null,
+    errorCallbackFunction = null
+) {
+    let valdata = $(frm).serialize();
+    $.validator.unobtrusive.parse(frm);
+    if ($(frm).valid()) {
+        $.ajax({
+            url: Url,
+            type: "POST",
+            dataType: "json",
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+            data: valdata,
+            success: function (result) {
+                if (typeof callbackFunction == "function")
+                    callbackFunction.call(this, result);
+            },
+            error: function (xhr, status, error) {
+                ToastMessageError(error);
+                if (typeof errorCallbackFunction == "function")
+                    errorCallbackFunction.call(this, result);
+            },
+        });
+    }
+}
