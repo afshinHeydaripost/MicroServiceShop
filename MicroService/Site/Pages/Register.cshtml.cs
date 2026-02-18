@@ -28,7 +28,13 @@ namespace Site.Pages
         public async Task<JsonResult> OnPostRegisterUser()
         {
             var res = new GeneralResponse<UserViewModel>();
-
+            if (!ModelState.IsValid)
+            {
+                res.Message = ModelState.GetFirstError();
+                return new JsonResult(res);
+            }
+            var url = _AuthServiceUrl + "authService/User/Create";
+            res = url.PostData<UserViewModel, GeneralResponse<UserViewModel>>(user);
             return new JsonResult(res);
         }
     }

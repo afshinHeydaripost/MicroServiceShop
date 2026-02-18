@@ -12,15 +12,22 @@ namespace AuthService.Api.Controllers
     public class UserController : Controller
     {
         private readonly IUserService _service;
-
-        public UserController(IUserService service)
+        private readonly IRabbitMQ _producer;
+        public UserController(IUserService service, IRabbitMQ producer)
         {
             _service = service;
+            _producer = producer;
         }
         [HttpPost("create")]
         public async Task<IActionResult> Create([FromBody] UserViewModel item)
         {
             var res = await _service.RegisterAsync(item);
+            //if (res.isSuccess)
+            //{
+            //    var obj = await _service.GetItemInfo(res.obj.ProductModelId ?? 0);
+            //    await _producer.SendMessageToQueue(obj, "UserCreated");
+            
+            //}
             return Ok(res);
         }
         [HttpPost("login")]

@@ -10,17 +10,28 @@
         }
     });
 })
-
-
+function loadPage() {
+    location.reload();
+}
+function ShowLoaderGif() {
+    //var html = '<div id="gifLoader" class="align-items-center d-flex justify-content-center"><div class="d-flex"><img src="/spinning-loading.gif" /></div></div>';
+    //  $("body").append(html);
+}
+function HidLoaderGif() {
+    //    $("#gifLoader").remove();
+}
 function AddEdit(
     frm,
     Url,
     callbackFunction = null,
+    showGifLoader = false,
     errorCallbackFunction = null
 ) {
     let valdata = $(frm).serialize();
     $.validator.unobtrusive.parse(frm);
     if ($(frm).valid()) {
+        if (showGifLoader)
+            ShowLoaderGif()
         $.ajax({
             url: Url,
             type: "POST",
@@ -28,11 +39,12 @@ function AddEdit(
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             data: valdata,
             success: function (result) {
+                HidLoaderGif()
                 if (typeof callbackFunction == "function")
                     callbackFunction.call(this, result);
             },
             error: function (xhr, status, error) {
-                ToastMessageError(error);
+                HidLoaderGif();
                 if (typeof errorCallbackFunction == "function")
                     errorCallbackFunction.call(this, result);
             },

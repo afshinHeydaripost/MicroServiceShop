@@ -22,6 +22,7 @@ public class GeneralServices<T> : IGeneralServices<T> where T : BaseEntity
         try
         {
             entities.Add(item);
+            await Save();
             return GeneralResponse.Success();
         }
         catch (Exception ex)

@@ -69,7 +69,7 @@
                             <div class="col-12">
                                 <div class="row align-items-center">
                                     <div class="col-12">
-                                        <button class="default-btn register w-100" type="button" onclick="AddEdit('#frmRegister', '/Register?handler=RegisterUser');">
+                                        <button class="default-btn register w-100" type="button" id="btnRegisterUser">
                                             ثبت نام
                                         </button>
                                     </div>
@@ -91,4 +91,19 @@
 
     <script src="~/lib/jquery-validate/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validate/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#btnRegisterUser").click(function (event) {
+                AddEdit('#frmRegister', '/Register?handler=RegisterUser', function (res) {
+                    if (res.isSuccess) {
+                        alert("Ok");
+                        loadPage();
+                    } else {
+                        alert(res.message);
+                    }
+                },true)
+            });
+        })
+
+    </script>
 }

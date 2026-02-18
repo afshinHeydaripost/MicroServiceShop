@@ -96,9 +96,7 @@ public class UserService : GeneralServices<User>, IUserService
             {
                 return GeneralResponse<UserViewModel>.Fail(Message.InvalidPhoneNumber);
             }
-            if (await _Context.Users.AnyAsync(u => u.UserName.ToLower() == user.UserName.ToLower()))
-                return GeneralResponse<UserViewModel>.Fail(Message.DuplicateUserName);
-
+      
             if (!string.IsNullOrEmpty(user.Email))
             {
                 if (await _Context.Users.AnyAsync(u => u.Email.ToLower() == user.Email.ToLower()))
@@ -129,7 +127,7 @@ public class UserService : GeneralServices<User>, IUserService
             };
             await _UserRolService.Add(userRole);
             user.Password = "";
-            await Save();
+
             return GeneralResponse<UserViewModel>.Success(user);
         }
         catch (Exception e)

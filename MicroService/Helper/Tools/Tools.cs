@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 namespace Helper;
 public static class Tools
 {
+
     public static bool IsValidMobileNumber(this string mobile)
     {
         if (string.IsNullOrWhiteSpace(mobile))
