@@ -22,12 +22,12 @@ namespace AuthService.Api.Controllers
         public async Task<IActionResult> Create([FromBody] UserViewModel item)
         {
             var res = await _service.RegisterAsync(item);
-            //if (res.isSuccess)
-            //{
-            //    var obj = await _service.GetItemInfo(res.obj.ProductModelId ?? 0);
-            //    await _producer.SendMessageToQueue(obj, "UserCreated");
-            
-            //}
+            if (res.isSuccess)
+            {
+                var obj = await _service.GetUserInfo(res.obj.Id);
+                await _producer.SendMessageToQueue(obj, "UserCreated");
+
+            }
             return Ok(res);
         }
         [HttpPost("login")]

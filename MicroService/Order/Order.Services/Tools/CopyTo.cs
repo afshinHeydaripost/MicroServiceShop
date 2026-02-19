@@ -1,4 +1,5 @@
 ﻿
+using Helper;
 using Helper.VieModels;
 using Order.DataModel.Models;
 
@@ -13,7 +14,11 @@ internal static class CopyTo
             OrderDate = x.OrderDate,
             TotalPrice = x.TotalPrice,
             UserId = x.UserId,
-            OrderDateFa = x.OrderDateFa
+            OrderDateFa = x.OrderDateFa,
+            Finalized = false,
+            Revoked = false,
+            OrderNo = x.OrderNo,
+            Status = OrderStatus.Draft.ToString(),
         };
     }
     internal static OrderItem ToBrand(this OrderItemViewModel x)
@@ -21,14 +26,35 @@ internal static class CopyTo
         return new OrderItem()
         {
             OrderId = x.OrderId,
-            ProductId = x.ProductId,
-            ProductModelId = x.ProductModelId,
             ProductTitle = x.ProductTitle,
             Quantity = x.Quantity,
             UnitPrice = x.UnitPrice,
-
-
+            ColorTitle = x.ColorTitle,
+            BrandTitle = x.BrandTitle,
+            CategotyTitle = x.CategotyTitle,
+            Price = x.Price,
+            ProductCode = x.ProductCode,
+            ProductId = x.ProductId,
         };
+    }
+
+    internal static User ToUser(this UserViewModel x)
+    {
+        return new User()
+        {
+            UserCode = x.UserCode,
+            CreateDateTime = DateTime.Now,
+            Email = x.Email,
+            EmailConfirmed = false,
+            FirstName = x.FirstName,
+            LastName = x.LastName,
+            PhoneNumber = x.PhoneNumber,
+            PhoneNumberConfirmed = false,
+            UserName = x.UserName,
+            UpdateDateTime = x.UpdateDateTime,
+            UserId = x.Id,
+        };
+
     }
     internal static ProductInfo ToProductInfo(this ProductInfoViewModel x)
     {
@@ -37,20 +63,20 @@ internal static class CopyTo
             ColorTitle = x.ColorTitle,
             Price = x.Price,
             Title = x.Title,
-            BrandID = x.BrandID,
+            BrandId = x.BrandID,
             BrandIsHidden = x.BrandIsHidden,
             BrandLogo = x.BrandLogo,
             BrandTitle = x.BrandTitle,
-            CategoryID = x.CategoryID,
+            CategoryId = x.CategoryID,
             CategotyImageUrl = x.CategotyImageUrl,
             CategotyIsHidden = x.CategotyIsHidden,
             CategotyTitle = x.CategotyTitle,
             Code = x.Code,
-            ColorID = x.ColorID,
+            ColorId = x.ColorID,
             Picture = x.Picture,
-            ProductID = x.ProductID,
+            ProductId = x.ProductID,
             ProductIsHidden = x.ProductIsHidden,
-            ProductModelID = x.ProductModelID,
+            ProductModelId = x.ProductModelID,
             CreateDateTime = DateTime.Now
         };
     }
@@ -59,7 +85,7 @@ internal static class CopyTo
         return new ProductStock()
         {
             Amount = x.Amount ?? 0,
-            ProductModelId = x.ProductModelId ?? 0,
+            ProductInfoId = x.ProductModelId ?? 0,
             UpdateDate = DateTime.Now
         };
     }

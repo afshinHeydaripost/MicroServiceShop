@@ -10,7 +10,7 @@ namespace Helper.VieModels
     internal class UserModel
     {
     }
-    public  class UserViewModel : BaseEntity
+    public class UserViewModel : BaseEntity
     {
         public string UserCode { get; set; }
 
@@ -30,9 +30,11 @@ namespace Helper.VieModels
 
         public bool PhoneNumberConfirmed { get; set; }
 
-        public string CreateDateTime { get; set; }
+        public DateTime CreateDateTime { get; set; }
+        public string StrCreateDateTime => CreateDateTime.ToString("yyyy/MMM/dd hh:mm:ss");
 
-        public string UpdateDateTime { get; set; }
+        public DateTime? UpdateDateTime { get; set; }
+        public string StrUpdateDateTime => (UpdateDateTime == null) ? "" : UpdateDateTime.Value.ToString("yyyy/MMM/dd hh:mm:ss");
         public string Token { get; set; }
         public string RefreshToken { get; set; }
         public bool RememberMe { get; set; } = false;

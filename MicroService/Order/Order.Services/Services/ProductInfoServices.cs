@@ -29,7 +29,7 @@ namespace Order.Services.Services
             try
             {
                 var obj = item.ToProductInfo();
-                await _context.ProductInfo.AddAsync(obj);
+                await _context.ProductInfos.AddAsync(obj);
                 await _context.SaveChangesAsync();
                 return GeneralResponse.Success();
             }
@@ -40,7 +40,7 @@ namespace Order.Services.Services
         }
         private async Task<ProductInfo> GetByProductModelID(int id, bool isModel)
         {
-            return await _context.ProductInfo.FirstOrDefaultAsync(x => x.ProductModelID == id);
+            return await _context.ProductInfos.FirstOrDefaultAsync(x => x.ProductModelId == id);
         }
         public async Task<GeneralResponse> Update(ProductInfoViewModel item)
         {
@@ -52,22 +52,22 @@ namespace Order.Services.Services
                 obj.ColorTitle = item.ColorTitle;
                 obj.Price = item.Price;
                 obj.Title = item.Title;
-                obj.BrandID = item.BrandID;
+                obj.BrandId = item.BrandID;
                 obj.BrandIsHidden = item.BrandIsHidden;
                 obj.BrandLogo = item.BrandLogo;
                 obj.BrandTitle = item.BrandTitle;
-                obj.CategoryID = item.CategoryID;
+                obj.CategoryId = item.CategoryID;
                 obj.CategotyImageUrl = item.CategotyImageUrl;
                 obj.CategotyIsHidden = item.CategotyIsHidden;
                 obj.CategotyTitle = item.CategotyTitle;
                 obj.Code = item.Code;
-                obj.ColorID = item.ColorID;
+                obj.ColorId = item.ColorID;
                 obj.Picture = item.Picture;
-                obj.ProductID = item.ProductID;
+                obj.ProductId = item.ProductID;
                 obj.ProductIsHidden = item.ProductIsHidden;
-                obj.ProductModelID = item.ProductModelID;
+                obj.ProductModelId = item.ProductModelID;
                 obj.LastUpdateDateTime = DateTime.Now;
-                _context.ProductInfo.Update(obj);
+                _context.ProductInfos.Update(obj);
                 await _context.SaveChangesAsync();
                 return GeneralResponse.Success();
             }
@@ -84,7 +84,7 @@ namespace Order.Services.Services
                 var obj = await GetByProductModelID(id, true);
                 if (obj == null)
                     return GeneralResponse.NotFound();
-                _context.ProductInfo.Remove(obj);
+                _context.ProductInfos.Remove(obj);
                 await _context.SaveChangesAsync();
                 return GeneralResponse.SuccessDelete();
             }

@@ -22,6 +22,7 @@ builder.Services.AddDbContext<MicroServiceShopOrderContext>(options =>
 builder.Services.AddScoped<IOrderServices, OrderServices>();
 builder.Services.AddScoped<IOrderItemServices, OrderItemServices>();
 builder.Services.AddScoped<IProductInfoServices, ProductInfoServices>();
+builder.Services.AddScoped<IUserServices, UserServices>();
 #endregion
 var app = builder.Build();
 #region RabbitMqListener
@@ -36,6 +37,16 @@ var queueCallbacks = new Dictionary<string, Func<string, Task>>
             using var scope = app.Services.CreateScope();
             var service = scope.ServiceProvider.GetRequiredService<IProductInfoServices>();
             await service.Create(product);
+        }
+    },   
+    ["UserCreated"] = async json =>
+    {
+        var user = JsonSerializer.Deserialize<UserViewModel>(json);
+        if (user != null)
+        {
+            using var scope = app.Services.CreateScope();
+            var service = scope.ServiceProvider.GetRequiredService<IUserServices>();
+            await service.Create(user);
         }
     },
     ["productUpdateQueue"] = async json =>

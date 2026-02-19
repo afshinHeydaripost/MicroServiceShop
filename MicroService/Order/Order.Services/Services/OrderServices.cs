@@ -44,7 +44,7 @@ namespace Order.Services.Services
             }
         }
 
-        public async Task<GeneralResponse> Delete(int id, int userId)
+        public async Task<GeneralResponse> Delete(Guid id, int userId)
         {
             try
             {
@@ -60,7 +60,7 @@ namespace Order.Services.Services
                 return GeneralResponse.Fail(e);
             }
         }
-        private async Task<DataModel.Models.Order> GetById(int id, bool isModel)
+        private async Task<DataModel.Models.Order> GetById(Guid id, bool isModel)
         {
             return await _context.Orders.FirstOrDefaultAsync(x => x.OrderId == id);
         }

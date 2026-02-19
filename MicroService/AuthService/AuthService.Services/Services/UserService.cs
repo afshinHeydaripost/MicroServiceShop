@@ -96,7 +96,7 @@ public class UserService : GeneralServices<User>, IUserService
             {
                 return GeneralResponse<UserViewModel>.Fail(Message.InvalidPhoneNumber);
             }
-      
+
             if (!string.IsNullOrEmpty(user.Email))
             {
                 if (await _Context.Users.AnyAsync(u => u.Email.ToLower() == user.Email.ToLower()))
@@ -146,7 +146,7 @@ public class UserService : GeneralServices<User>, IUserService
         {
             if (await _Context.Users.AnyAsync())
             {
-                code = await _Context.Users.MaxAsync(x => int.Parse(x.UserCode));
+                code = _Context.Users.AsEnumerable().Max(x => int.Parse(x.UserCode));
             }
             code = code + 1;
             return code.ToString().PadLeft(5, '0');
@@ -228,6 +228,25 @@ public class UserService : GeneralServices<User>, IUserService
         {
             return GeneralResponse<UserViewModel>.Fail(ex);
         }
+    }
+
+    public async Task<UserViewModel> GetUserInfo(int userId)
+    {
+        var user = await GetById(userId);
+        return new UserViewModel()
+        {
+            CreateDateTime = user.CreateDateTime,
+            Email = user.Email,
+            EmailConfirmed = user.EmailConfirmed,
+            FirstName = user.FirstName,
+            Id = user.Id,
+            LastName = user.LastName,
+            PhoneNumber = user.PhoneNumber,
+            PhoneNumberConfirmed = user.PhoneNumberConfirmed,
+            UpdateDateTime = user.UpdateDateTime,
+            UserCode = user.UserCode,
+            UserName = user.UserName,
+        };
     }
 }
 

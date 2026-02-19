@@ -52,7 +52,7 @@ public class OrderController : ControllerBase
 
     [HttpPost("delete/{id}")]
 
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(Guid id)
     {
         var res = await _service.Delete(id, 1);
         return Ok(res);

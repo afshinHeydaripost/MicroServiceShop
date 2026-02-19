@@ -8,10 +8,8 @@ using System.Threading.Tasks;
 
 namespace Order.Services.Interfaces;
 
-public interface IOrderServices
+public interface IUserServices
 {
-    Task<GeneralResponse> CreateOrderForUser(int userId);
-    Task<GeneralResponse> Update(OrderViewModel item);
-    Task<GeneralResponse> Delete(Guid id,int userId);
+    Task<GeneralResponse> Create(UserViewModel item);
 }
 

@@ -11,10 +11,10 @@ namespace Helper.VieModels
     }
     public  class OrderViewModel
     {
-        public int OrderId { get; set; }
+        public Guid OrderId { get; set; }
 
         public DateTime OrderDate { get; set; }
-
+        public string OrderNo { get; set; }
         public string OrderDateFa { get; set; } = null!;
 
         public decimal TotalPrice { get; set; }
@@ -25,20 +25,29 @@ namespace Helper.VieModels
     }
     public  class OrderItemViewModel
     {
-        public int OrderItemId { get; set; }
+        public Guid OrderItemId { get; set; }
 
-        public int OrderId { get; set; }
+        public Guid OrderId { get; set; }
 
         public int ProductId { get; set; }
 
-        public int ProductModelId { get; set; }
+        public string ProductCode { get; set; }
 
-        public string ProductTitle { get; set; } = null!;
+        public string ProductTitle { get; set; }
 
+        public string ColorTitle { get; set; }
+
+        public string CategotyTitle { get; set; }
+
+        public string BrandTitle { get; set; }
+
+        public decimal Price { get; set; }
+        public string StrPrice => UnitPrice.ToString("N0");
         public decimal Quantity { get; set; }
 
         public decimal UnitPrice { get; set; }
-        public decimal strUnitPrice { get; set; }
+        public string StrUnitPrice => UnitPrice.ToString("N0");
+
 
     }
 }
