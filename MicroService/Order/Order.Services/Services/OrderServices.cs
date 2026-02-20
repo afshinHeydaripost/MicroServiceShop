@@ -28,11 +28,10 @@ namespace Order.Services.Services
                     return GeneralResponse.Success();
                 var obj = new OrderViewModel()
                 {
-                    OrderDate = DateTime.Now,
-                    Status = null,
+                    Status = OrderStatus.Draft.ToString(),
                     TotalPrice = 0,
+                    OrderNo=await  GetMaxOrderNo(),
                     UserId = userId,
-                    OrderDateFa = DateTools.ToDateTimeFa(DateTime.Now)
                 }.ToOrder();
                 await _context.AddAsync(obj);
                 await _context.SaveChangesAsync();
@@ -68,7 +67,23 @@ namespace Order.Services.Services
         {
             throw new NotImplementedException();
         }
-
+        private async Task<string> GetMaxOrderNo()
+        {
+            var code = "0000001";
+            try
+            {
+                if (await _context.Orders.AnyAsync())
+                {
+                    var pCode = await _context.Orders.MaxAsync(x => Convert.ToInt32(x.OrderNo));
+                    code = (pCode + 1).ToString().PadLeft(7, '0');
+                }
+            }
+            catch (Exception e)
+            {
+                code = "0000001";
+            }
+            return code;
+        }
         public async Task<List<OrderViewModel>> GetListForUser(int userId)
         {
             throw new NotImplementedException();

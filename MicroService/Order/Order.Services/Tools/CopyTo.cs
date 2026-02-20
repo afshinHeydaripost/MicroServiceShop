@@ -11,10 +11,10 @@ internal static class CopyTo
     {
         return new Order.DataModel.Models.Order()
         {
-            OrderDate = x.OrderDate,
+            OrderDate = null,
             TotalPrice = x.TotalPrice,
             UserId = x.UserId,
-            OrderDateFa = x.OrderDateFa,
+            OrderDateFa ="",
             Finalized = false,
             Revoked = false,
             OrderNo = x.OrderNo,
