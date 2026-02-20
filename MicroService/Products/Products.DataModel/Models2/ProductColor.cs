@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Helper.Base;
+using System;
 using System.Collections.Generic;
 
 namespace Products.DataModel.Models;
 
-public partial class ProductColor
+public partial class ProductColor : BaseEntity
 {
-    public int ProductColorId { get; set; }
 
     public string Title { get; set; }
 

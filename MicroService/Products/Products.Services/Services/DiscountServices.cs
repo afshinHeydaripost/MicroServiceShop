@@ -10,13 +10,12 @@ using System;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace Products.Services;
-public class DiscountServices : IDiscountServices
+public class DiscountServices : GeneralServices<Discount>, IDiscountServices
 {
     private readonly MicroServiceShopContext _context;
 
-    public DiscountServices(MicroServiceShopContext context)
+    public DiscountServices(MicroServiceShopContext Context) : base(Context)
     {
-        _context = context;
     }
     public async Task<GeneralResponse> Create(DiscountViewModel item)
     {
@@ -32,44 +31,26 @@ public class DiscountServices : IDiscountServices
                 item.DiscountPrice = int.Parse(item.StrDiscountPrice.Replace(",", ""));
             var obj = item.ToDiscount();
             obj.ValidityDate = DateTools.ToDateTime(item.ValidityDate + "-" + item.ValidityTime);
-            await _context.Discounts.AddAsync(obj);
-            await _context.SaveChangesAsync();
-            return GeneralResponse.Success();
+            return await  Add(obj);
         }
         catch (Exception e)
         {
             return GeneralResponse.Fail(e);
         }
-    }
-    private async Task<Discount> GetById(int id, bool isModel)
-    {
-        return await _context.Discounts.FirstOrDefaultAsync(x => x.DiscountId == id);
     }
     public async Task<GeneralResponse> Delete(int id, int userId)
     {
-        try
-        {
-            var item = await GetById(id, true);
-            if (item == null)
-                return GeneralResponse.NotFound();
-            _context.Discounts.Remove(item);
-            await _context.SaveChangesAsync();
-            return GeneralResponse.SuccessDelete();
-        }
-        catch (Exception e)
-        {
-            return GeneralResponse.Fail(e);
-        }
+        return await Delete(id);
     }
 
     public async Task<DiscountViewModel> GetItem(int id)
     {
-        var item = await _context.Discounts.Where(x => x.DiscountId == id).Select(x => new DiscountViewModel()
+        var item = await _context.Discounts.Where(x => x.Id == id).Select(x => new DiscountViewModel()
         {
             BrandId = x.BrandId,
 
             Active = x.Active,
-            DiscountId = x.DiscountId,
+            DiscountId = x.Id,
             ProductCategoryId = x.ProductCategoryId,
             ProductId = x.ProductId,
             ProductModelId = x.ProductModelId,
@@ -94,7 +75,7 @@ public class DiscountServices : IDiscountServices
             Title = x.Title,
             BrandId = x.BrandId,
             Active = x.Active,
-            DiscountId = x.DiscountId,
+            DiscountId = x.Id,
             ProductCategoryId = x.ProductCategoryId,
             ProductId = x.ProductId,
             ProductModelId = x.ProductModelId,
@@ -127,7 +108,7 @@ public class DiscountServices : IDiscountServices
         {
             if (!string.IsNullOrEmpty(item.StrDiscountPrice))
                 item.DiscountPrice = int.Parse(item.StrDiscountPrice.Replace(",", ""));
-            var obj = await GetById(item.DiscountId, true);
+            var obj = await GetById(item.DiscountId);
             if (obj == null)
                 return GeneralResponse.NotFound();
             obj.Title = item.Title;
@@ -141,9 +122,7 @@ public class DiscountServices : IDiscountServices
             obj.ProductModelId = item.ProductModelId;
             obj.Title = item.Title;
             obj.UpdateDate = DateTime.Now;
-            _context.Discounts.Update(obj);
-            await _context.SaveChangesAsync();
-            return GeneralResponse.Success();
+            return await Edit(obj);
         }
         catch (Exception e)
         {

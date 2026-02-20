@@ -248,5 +248,15 @@ public class UserService : GeneralServices<User>, IUserService
             UserName = user.UserName,
         };
     }
+
+    public async Task<GeneralResponse> UserIsValid(int userId)
+    {
+        var user = await GetById(userId);
+        if (user == null)
+            return GeneralResponse.NotFound();
+        if (!user.PhoneNumberConfirmed)
+            return GeneralResponse.NotFound();
+        return GeneralResponse.Success();
+    }
 }
 

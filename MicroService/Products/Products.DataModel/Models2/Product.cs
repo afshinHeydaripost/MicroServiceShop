@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Helper.Base;
+using System;
 using System.Collections.Generic;
 
 namespace Products.DataModel.Models;
 
-public partial class Product
+public partial class Product : BaseEntity
 {
-    public int ProductId { get; set; }
 
     public int? CategoryId { get; set; }
 
@@ -30,4 +30,6 @@ public partial class Product
     public virtual ICollection<Discount> Discounts { get; set; } = new List<Discount>();
 
     public virtual ICollection<ProductModel> ProductModels { get; set; } = new List<ProductModel>();
+
+    public virtual ICollection<ProductRate> ProductRates { get; set; } = new List<ProductRate>();
 }

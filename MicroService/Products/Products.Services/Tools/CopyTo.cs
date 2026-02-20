@@ -14,7 +14,7 @@ internal static class CopyTo
     {
         return new Brand()
         {
-            BrandId = x.BrandId,
+            Id = x.BrandId,
             IsHidden = x.IsHidden,
             Logo = x.Logo,
             OrderView = x.OrderView,
@@ -31,7 +31,7 @@ internal static class CopyTo
             DiscountPrice=x.DiscountPrice,
             DiscountRate=x.DiscountRate,
             Active=true,
-            DiscountId=x.DiscountId,
+            Id = x.DiscountId,
             ProductCategoryId=x.ProductCategoryId,
             ProductId=x.ProductId,
             ProductModelId=x.ProductModelId,
@@ -46,7 +46,7 @@ internal static class CopyTo
 
             IsHidden = x.IsHidden,
             Rgb = x.Rgb,
-            ProductColorId = x.ProductColorId ?? 0,
+            Id = x.ProductColorId ?? 0,
             Title = x.Title,
             UpdateDate = DateTime.Now
         };
@@ -55,7 +55,7 @@ internal static class CopyTo
     {
         return new ProductCategory()
         {
-            ProductCategoryId = x.ProductCategoryId ?? 0,
+            Id = x.ProductCategoryId ?? 0,
             ImageUrl = x.ImageUrl,
             IsHidden = x.IsHidden,
             OrderView = x.OrderView,
@@ -72,7 +72,7 @@ internal static class CopyTo
             Code = x.Code,
             Picture = x.Picture,
             Description = x.Description,
-            ProductId = x.ProductId ?? 0,
+            Id = x.ProductId ?? 0,
             IsHidden = x.IsHidden,
             Title = x.Title,
             UpdateDate = DateTime.Now

@@ -9,54 +9,35 @@ using Products.Services.Tools;
 using System;
 
 namespace Products.Services;
-public class BrandServices : IBrandServices
+public class BrandServices : GeneralServices<Brand>, IBrandServices
 {
     private readonly MicroServiceShopContext _context;
 
-    public BrandServices(MicroServiceShopContext context)
+    public BrandServices(MicroServiceShopContext Context) : base(Context)
     {
-        _context = context;
     }
     public async Task<GeneralResponse> Create(BrandViewModel item)
     {
         try
         {
             var obj = item.ToBrand();
-            await _context.Brands.AddAsync(obj);
-            await _context.SaveChangesAsync();
-            return GeneralResponse.Success();
+            return await Add(obj);
         }
         catch (Exception e)
         {
             return GeneralResponse.Fail(e);
         }
-    }
-    private async Task<Brand> GetById(int id, bool isModel)
-    {
-        return await _context.Brands.FirstOrDefaultAsync(x => x.BrandId == id);
     }
     public async Task<GeneralResponse> Delete(int id, int userId)
     {
-        try
-        {
-            var item = await GetById(id, true);
-            if (item == null)
-                return GeneralResponse.NotFound();
-            _context.Brands.Remove(item);
-            await _context.SaveChangesAsync();
-            return GeneralResponse.SuccessDelete();
-        }
-        catch (Exception e)
-        {
-            return GeneralResponse.Fail(e);
-        }
+        return await Delete(id);
     }
 
     public async Task<BrandViewModel> GetItem(int id)
     {
-        var item = await _context.Brands.Where(x => x.BrandId == id).Select(x => new BrandViewModel()
+        var item = await _context.Brands.Where(x => x.Id == id).Select(x => new BrandViewModel()
         {
-            BrandId = x.BrandId,
+            BrandId = x.Id,
             IsHidden = x.IsHidden ?? false,
             Logo = x.Logo,
             OrderView = x.OrderView,
@@ -70,7 +51,7 @@ public class BrandServices : IBrandServices
 
         var query = _context.Brands.Select(x => new BrandViewModel()
         {
-            BrandId = x.BrandId,
+            BrandId = x.Id,
             IsHidden = x.IsHidden ?? false,
             Logo = x.Logo,
             OrderView = x.OrderView,
@@ -92,7 +73,7 @@ public class BrandServices : IBrandServices
         try
         {
 
-            var obj = await GetById(item.BrandId, true);
+            var obj = await GetById(item.BrandId);
             if (obj == null)
                 return GeneralResponse.NotFound();
 
@@ -102,9 +83,7 @@ public class BrandServices : IBrandServices
             obj.IsHidden = item.IsHidden;
             obj.OrderView = item.OrderView;
             obj.UpdateDate = DateTime.Now;
-            _context.Brands.Update(obj);
-            await _context.SaveChangesAsync();
-            return GeneralResponse.Success();
+            return await Edit(obj);
         }
         catch (Exception e)
         {

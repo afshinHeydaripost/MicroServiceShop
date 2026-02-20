@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Helper.Base;
+using System;
 using System.Collections.Generic;
 
 namespace Products.DataModel.Models;
 
-public partial class ProductStock
+public partial class ProductStock : BaseEntity
 {
-    public int ProductStockId { get; set; }
 
     public int ProductModelId { get; set; }
 

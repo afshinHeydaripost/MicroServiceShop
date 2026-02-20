@@ -48,6 +48,7 @@ namespace Helper.VieModels
         public string Description { get; set; }
 
         public bool IsHidden { get; set; }
+        public decimal? Rate{ get; set; }
 
         public resBestPrice Price { get; set; }
     }

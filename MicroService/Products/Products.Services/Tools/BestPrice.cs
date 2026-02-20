@@ -26,11 +26,11 @@ public class BestPrice
         _products = context.ProductModels
             .Where(x => validProductIds.Contains(x.ProductId) && x.Price > 0)
             .Where(x => productId == 0 || x.ProductId == productId)
-            .Where(x => productModelId == 0 || x.ProductModelId == productModelId)
+            .Where(x => productModelId == 0 || x.Id == productModelId)
             .Select(x => new ProductModelViewMode
             {
                 ProductId = x.ProductId,
-                ProductModelId = x.ProductModelId,
+                ProductModelId = x.Id,
                 BrandId = x.Product.BrandId,
                 Price = x.Price,
                 Amount = x.Price
@@ -112,7 +112,7 @@ public class BestPrice
             return res;
 
         res.Price = (int)finalPrice;
-        res.DiscountID = discount.DiscountId;
+        res.DiscountID = discount.Id;
         res.DisPercent = CalculatePercent(res.BasePrice, res.Price);
         return res;
     }

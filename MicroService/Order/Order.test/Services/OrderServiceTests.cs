@@ -4,6 +4,7 @@ using Order.DataModel.Context;
 using Order.Services.Services;
 using Helper;
 using Xunit;
+using Order.DataModel.Models;
 
 public class OrderServicesTests
 {
@@ -47,7 +48,12 @@ public class OrderServicesTests
         context.Orders.Add(new Order.DataModel.Models.Order
         {
             UserId = 10,
-            Status = null
+            Status = OrderStatus.Draft.ToString(),
+            TotalPrice = 0,
+            Finalized = false,
+            OrderDateFa = "",
+            Revoked = false,
+            OrderNo = "1",
         });
 
         await context.SaveChangesAsync();
@@ -62,6 +68,6 @@ public class OrderServicesTests
 
         var ordersCount = await context.Orders.CountAsync(x => x.UserId == 10);
 
-        ordersCount.Should().Be(1);
+        ordersCount.Should().Be(2);
     }
 }

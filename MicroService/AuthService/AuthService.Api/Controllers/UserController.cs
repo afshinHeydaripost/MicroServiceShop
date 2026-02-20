@@ -4,6 +4,7 @@ using Helper.VieModels;
 using Helper;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AuthService.Api.Controllers
 {
@@ -52,5 +53,14 @@ namespace AuthService.Api.Controllers
             var res = await _service.RevokeRefreshTokenAsync(item);
             return Ok(res);
         }
+        [Authorize]
+        [HttpGet]
+
+        public async Task<IActionResult> UserIsValid(int id)
+        {
+            var item = await _service.UserIsValid(User.GetLoginedUserId());
+            return Ok(item);
+        }
+
     }
 }

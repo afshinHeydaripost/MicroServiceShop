@@ -8,27 +8,25 @@ using Products.Services.Tools;
 
 namespace Products.Services;
 
-public class ProductStockServices : IProductStockServices
+public class ProductStockServices : GeneralServices<ProductStock>, IProductStockServices
 {
     private readonly MicroServiceShopContext _context;
-    public ProductStockServices(MicroServiceShopContext context)
+    public ProductStockServices(MicroServiceShopContext Context) : base(Context)
     {
-        _context = context;
     }
+
     public async Task<GeneralResponse> Create(ProductStockViewModel item)
     {
         try
         {
             var obj = item.ToProductStock();
-            await _context.ProductStocks.AddAsync(obj);
-            await _context.SaveChangesAsync();
-            return GeneralResponse.Success();
+            return await Add(obj);
         }
         catch (Exception e)
         {
             return GeneralResponse.Fail(e);
         }
     }
-    
+
 }
 

@@ -1,12 +1,11 @@
-﻿using System;
+﻿using Helper.Base;
+using System;
 using System.Collections.Generic;
 
 namespace Products.DataModel.Models;
 
-public partial class Discount
+public partial class Discount : BaseEntity
 {
-    public int DiscountId { get; set; }
-
     public string Title { get; set; }
 
     public DateTime ValidityDate { get; set; }
@@ -22,7 +21,9 @@ public partial class Discount
     public DateTime UpdateDate { get; set; }
 
     public bool Active { get; set; }
+
     public decimal? DiscountRate { get; set; }
+
     public int? DiscountPrice { get; set; }
 
     public virtual Brand Brand { get; set; }

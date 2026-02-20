@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Helper.Base;
+using System;
 using System.Collections.Generic;
 
 namespace Products.DataModel.Models;
 
-public partial class ProductCategory
+public partial class ProductCategory : BaseEntity
 {
-    public int ProductCategoryId { get; set; }
 
     public string Title { get; set; }
 

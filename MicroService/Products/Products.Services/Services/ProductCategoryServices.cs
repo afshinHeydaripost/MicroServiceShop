@@ -7,55 +7,36 @@ using Products.Services.Interfaces;
 using Products.Services.Tools;
 
 namespace Products.Services;
-public class ProductCategoryServices : IProductCategoryServices
+public class ProductCategoryServices : GeneralServices<ProductCategory>, IProductCategoryServices
 {
     private readonly MicroServiceShopContext _context;
-    public ProductCategoryServices(MicroServiceShopContext context)
+    public ProductCategoryServices(MicroServiceShopContext Context) : base(Context)
     {
-        _context = context;
     }
 
-    
+
     public async Task<GeneralResponse> Create(ProductCategoryViewModel item)
     {
         try
         {
             var obj = item.ToProductCategory();
-            await _context.ProductCategories.AddAsync(obj);
-            await _context.SaveChangesAsync();
-            return GeneralResponse.Success();
+            return await Add(obj);
         }
         catch (Exception e)
         {
             return GeneralResponse.Fail(e);
         }
-    }
-    private async Task<ProductCategory> GetById(int id, bool isModel)
-    {
-        return await _context.ProductCategories.FirstOrDefaultAsync(x => x.ProductCategoryId == id);
     }
     public async Task<GeneralResponse> Delete(int id, int userId)
     {
-        try
-        {
-            var item = await GetById(id, true);
-            if (item == null)
-                return GeneralResponse.NotFound();
-            _context.ProductCategories.Remove(item);
-            await _context.SaveChangesAsync();
-            return GeneralResponse.SuccessDelete();
-        }
-        catch (Exception e)
-        {
-            return GeneralResponse.Fail(e);
-        }
+        return await Delete(id);
     }
 
     public async Task<ProductCategoryViewModel> GetItem(int id)
     {
-        var item = await _context.ProductCategories.Where(x => x.ProductCategoryId == id).Select(x => new ProductCategoryViewModel()
+        var item = await _context.ProductCategories.Where(x => x.Id == id).Select(x => new ProductCategoryViewModel()
         {
-            ProductCategoryId = x.ProductCategoryId,
+            ProductCategoryId = x.Id,
             IsHidden = x.IsHidden ?? false,
             ImageUrl = x.ImageUrl,
             OrderView = x.OrderView,
@@ -68,7 +49,7 @@ public class ProductCategoryServices : IProductCategoryServices
     {
         var query = _context.ProductCategories.Select(x => new ProductCategoryViewModel()
         {
-            ProductCategoryId = x.ProductCategoryId,
+            ProductCategoryId = x.Id,
             IsHidden = x.IsHidden ?? false,
             ImageUrl = x.ImageUrl,
             OrderView = x.OrderView,
@@ -89,7 +70,7 @@ public class ProductCategoryServices : IProductCategoryServices
     {
         try
         {
-            var obj = await GetById(item.ProductCategoryId??0, true);
+            var obj = await GetById(item.ProductCategoryId ?? 0);
             if (obj == null)
                 return GeneralResponse.NotFound();
 
@@ -99,10 +80,7 @@ public class ProductCategoryServices : IProductCategoryServices
             obj.IsHidden = item.IsHidden;
             obj.OrderView = item.OrderView;
             obj.UpdateDate = DateTime.Now;
-            _context.ProductCategories.Update(obj);
-            await _context.SaveChangesAsync();
-
-            return GeneralResponse.Success();
+            return await Edit(obj);
         }
         catch (Exception e)
         {

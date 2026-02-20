@@ -9,55 +9,36 @@ using Products.Services.Tools;
 using System;
 
 namespace Products.Services;
-public class ProductColorServices : IProductColorServices
+public class ProductColorServices : GeneralServices<ProductColor>, IProductColorServices
 {
     private readonly MicroServiceShopContext _context;
 
-    public ProductColorServices(MicroServiceShopContext context)
+    public ProductColorServices(MicroServiceShopContext Context) : base(Context)
     {
-        _context = context;
     }
     public async Task<GeneralResponse> Create(ProductColorViewModel item)
     {
         try
         {
             var obj = item.ToProductColor();
-            await _context.ProductColors.AddAsync(obj);
-            await _context.SaveChangesAsync();
-            return GeneralResponse.Success();
+            return await Add(obj);
         }
         catch (Exception e)
         {
             return GeneralResponse.Fail(e);
         }
-    }
-    private async Task<ProductColor> GetById(int id, bool isModel)
-    {
-        return await _context.ProductColors.FirstOrDefaultAsync(x => x.ProductColorId == id);
     }
     public async Task<GeneralResponse> Delete(int id, int userId)
     {
-        try
-        {
-            var item = await GetById(id, true);
-            if (item == null)
-                return GeneralResponse.NotFound();
-            _context.ProductColors.Remove(item);
-            await _context.SaveChangesAsync();
-            return GeneralResponse.SuccessDelete();
-        }
-        catch (Exception e)
-        {
-            return GeneralResponse.Fail(e);
-        }
+        return await Delete(id);
     }
 
     public async Task<ProductColorViewModel> GetItem(int id)
     {
-        var item = await _context.ProductColors.Where(x => x.ProductColorId == id).Select(x => new ProductColorViewModel()
+        var item = await _context.ProductColors.Where(x => x.Id == id).Select(x => new ProductColorViewModel()
         {
             IsHidden = x.IsHidden ?? false,
-            ProductColorId = x.ProductColorId,
+            ProductColorId = x.Id,
             Rgb = x.Rgb,
             Title = x.Title,
         }).FirstOrDefaultAsync();
@@ -70,7 +51,7 @@ public class ProductColorServices : IProductColorServices
         var query = _context.ProductColors.Select(x => new ProductColorViewModel()
         {
             IsHidden = x.IsHidden ?? false,
-            ProductColorId = x.ProductColorId,
+            ProductColorId = x.Id,
             Rgb = x.Rgb,
             Title = x.Title,
         }).AsQueryable();
@@ -90,7 +71,7 @@ public class ProductColorServices : IProductColorServices
         try
         {
 
-            var obj = await GetById(item.ProductColorId ?? 0, true);
+            var obj = await GetById(item.ProductColorId ?? 0);
             if (obj == null)
                 return GeneralResponse.NotFound();
 
@@ -100,7 +81,7 @@ public class ProductColorServices : IProductColorServices
             obj.UpdateDate = DateTime.Now;
             _context.ProductColors.Update(obj);
             await _context.SaveChangesAsync();
-            return GeneralResponse.Success();
+            return await Edit(obj);
         }
         catch (Exception e)
         {

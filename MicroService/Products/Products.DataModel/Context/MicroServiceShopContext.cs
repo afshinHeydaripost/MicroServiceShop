@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Helper.Base;
-using Helper.VieModels;
+﻿using Helper.Base;
 using Microsoft.EntityFrameworkCore;
 using Products.DataModel.Models;
 
@@ -23,30 +20,31 @@ public partial class MicroServiceShopContext : DbContext
     public virtual DbSet<Discount> Discounts { get; set; }
 
     public virtual DbSet<Product> Products { get; set; }
-    public virtual DbSet<BaseEntity> ProductsList { get; set; }
 
     public virtual DbSet<ProductCategory> ProductCategories { get; set; }
 
     public virtual DbSet<ProductColor> ProductColors { get; set; }
 
-    public virtual DbSet<Models.ProductModel> ProductModels { get; set; }
+    public virtual DbSet<ProductModel> ProductModels { get; set; }
+
+    public virtual DbSet<ProductRate> ProductRates { get; set; }
+    public virtual DbSet<BaseEntity> ProductsList { get; set; }
 
     public virtual DbSet<ProductStock> ProductStocks { get; set; }
 
-//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-//        => optionsBuilder.UseSqlServer("Server=localhost\\DBSQL;Database=MicroServiceShop;Trusted_Connection=True;Encrypt=False;TrustServerCertificate=True;");
+    //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+    //        => optionsBuilder.UseSqlServer("Server=localhost\\DBSQL;Database=MicroServiceShop;Trusted_Connection=True;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Brand>(entity =>
         {
-            entity.HasKey(e => e.BrandId).HasName("PK_Producer");
+            entity.HasKey(e => e.Id).HasName("PK_Producer");
 
             entity.ToTable("Brand");
 
-            entity.Property(e => e.BrandId).HasColumnName("BrandID");
-            entity.Property(e => e.Logo);
+            entity.Property(e => e.Logo).IsUnicode(false);
             entity.Property(e => e.Title)
                 .IsRequired()
                 .HasMaxLength(100);
@@ -57,13 +55,11 @@ public partial class MicroServiceShopContext : DbContext
         {
             entity.ToTable("Discount");
 
-            entity.Property(e => e.DiscountId).HasColumnName("DiscountID");
             entity.Property(e => e.BrandId).HasColumnName("BrandID");
+            entity.Property(e => e.DiscountRate).HasColumnType("decimal(3, 0)");
             entity.Property(e => e.ProductCategoryId).HasColumnName("ProductCategoryID");
             entity.Property(e => e.ProductId).HasColumnName("ProductID");
             entity.Property(e => e.ProductModelId).HasColumnName("ProductModelID");
-            entity.Property(e => e.DiscountRate).HasColumnName("DiscountRate");
-            entity.Property(e => e.DiscountPrice).HasColumnName("DiscountPrice");
             entity.Property(e => e.Title)
                 .IsRequired()
                 .HasMaxLength(100);
@@ -91,11 +87,10 @@ public partial class MicroServiceShopContext : DbContext
         {
             entity.ToTable("Product");
 
-            entity.Property(e => e.ProductId).HasColumnName("ProductID");
             entity.Property(e => e.BrandId).HasColumnName("BrandID");
             entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
             entity.Property(e => e.Code).HasMaxLength(100);
-            entity.Property(e => e.Picture);
+            entity.Property(e => e.Picture).IsUnicode(false);
             entity.Property(e => e.Title).HasMaxLength(300);
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
 
@@ -112,8 +107,7 @@ public partial class MicroServiceShopContext : DbContext
         {
             entity.ToTable("ProductCategory");
 
-            entity.Property(e => e.ProductCategoryId).HasColumnName("ProductCategoryID");
-            entity.Property(e => e.ImageUrl);
+            entity.Property(e => e.ImageUrl).IsUnicode(false);
             entity.Property(e => e.Title)
                 .IsRequired()
                 .HasMaxLength(100);
@@ -124,7 +118,6 @@ public partial class MicroServiceShopContext : DbContext
         {
             entity.ToTable("ProductColor");
 
-            entity.Property(e => e.ProductColorId).HasColumnName("ProductColorID");
             entity.Property(e => e.Rgb)
                 .IsRequired()
                 .HasMaxLength(7)
@@ -136,11 +129,10 @@ public partial class MicroServiceShopContext : DbContext
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
         });
 
-        modelBuilder.Entity<Models.ProductModel>(entity =>
+        modelBuilder.Entity<ProductModel>(entity =>
         {
             entity.ToTable("ProductModel");
 
-            entity.Property(e => e.ProductModelId).HasColumnName("ProductModelID");
             entity.Property(e => e.ColorId).HasColumnName("ColorID");
             entity.Property(e => e.ProductId).HasColumnName("ProductID");
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
@@ -155,11 +147,32 @@ public partial class MicroServiceShopContext : DbContext
                 .HasConstraintName("FK_ProductModel_Product");
         });
 
+        modelBuilder.Entity<ProductRate>(entity =>
+        {
+            entity.ToTable("ProductRate");
+
+            entity.Property(e => e.Id)
+                .HasMaxLength(10)
+                .IsFixedLength();
+            entity.Property(e => e.CreaateDateTime)
+                .IsRequired()
+                .HasMaxLength(10)
+                .IsFixedLength();
+            entity.Property(e => e.UserIp)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+
+            entity.HasOne(d => d.Product).WithMany(p => p.ProductRates)
+                .HasForeignKey(d => d.ProductId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ProductRate_Product");
+        });
+
         modelBuilder.Entity<ProductStock>(entity =>
         {
             entity.ToTable("ProductStock");
 
-            entity.Property(e => e.ProductStockId).HasColumnName("ProductStockID");
             entity.Property(e => e.OrderId).HasColumnName("OrderID");
             entity.Property(e => e.ProductModelId).HasColumnName("ProductModelID");
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");

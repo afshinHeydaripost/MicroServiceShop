@@ -21,7 +21,7 @@ internal static class CopyTo
             Status = OrderStatus.Draft.ToString(),
         };
     }
-    internal static OrderItem ToBrand(this OrderItemViewModel x)
+    internal static OrderItem ToOrderItem(this OrderItemViewModel x)
     {
         return new OrderItem()
         {
