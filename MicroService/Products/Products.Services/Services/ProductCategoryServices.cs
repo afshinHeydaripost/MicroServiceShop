@@ -9,7 +9,6 @@ using Products.Services.Tools;
 namespace Products.Services;
 public class ProductCategoryServices : GeneralServices<ProductCategory>, IProductCategoryServices
 {
-    private readonly MicroServiceShopContext _context;
     public ProductCategoryServices(MicroServiceShopContext Context) : base(Context)
     {
     }
@@ -34,7 +33,7 @@ public class ProductCategoryServices : GeneralServices<ProductCategory>, IProduc
 
     public async Task<ProductCategoryViewModel> GetItem(int id)
     {
-        var item = await _context.ProductCategories.Where(x => x.Id == id).Select(x => new ProductCategoryViewModel()
+        var item = await _Context.ProductCategories.Where(x => x.Id == id).Select(x => new ProductCategoryViewModel()
         {
             ProductCategoryId = x.Id,
             IsHidden = x.IsHidden ?? false,
@@ -47,7 +46,7 @@ public class ProductCategoryServices : GeneralServices<ProductCategory>, IProduc
 
     public async Task<List<ProductCategoryViewModel>> GetList(int userId, bool showAll = true, string text = "")
     {
-        var query = _context.ProductCategories.Select(x => new ProductCategoryViewModel()
+        var query = _Context.ProductCategories.Select(x => new ProductCategoryViewModel()
         {
             ProductCategoryId = x.Id,
             IsHidden = x.IsHidden ?? false,

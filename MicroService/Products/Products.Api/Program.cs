@@ -15,12 +15,12 @@ using Products.Services;
 using ProductService.Api.Class;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddControllers();
+
 
 // DbContext
-builder.Services.AddDbContext<MicroServiceShopContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+builder.Services.AddDbContext<MicroServiceShopContext>(opt =>
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddControllers();
 #region Dependency_Injection
 builder.Services.AddScoped<IProductsServices, ProductsServices>();
 builder.Services.AddScoped<IBrandServices, BrandServices>();

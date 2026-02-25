@@ -10,17 +10,35 @@
         }
     });
 })
+
+function isNullOrEmpty(string) {
+    return (string == null || string === "");
+}
+
+function GenerateUuid() {
+    return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c =>
+        (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16)
+    );
+}
 function loadPage() {
     location.reload();
 } function ChangeUrl(url = "/") {
     window.location.href = url
 }
-function ShowLoaderGif() {
-    //var html = '<div id="gifLoader" class="align-items-center d-flex justify-content-center"><div class="d-flex"><img src="/spinning-loading.gif" /></div></div>';
-    //  $("body").append(html);
+function ShowLoaderGif(id = "") {
+    let html = "";
+    if (isNullOrEmpty(id))
+        html = '<div id="gifLoader" class="Custome-loader align-items-center d-flex justify-content-center"><div class="loader-spinner"></div></div>';
+    else
+        html = '<div id="' + id + '" class="Custome-loader align-items-center d-flex justify-content-center"><div class="loader-spinner"></div></div>';
+
+    $("body").append(html);
 }
-function HidLoaderGif() {
-    //    $("#gifLoader").remove();
+function HidLoaderGif(id = "") {
+    if (isNullOrEmpty(id))
+        $("#gifLoader").remove();
+    else
+        $("#" + id).remove();
 }
 function AddEdit(
     frm,
@@ -32,8 +50,9 @@ function AddEdit(
     let valdata = $(frm).serialize();
     $.validator.unobtrusive.parse(frm);
     if ($(frm).valid()) {
+        let id = GenerateUuid();
         if (showGifLoader)
-            ShowLoaderGif()
+            ShowLoaderGif(id);
         $.ajax({
             url: Url,
             type: "POST",
@@ -41,12 +60,12 @@ function AddEdit(
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             data: valdata,
             success: function (result) {
-                HidLoaderGif()
+                HidLoaderGif(id);
                 if (typeof callbackFunction == "function")
                     callbackFunction.call(this, result);
             },
             error: function (xhr, status, error) {
-                HidLoaderGif();
+                HidLoaderGif(id);
                 if (typeof errorCallbackFunction == "function")
                     errorCallbackFunction.call(this, result);
             },

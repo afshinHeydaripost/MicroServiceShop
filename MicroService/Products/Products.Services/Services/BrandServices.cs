@@ -11,8 +11,6 @@ using System;
 namespace Products.Services;
 public class BrandServices : GeneralServices<Brand>, IBrandServices
 {
-    private readonly MicroServiceShopContext _context;
-
     public BrandServices(MicroServiceShopContext Context) : base(Context)
     {
     }
@@ -35,7 +33,7 @@ public class BrandServices : GeneralServices<Brand>, IBrandServices
 
     public async Task<BrandViewModel> GetItem(int id)
     {
-        var item = await _context.Brands.Where(x => x.Id == id).Select(x => new BrandViewModel()
+        var item = await _Context.Brands.Where(x => x.Id == id).Select(x => new BrandViewModel()
         {
             BrandId = x.Id,
             IsHidden = x.IsHidden ?? false,
@@ -49,7 +47,7 @@ public class BrandServices : GeneralServices<Brand>, IBrandServices
     public async Task<List<BrandViewModel>> GetList(int userId, bool showAll = true, string text = "")
     {
 
-        var query = _context.Brands.Select(x => new BrandViewModel()
+        var query = _Context.Brands.Select(x => new BrandViewModel()
         {
             BrandId = x.Id,
             IsHidden = x.IsHidden ?? false,

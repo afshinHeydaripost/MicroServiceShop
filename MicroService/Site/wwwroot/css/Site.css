@@ -24,3 +24,36 @@
     text-overflow: ellipsis;
 }
 
+/* کانتینر لودر مستقل */
+.Custome-loader {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    right: 0 !important;
+    z-index: 10000 !important;
+    background-color: #80808085;
+}
+    /* کانتینر لودر مستقل */
+    .Custome-loader .loader-spinner {
+        width: 60px;
+        height: 60px;
+        border: 8px solid #ddd; /* رنگ پایه */
+        border-top: 8px solid #3498db; /* رنگ چرخش */
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        /* برای موقعیت دلخواه می‌توانید این دو خط را تغییر دهید */
+        display: inline-block;
+        margin: 20px;
+    }
+
+/* انیمیشن چرخش */
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

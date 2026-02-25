@@ -11,8 +11,6 @@ using System;
 namespace Products.Services;
 public class ProductColorServices : GeneralServices<ProductColor>, IProductColorServices
 {
-    private readonly MicroServiceShopContext _context;
-
     public ProductColorServices(MicroServiceShopContext Context) : base(Context)
     {
     }
@@ -35,7 +33,7 @@ public class ProductColorServices : GeneralServices<ProductColor>, IProductColor
 
     public async Task<ProductColorViewModel> GetItem(int id)
     {
-        var item = await _context.ProductColors.Where(x => x.Id == id).Select(x => new ProductColorViewModel()
+        var item = await _Context.ProductColors.Where(x => x.Id == id).Select(x => new ProductColorViewModel()
         {
             IsHidden = x.IsHidden ?? false,
             ProductColorId = x.Id,
@@ -48,7 +46,7 @@ public class ProductColorServices : GeneralServices<ProductColor>, IProductColor
     public async Task<List<ProductColorViewModel>> GetList(int userId, bool showAll = true, string text = "")
     {
 
-        var query = _context.ProductColors.Select(x => new ProductColorViewModel()
+        var query = _Context.ProductColors.Select(x => new ProductColorViewModel()
         {
             IsHidden = x.IsHidden ?? false,
             ProductColorId = x.Id,
@@ -79,8 +77,8 @@ public class ProductColorServices : GeneralServices<ProductColor>, IProductColor
             obj.IsHidden = item.IsHidden;
             obj.Rgb = item.Rgb;
             obj.UpdateDate = DateTime.Now;
-            _context.ProductColors.Update(obj);
-            await _context.SaveChangesAsync();
+            _Context.ProductColors.Update(obj);
+            await _Context.SaveChangesAsync();
             return await Edit(obj);
         }
         catch (Exception e)

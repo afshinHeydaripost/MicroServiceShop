@@ -32,34 +32,6 @@ builder.Services.AddSingleton<IRabbitMQ, RabbitMQProducer>();
 
 
 #region JWT
-//// --- تنظیمات JWT (می‌توانید مقدار Secret را امن‌تر کنید) ---
-//var jwtSection = builder.Configuration.GetSection("JwtSettings");
-//var jwtSettings = jwtSection.Get<JwtSettingsViewModel>();
-
-//// --- اضافه کردن Authentication/JWT ---
-//var keyBytes = Encoding.UTF8.GetBytes(jwtSettings.SecretKey);
-
-//builder.Services.AddAuthentication(options =>
-//{
-//    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-//    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-//})
-//.AddJwtBearer(options =>
-//{
-//    options.RequireHttpsMetadata = false;
-//    options.SaveToken = true;
-//    options.TokenValidationParameters = new TokenValidationParameters
-//    {
-//        ValidateIssuer = true,
-//        ValidIssuer = jwtSettings.Issuer,
-//        ValidateAudience = true,
-//        ValidAudience = jwtSettings.Audience,
-//        ValidateLifetime = true,
-//        ValidateIssuerSigningKey = true,
-//        IssuerSigningKey = new SymmetricSecurityKey(keyBytes)
-//    };
-//});
-
 // --- تنظیمات JWT (می‌توانید مقدار Secret را امن‌تر کنید) ---
 var jwtSection = builder.Configuration.GetSection("JwtSettings");
 var jwtSettings = jwtSection.Get<JwtSettingsViewModel>();

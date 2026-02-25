@@ -28,20 +28,14 @@ public partial class MicroServiceShopContext : DbContext
     public virtual DbSet<ProductModel> ProductModels { get; set; }
 
     public virtual DbSet<ProductRate> ProductRates { get; set; }
-    public virtual DbSet<BaseEntity> ProductsList { get; set; }
+    public virtual DbSet<BaseIdObj> ProductsList { get; set; }
 
     public virtual DbSet<ProductStock> ProductStocks { get; set; }
-
-    //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-    //        => optionsBuilder.UseSqlServer("Server=localhost\\DBSQL;Database=MicroServiceShop;Trusted_Connection=True;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Brand>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK_Producer");
-
             entity.ToTable("Brand");
 
             entity.Property(e => e.Logo).IsUnicode(false);

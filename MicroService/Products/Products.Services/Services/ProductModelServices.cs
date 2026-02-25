@@ -10,8 +10,6 @@ using System.Threading;
 namespace Products.Services;
 public class ProductModelServices : GeneralServices<Products.DataModel.Models.ProductModel>, IProductModelServices
 {
-    private readonly MicroServiceShopContext _context;
-
     public ProductModelServices(MicroServiceShopContext Context) : base(Context)
     {
     }
@@ -20,7 +18,7 @@ public class ProductModelServices : GeneralServices<Products.DataModel.Models.Pr
 
         try
         {
-            if (await _context.ProductModels.AnyAsync(x => x.ProductId == item.ProductId && x.ColorId == item.ColorId))
+            if (await _Context.ProductModels.AnyAsync(x => x.ProductId == item.ProductId && x.ColorId == item.ColorId))
             {
                 return GeneralResponse<ProductModelViewMode>.Fail(item, "این رنگ قبلا ثبت شده است");
             }
@@ -28,7 +26,7 @@ public class ProductModelServices : GeneralServices<Products.DataModel.Models.Pr
             await Add(obj);
             if (item.Amount is not null && item.Amount != 0)
             {
-                var productStockServices = new ProductStockServices(_context);
+                var productStockServices = new ProductStockServices(_Context);
                 ProductStockViewModel objProductStock = new ProductStockViewModel()
                 {
                     Amount = item.Amount,
@@ -53,7 +51,7 @@ public class ProductModelServices : GeneralServices<Products.DataModel.Models.Pr
 
     public async Task<ProductModelViewMode> GetItem(int id)
     {
-        var item = await _context.ProductModels.Where(x => x.Id == id).Select(x => new ProductModelViewMode()
+        var item = await _Context.ProductModels.Where(x => x.Id == id).Select(x => new ProductModelViewMode()
         {
             ColorId = x.ColorId,
             ColorTitle = x.Color.Title,
@@ -68,7 +66,7 @@ public class ProductModelServices : GeneralServices<Products.DataModel.Models.Pr
 
     public async Task<List<ProductModelViewMode>> GetList(int productId, string text = "")
     {
-        var query = _context.ProductModels.Where(x => x.ProductId == productId).Select(x => new ProductModelViewMode()
+        var query = _Context.ProductModels.Where(x => x.ProductId == productId).Select(x => new ProductModelViewMode()
         {
             ColorId = x.ColorId,
             ColorTitle = x.Color.Title,
@@ -89,7 +87,7 @@ public class ProductModelServices : GeneralServices<Products.DataModel.Models.Pr
             var obj = await GetById(item.ProductModelId ?? 0);
             if (obj == null)
                 return GeneralResponse.NotFound();
-            if (await _context.ProductModels.AnyAsync(x => x.Id != item.ProductModelId && x.ProductId == item.ProductId && x.ColorId == item.ColorId))
+            if (await _Context.ProductModels.AnyAsync(x => x.Id != item.ProductModelId && x.ProductId == item.ProductId && x.ColorId == item.ColorId))
             {
                 return GeneralResponse.Fail("این رنگ قبلا ثبت شده است");
             }
@@ -104,7 +102,7 @@ public class ProductModelServices : GeneralServices<Products.DataModel.Models.Pr
             }
             if (item.Amount is not null && item.Amount != 0)
             {
-                var productStockServices = new ProductStockServices(_context);
+                var productStockServices = new ProductStockServices(_Context);
                 ProductStockViewModel objProductStock = new ProductStockViewModel()
                 {
                     Amount = item.Amount,
@@ -123,7 +121,7 @@ public class ProductModelServices : GeneralServices<Products.DataModel.Models.Pr
 
     public async Task<ProductInfoViewModel> GetItemInfo(int id)
     {
-        var item = await _context.ProductModels.Where(x => x.Id == id).Select(x => new ProductInfoViewModel()
+        var item = await _Context.ProductModels.Where(x => x.Id == id).Select(x => new ProductInfoViewModel()
         {
 
             ColorTitle = x.Color.Title,

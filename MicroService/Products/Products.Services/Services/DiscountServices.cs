@@ -12,7 +12,6 @@ using static System.Net.Mime.MediaTypeNames;
 namespace Products.Services;
 public class DiscountServices : GeneralServices<Discount>, IDiscountServices
 {
-    private readonly MicroServiceShopContext _context;
 
     public DiscountServices(MicroServiceShopContext Context) : base(Context)
     {
@@ -45,7 +44,7 @@ public class DiscountServices : GeneralServices<Discount>, IDiscountServices
 
     public async Task<DiscountViewModel> GetItem(int id)
     {
-        var item = await _context.Discounts.Where(x => x.Id == id).Select(x => new DiscountViewModel()
+        var item = await _Context.Discounts.Where(x => x.Id == id).Select(x => new DiscountViewModel()
         {
             BrandId = x.BrandId,
 
@@ -70,7 +69,7 @@ public class DiscountServices : GeneralServices<Discount>, IDiscountServices
 
     public async Task<List<DiscountViewModel>> GetList(int userId, bool showAll = true, string text = "")
     {
-        var query = _context.Discounts.Select(x => new DiscountViewModel()
+        var query = _Context.Discounts.Select(x => new DiscountViewModel()
         {
             Title = x.Title,
             BrandId = x.BrandId,
@@ -132,7 +131,7 @@ public class DiscountServices : GeneralServices<Discount>, IDiscountServices
 
     public async  Task<List<DiscountViewModel>> GetActiveList()
     {
-        var query = _context.Discounts.Where(x=>x.Active && x.ValidityDate>DateTime.Now).Select(x => new DiscountViewModel()
+        var query = _Context.Discounts.Where(x=>x.Active && x.ValidityDate>DateTime.Now).Select(x => new DiscountViewModel()
         {
             Title = x.Title,
             BrandId = x.BrandId,

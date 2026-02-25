@@ -12,7 +12,6 @@ namespace Products.Services;
 
 public class ProductsServices : GeneralServices<Product>, IProductsServices
 {
-    private readonly MicroServiceShopContext _context;
     public ProductsServices(MicroServiceShopContext Context) : base(Context)
     {
     }
@@ -34,7 +33,7 @@ public class ProductsServices : GeneralServices<Product>, IProductsServices
     {
         try
         {
-            var products = await _context.ProductsList.FromSqlRaw("exec dbo.GetValidProductIds").ToListAsync();
+            var products = await _Context.ProductsList.FromSqlRaw("exec dbo.GetValidProductIds").ToListAsync();
             return products.Select(x => x.Id).ToList();
         }
         catch (Exception e)
@@ -46,7 +45,7 @@ public class ProductsServices : GeneralServices<Product>, IProductsServices
     {
         try
         {
-            var products = await _context.ProductsList.FromSqlRaw("exec dbo.GetValidProductModelIds @ProductId=@P0,@UserId=@P1", productId, userId).ToListAsync();
+            var products = await _Context.ProductsList.FromSqlRaw("exec dbo.GetValidProductModelIds @ProductId=@P0,@UserId=@P1", productId, userId).ToListAsync();
             return products.Select(x => x.Id).ToList();
         }
         catch (Exception e)
@@ -62,8 +61,8 @@ public class ProductsServices : GeneralServices<Product>, IProductsServices
             if (item == null)
                 return GeneralResponse<ProductViewModel>.NotFound(new ProductViewModel());
             var obj = await GetItem(id);
-            _context.Products.Remove(item);
-            await _context.SaveChangesAsync();
+            _Context.Products.Remove(item);
+            await _Context.SaveChangesAsync();
             return GeneralResponse<ProductViewModel>.Success(obj);
         }
         catch (Exception e)
@@ -76,9 +75,9 @@ public class ProductsServices : GeneralServices<Product>, IProductsServices
         var code = "000001";
         try
         {
-            if (await _context.Products.AnyAsync())
+            if (await _Context.Products.AnyAsync())
             {
-                var pCode = await _context.Products.MaxAsync(x => Convert.ToInt32(x.Code));
+                var pCode = await _Context.Products.MaxAsync(x => Convert.ToInt32(x.Code));
                 code = (pCode + 1).ToString().PadLeft(6, '0');
             }
         }
@@ -90,7 +89,7 @@ public class ProductsServices : GeneralServices<Product>, IProductsServices
     }
     public async Task<ProductViewModel> GetItem(int id)
     {
-        var item = await _context.Products.Where(x => x.Id == id).Select(x => new ProductViewModel()
+        var item = await _Context.Products.Where(x => x.Id == id).Select(x => new ProductViewModel()
         {
             IsHidden = x.IsHidden ?? false,
             ProductId = x.Id,
@@ -106,7 +105,7 @@ public class ProductsServices : GeneralServices<Product>, IProductsServices
 
     public async Task<List<ProductViewModel>> GetList(int userId, string text = "")
     {
-        var query = _context.Products.Select(x => new ProductViewModel()
+        var query = _Context.Products.Select(x => new ProductViewModel()
         {
             IsHidden = x.IsHidden ?? false,
 
@@ -159,7 +158,7 @@ public class ProductsServices : GeneralServices<Product>, IProductsServices
     public async Task<List<ProductViewModel>> GetValidProductList(string text = "")
     {
         var validIds = await GetValidProductIds();
-        var query = _context.Products.Where(x => validIds.Contains(x.Id)).Select(x => new ProductViewModel()
+        var query = _Context.Products.Where(x => validIds.Contains(x.Id)).Select(x => new ProductViewModel()
         {
             IsHidden = x.IsHidden ?? false,
             ProductId = x.Id,
@@ -180,7 +179,7 @@ public class ProductsServices : GeneralServices<Product>, IProductsServices
     public async Task<List<ProductViewModel>> GetNewestProductList(int rowInPage = 10, int? userId = null, string text = "")
     {
         var validIds = await GetValidProductIds();
-        var query = _context.Products.Where(x => validIds.Contains(x.Id)).OrderByDescending(x => x.Id).Select(x => new ProductViewModel()
+        var query = _Context.Products.Where(x => validIds.Contains(x.Id)).OrderByDescending(x => x.Id).Select(x => new ProductViewModel()
         {
             IsHidden = x.IsHidden ?? false,
             ProductId = x.Id,
@@ -205,7 +204,7 @@ public class ProductsServices : GeneralServices<Product>, IProductsServices
         if (products == null || products.Count == 0)
             return products ?? new List<ProductViewModel>();
 
-        var priceService = new BestPrice(_context, validProductIds);
+        var priceService = new BestPrice(_Context, validProductIds);
 
         foreach (var product in products.Where(p => p.ProductId.HasValue))
         {

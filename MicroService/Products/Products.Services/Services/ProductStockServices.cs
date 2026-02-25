@@ -10,7 +10,6 @@ namespace Products.Services;
 
 public class ProductStockServices : GeneralServices<ProductStock>, IProductStockServices
 {
-    private readonly MicroServiceShopContext _context;
     public ProductStockServices(MicroServiceShopContext Context) : base(Context)
     {
     }
