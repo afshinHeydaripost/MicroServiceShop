@@ -35,7 +35,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Admin.UI", "Admin.UI\Admin.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Site", "Site\Site.csproj", "{18A98760-F07F-4560-8FA2-AB527228AE35}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order.test", "Order\Order.test\Order.test.csproj", "{3A287FA8-EB44-49C9-AEA4-F22787FABA85}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Order.test", "Order\Order.test\Order.test.csproj", "{3A287FA8-EB44-49C9-AEA4-F22787FABA85}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

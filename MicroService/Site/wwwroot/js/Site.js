@@ -12,6 +12,8 @@
 })
 function loadPage() {
     location.reload();
+} function ChangeUrl(url = "/") {
+    window.location.href = url
 }
 function ShowLoaderGif() {
     //var html = '<div id="gifLoader" class="align-items-center d-flex justify-content-center"><div class="d-flex"><img src="/spinning-loading.gif" /></div></div>';

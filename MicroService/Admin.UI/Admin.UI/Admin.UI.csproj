@@ -20,7 +20,4 @@
 	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
 	  </Content>
 	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="Views\Shared\NewFolder\" />
-	</ItemGroup>
 </Project>

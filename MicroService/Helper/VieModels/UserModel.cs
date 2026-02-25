@@ -1,6 +1,9 @@
 ﻿using Helper.Base;
+using Helper.Resources;
+using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,8 +45,21 @@ namespace Helper.VieModels
     }
     public class LoginRequestViewModel
     {
+        [Display(Name = "Username", ResourceType = typeof(Resource))]
+        [Required(
+            ErrorMessageResourceType = typeof(Resource),
+            ErrorMessageResourceName = "RequiredField"
+        )]
         public string Username { get; set; }
+
+        [Display(Name = "Password", ResourceType = typeof(Resource))]
+        [Required(
+            ErrorMessageResourceType = typeof(Resource),
+            ErrorMessageResourceName = "RequiredField"
+        )]
         public string Password { get; set; }
+
+        [Display(Name = "RememberMe", ResourceType = typeof(Resource))]
         public bool RememberMe { get; set; }
         public string ipAddress { get; set; }
         public string Token { get; set; }

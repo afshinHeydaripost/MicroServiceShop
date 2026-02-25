@@ -21,10 +21,15 @@ namespace Site.Pages
             _config = config;
             _AuthServiceUrl = _config.GetValue<string>("ApiUrl:AuthService").ToString();
         }
+
+
+        #region Get
         public void OnGet()
         {
         }
+        #endregion
 
+        #region Post
         public async Task<JsonResult> OnPostRegisterUser()
         {
             var res = new GeneralResponse<UserViewModel>();
@@ -37,5 +42,7 @@ namespace Site.Pages
             res = url.PostData<UserViewModel, GeneralResponse<UserViewModel>>(user);
             return new JsonResult(res);
         }
+        #endregion
+
     }
 }

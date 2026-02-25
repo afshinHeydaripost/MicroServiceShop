@@ -5,6 +5,8 @@ using Order.Services.Services;
 using Helper;
 using Xunit;
 using Order.DataModel.Models;
+using Order.Services.Interfaces;
+using Helper.VieModels;
 
 public class OrderServicesTests
 {
@@ -15,6 +17,32 @@ public class OrderServicesTests
             .Options;
 
         return new MicroServiceShopOrderContext(options);
+    }
+    [Fact]
+    public async Task CreateUser()
+    {
+        // Arrange
+        var context = CreateContext();
+        var service = new UserServices(context, new OrderServices(context));
+
+        var user = new UserViewModel()
+        {
+            CreateDateTime = DateTime.Now,
+            Email = Guid.NewGuid().ToString(),
+            EmailConfirmed = false,
+            FirstName = Guid.NewGuid().ToString(),
+            Id = new Random().Next(10000000, 1000000000),
+            LastName = Guid.NewGuid().ToString(),
+            PhoneNumber = Guid.NewGuid().ToString(),
+            PhoneNumberConfirmed = false,
+            UpdateDateTime = null,
+            UserCode = Guid.NewGuid().ToString(),
+            UserName = Guid.NewGuid().ToString(),
+        };
+        var result = await service.Create(user);
+
+        // Assert
+        result.isSuccess.Should().BeTrue();
     }
     [Fact]
     public async Task CreateOrderForUser_Should_Create_Draft_Order_When_No_Open_Order_Exists()
