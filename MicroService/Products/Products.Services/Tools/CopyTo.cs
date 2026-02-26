@@ -27,14 +27,14 @@ internal static class CopyTo
     {
         return new Discount()
         {
-            BrandId = x.BrandId,
+            BrandId = (x.BrandId==0)?null: x.BrandId,
+            ProductCategoryId = (x.ProductCategoryId == 0)?null: x.ProductCategoryId,
+            ProductId = (x.ProductId == 0)?null: x.ProductId,
+            ProductModelId = (x.ProductModelId == 0)?null: x.ProductModelId,
             DiscountPrice=x.DiscountPrice,
             DiscountRate=x.DiscountRate,
             Active=true,
             Id = x.DiscountId,
-            ProductCategoryId=x.ProductCategoryId,
-            ProductId=x.ProductId,
-            ProductModelId=x.ProductModelId,
             Title = x.Title,
             UpdateDate = DateTime.Now
         };

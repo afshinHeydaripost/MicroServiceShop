@@ -46,5 +46,20 @@ public static class Tools
         }
         return userCode;
     }
+    public static string GetLoginedUserFullName(this ClaimsPrincipal user)
+    {
+        var userFullName = user.FindFirst("UserFullName")?.Value;
+        if (userFullName == null || string.IsNullOrEmpty(userFullName))
+        {
+            return "";
+        }
+        return userFullName;
+    }
+    public static GeneralResponse IsAuthenticated(this ClaimsPrincipal user)
+    {
+        if (user != null && user.Identity != null && user.Identity.IsAuthenticated)
+            return GeneralResponse.Success();
+        return GeneralResponse.Fail();
+    }
 }
 

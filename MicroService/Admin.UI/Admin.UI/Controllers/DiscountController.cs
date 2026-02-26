@@ -26,7 +26,7 @@ namespace Admin.UI.Controllers
             DiscountModel item = new DiscountModel()
             {
                 List = new List<DiscountViewModel>(),
-                Item=new DiscountViewModel(),
+                Item = new DiscountViewModel(),
                 ProductCategoryList = new List<ProductCategoryViewModel>(),
                 BrandsList = new List<BrandViewModel>(),
 

@@ -3,6 +3,7 @@ using Helper.VieModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Reflection;
+using System.Security.Claims;
 
 namespace Site.Pages
 {
@@ -23,7 +24,7 @@ namespace Site.Pages
         #region Get
         public void OnGet()
         {
-
+            var FullName = User.FindFirst(ClaimTypes.Name)?.Value;
         }
         #endregion
 

@@ -84,7 +84,7 @@
                                                     </td>
                                                 }
                                                 <td>@item.ValidityDateTime</td>
-                                                <td>@item.StrDiscountPrice</td>
+                                                <td>@item.StrRiallDiscountPrice</td>
                                                 <td>@item.DiscountRate</td>
                                                 <td>@item.ProductTitle</td>
                                                 <td>@item.ProductModelTitle</td>
@@ -155,7 +155,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label asp-for="Item.StrDiscountPrice">مبلغ تخفبف </label>
-                                        <input asp-for="Item.StrDiscountPrice" type="text" class="form-control" placeholder="مبلغ تخفبف " />
+                                        <input asp-for="Item.StrDiscountPrice" type="text" class="form-control ltr placeholder-text-right JustDigit Number" placeholder="مبلغ تخفبف " />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -229,6 +229,9 @@
             $("#Item_ValidityDate").persianDatepicker();
 
             ToDataTable("#tblProductCategory");
+            // $("#Item_StrDiscountPrice").change(function () {
+            //     $("#Item_DiscountPrice").val($(this).val().replaceAll(",", ""));
+            // });
             $("#btnAdd").click(function () {
                 $("#DiscountModalLabel").text("افزودن تخفیف جدید");
                 ValidationSummaryErrorsClear();

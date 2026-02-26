@@ -35,6 +35,7 @@ public class TokenService : ITokenService
                     new Claim("UserCode", user.UserCode ?? string.Empty),
                     new Claim("FirstName", user.FirstName ?? string.Empty),
                     new Claim("LastName", user.LastName ?? string.Empty),
+                    new Claim("UserFullName", user.FirstName +" "+user.LastName),
                     new Claim("UserId", user.Id.ToString())
                 };
             claims.AddRange(roles.Select(r => new Claim(ClaimTypes.Role, r)));
@@ -81,7 +82,7 @@ public class TokenService : ITokenService
                 int.Parse(_config["JwtSettings:RefreshTokenExpirationDays"])),
             CreateDateTime = DateTime.Now,
             CreatedByIp = ipAddress,
-            RememberMe= rememberMe,
+            RememberMe = rememberMe,
             Revoked = false
         };
     }

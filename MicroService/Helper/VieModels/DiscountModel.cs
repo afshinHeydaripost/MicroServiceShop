@@ -40,7 +40,9 @@ namespace Helper.VieModels
         public string ValidityDateTime { get; set; }
 
         [Display(Name = "مبلغ تخفبف")]
-        public string StrDiscountPrice => (DiscountRate != null) ? DiscountRate.Value.ToString("NO") : "";
+        public string StrDiscountPrice { get; set; }
+        [Display(Name = "مبلغ تخفبف")]
+        public string StrRiallDiscountPrice => (DiscountPrice != null) ? DiscountPrice.Value.ToString("N0") : "";
         public int? DiscountPrice { get; set; }
 
         public int? ProductId { get; set; }

@@ -5,8 +5,8 @@
     <div class="single-course">
         <a href="single-course.html" class="w-100">
             <div class="image-box m-auto">
-                    <img src="@Model.Picture" alt="@Model.Title">
-                </div>
+                <img src="@Model.Picture" alt="@Model.Title">
+            </div>
         </a>
 
         <div class="course-content">
@@ -44,7 +44,10 @@
 
             <ul class="lessons">
                 <li>@Model.Price.strPrice</li>
-                <li class="float">@Model.Price.strBasePrice</li>
+                @if (Model.Price.HasDiscount)
+                {
+                    <li class="float">@Model.Price.strBasePrice</li>
+                }
             </ul>
         </div>
     </div>

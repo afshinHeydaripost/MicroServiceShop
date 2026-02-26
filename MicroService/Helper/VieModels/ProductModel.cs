@@ -48,7 +48,7 @@ namespace Helper.VieModels
         public string Description { get; set; }
 
         public bool IsHidden { get; set; }
-        public decimal? Rate{ get; set; }
+        public decimal? Rate { get; set; }
 
         public resBestPrice Price { get; set; }
     }
@@ -111,5 +111,6 @@ namespace Helper.VieModels
         public string strBasePrice => BasePrice.ToString("N0");
         public int DiscountID { get; set; }
         public float DisPercent { get; set; }
+        public bool HasDiscount => (DiscountID!=0 && Price != BasePrice) ? true : false;
     }
 }
