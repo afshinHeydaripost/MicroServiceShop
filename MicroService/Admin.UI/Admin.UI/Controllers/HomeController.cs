@@ -1,9 +1,12 @@
 using Admin.UI.Models;
+using Helper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace Admin.UI.Controllers
 {
+    [Authorize(Roles = Roles.Admin)]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -19,6 +22,11 @@ namespace Admin.UI.Controllers
         }
 
         public IActionResult Privacy()
+        {
+            return View();
+        }
+        [AllowAnonymous]
+        public IActionResult AccessDenied()
         {
             return View();
         }

@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Reflection;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Admin.UI.Controllers
 {
-    public class ProductController : Controller
+	[Authorize(Roles = Roles.Admin)]
+	public class ProductController : Controller
     {
         private readonly IConfiguration _config;
         private static string _productsServiceUrl;

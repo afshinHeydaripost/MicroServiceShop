@@ -1,4 +1,8 @@
-﻿<!--begin::Content-->
+﻿@model List<UserViewModel>
+@{
+
+}
+<!--begin::Content-->
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
 	<!--begin::Subheader-->
 	<div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
@@ -31,7 +35,6 @@
 						<!--end::Header-->
 						<!--begin::Body-->
 						<div class="card-body pt-0">
-
 						</div>
 						<!--end::Body-->
 					</div>
@@ -47,3 +50,22 @@
 	<!--end::Entry-->
 </div>
 <!--end::Content-->
+@section Scripts {
+    <script>
+        function LoginUser() {
+            var obj = {
+                Username: $("#Username").val(),
+                Password: $("#Password").val(),
+                RememberMe: GetCheckBoxChecked("#RememberMe")
+            };
+            PostToServer("/Account/LoginUser", obj, function (res) {
+                if (!res.isSuccess) {
+                    ToastMessageError(res.message)
+                } else {
+                    ShowLoaderGif();
+                    ChangeUrl("/")
+                }
+            }, true)
+        }
+    </script>
+}

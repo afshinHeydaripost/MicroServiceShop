@@ -17,6 +17,7 @@ namespace AuthService.Services.Interfaces
         Task<GeneralResponse<UserViewModel>> RefreshTokenAsync(LoginRequestViewModel req);
         Task<GeneralResponse> RevokeRefreshTokenAsync(LoginRequestViewModel req);
         Task<UserViewModel> GetUserInfo(int userId);
+        Task<List<UserViewModel>> GetUserList(string text="");
         Task<GeneralResponse> UserIsValid(int userId);
 
     }

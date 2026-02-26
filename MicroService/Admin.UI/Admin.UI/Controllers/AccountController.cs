@@ -4,6 +4,8 @@ using Helper.VieModels;
 using Helper;
 using Admin.UI.Class;
 using Newtonsoft.Json.Linq;
+using Microsoft.AspNetCore.Authorization;
+using System.Reflection;
 
 namespace Admin.UI.Controllers;
 
@@ -21,6 +23,12 @@ public class AccountController : Controller
     public IActionResult Login()
     {
         return View();
+    }
+    [Authorize(Roles = Roles.Supervisor)]
+    public async Task<IActionResult> UserAccess()
+    {
+		var lstUsers = await _AuthServiceUrl.SendAuthHeaderAndGetData<List<UserViewModel>>("authService/User/GetUserList", Request.GetCookiesValue("userToken"));
+		return View(lstUsers);
     }
     #endregion
     #region Post

@@ -11,6 +11,7 @@ using System.Text;
 using Helper.VieModels;
 using System;
 using AuthService.Api.Class;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,22 +38,39 @@ var jwtSection = builder.Configuration.GetSection("JwtSettings");
 var jwtSettings = jwtSection.Get<JwtSettingsViewModel>();
 //// --- اضافه کردن Authentication/JWT ---
 var keyBytes = Encoding.UTF8.GetBytes(jwtSettings.SecretKey);
-builder.Services.AddAuthentication("Bearer")
-    .AddJwtBearer("Bearer", options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = jwtSettings.Issuer,
-            ValidAudience = jwtSettings.Audience,
-            IssuerSigningKey = new SymmetricSecurityKey(keyBytes)
-        };
-    });
+builder.Services.AddAuthentication(options =>
+{
+	options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+	options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+{
+	options.TokenValidationParameters = new TokenValidationParameters
+	{
+		ValidateIssuer = true,
+		ValidateAudience = true,
+		ValidateLifetime = true,
+		ValidateIssuerSigningKey = true,
+		ValidIssuer = jwtSettings.Issuer,
+		ValidAudience = jwtSettings.Audience,
+		IssuerSigningKey = new SymmetricSecurityKey(keyBytes),
 
+		// 👇 خیلی مهم: بگو رول‌ها از claim "role" بیاد
+		RoleClaimType = "role",
+		NameClaimType = ClaimTypes.Name
+	};
+
+	options.Events = new JwtBearerEvents
+	{
+		OnMessageReceived = context =>
+		{
+			context.Token = context.Request.Cookies["userToken"]; // یا header
+			return Task.CompletedTask;
+		}
+	};
+});
 builder.Services.AddAuthorization();
+
 
 #endregion
 
@@ -72,7 +90,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseAuthentication();
+app.UseRouting();
+
+app.UseAuthentication();   // 👈 حتما قبل از Authorization
 app.UseAuthorization();
 
 app.MapControllers();

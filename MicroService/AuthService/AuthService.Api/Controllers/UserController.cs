@@ -60,7 +60,14 @@ namespace AuthService.Api.Controllers
         {
             var item = await _service.UserIsValid(User.GetLoginedUserId());
             return Ok(item);
-        }
+        }    
+        [Authorize]
+        [HttpGet("GetUserList")]
 
+        public async Task<IActionResult> GetUserList()
+        {
+            var item = await _service.UserIsValid(User.GetLoginedUserId());
+            return Ok(item);
+        }
     }
 }

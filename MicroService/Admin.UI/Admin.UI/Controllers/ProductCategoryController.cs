@@ -4,10 +4,12 @@ using Helper.VieModels;
 using Helper;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Admin.UI.Controllers
 {
-    public class ProductCategoryController : Controller
+	[Authorize(Roles = Roles.Admin)]
+	public class ProductCategoryController : Controller
     {
         private readonly IConfiguration _config;
         private static string _productsServiceUrl;

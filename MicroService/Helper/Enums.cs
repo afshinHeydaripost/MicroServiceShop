@@ -7,11 +7,6 @@ using System.Threading.Tasks;
 
 namespace Helper
 {
-    public enum Roles
-    {
-        Admin,
-        User
-    }
     public enum OrderStatus
     {
         [Display(Name = "پیش‌نویس")]
