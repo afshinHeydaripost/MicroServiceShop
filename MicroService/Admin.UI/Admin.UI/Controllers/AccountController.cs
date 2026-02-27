@@ -6,6 +6,7 @@ using Admin.UI.Class;
 using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.Authorization;
 using System.Reflection;
+using System;
 
 namespace Admin.UI.Controllers;
 
@@ -35,10 +36,24 @@ public class AccountController : Controller
     public async Task<IActionResult> GetUserRoles(int? userId = null)
     {
         var lstUserRole = await _AuthServiceUrl.SendAuthHeaderAndGetData<List<UserRoleViewModel>>($"authService/UserRole/GetUserRoles?userId={userId}", Request.GetCookiesValue("userToken"));
-        return PartialView("_UserRoles",lstUserRole);
+        return PartialView("_UserRoles", lstUserRole);
     }
     #endregion
     #region Post
+    [HttpPost]
+    [Authorize(Roles = Roles.Supervisor)]
+    //[ValidateAntiForgeryToken]
+    public async Task<IActionResult> RegisterUserRoles([FromBody] UserRoleViewModel model)
+    {
+        var url = _AuthServiceUrl + "authService/UserRole/RegisterUserRoles";
+        var res = url.SendAuthHeaderAndPostData<UserRoleViewModel, GeneralResponse>(model, Request.GetCookiesValue("userToken"));
+        if (res == null || !res.isSuccess)
+        {
+            return Json(GeneralResponse.Fail(res.Message, res.ErrorMessage));
+        }
+        return Json(GeneralResponse.Success());
+    }
+
     [HttpPost]
     //[ValidateAntiForgeryToken]
     public async Task<IActionResult> LoginUser([FromBody] LoginRequestViewModel model)

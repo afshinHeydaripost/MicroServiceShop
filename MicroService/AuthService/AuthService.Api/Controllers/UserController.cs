@@ -46,6 +46,7 @@ namespace AuthService.Api.Controllers
             return Ok(res);
         }
 
+
         [HttpPost("revoke")]
         public async Task<IActionResult> Revoke([FromBody] LoginRequestViewModel item)
         {

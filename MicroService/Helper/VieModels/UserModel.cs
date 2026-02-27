@@ -52,6 +52,7 @@ namespace Helper.VieModels
 
         public int RoleId { get; set; }
         public bool UserRoles { get; set; }
+        public int[] RolesIds { get; set; }
     }
     public class LoginRequestViewModel
     {

@@ -30,5 +30,11 @@ namespace AuthService.Api.Controllers
             var lstUserRoles = await _service.GetListForUser(userId.Value);
             return Ok(lstUserRoles);
         }
+        [HttpPost("RegisterUserRoles")]
+        public async Task<IActionResult> RegisterUserRoles([FromBody] UserRoleViewModel item)
+        {
+            var res = await _service.RegisterUserRoles(item);
+            return Ok(res);
+        }
     }
 }

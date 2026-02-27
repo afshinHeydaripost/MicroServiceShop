@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AuthService.DataModel.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,6 +31,22 @@ public static class RoleHierarchy
         }
 
         return result;
+    }
+    public static List<Role> RemoveLowerRoles(this List<Role> roles)
+    {
+        var roleList = roles.ToList();
+
+        foreach (var role in roles)
+        {
+            if (_hierarchy.ContainsKey(role.Name))
+            {
+                var lowerRoles = _hierarchy[role.Name];
+
+                roleList.RemoveAll(r => lowerRoles.Contains(r.Name));
+            }
+        }
+
+        return roleList;
     }
 }
 
