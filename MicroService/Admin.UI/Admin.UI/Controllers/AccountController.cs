@@ -27,8 +27,15 @@ public class AccountController : Controller
     [Authorize(Roles = Roles.Supervisor)]
     public async Task<IActionResult> UserAccess()
     {
-		var lstUsers = await _AuthServiceUrl.SendAuthHeaderAndGetData<List<UserViewModel>>("authService/User/GetUserList", Request.GetCookiesValue("userToken"));
-		return View(lstUsers);
+        var lstUsers = await _AuthServiceUrl.SendAuthHeaderAndGetData<List<UserViewModel>>("authService/User/GetUserList", Request.GetCookiesValue("userToken"));
+        return View(lstUsers);
+    }
+
+    [Authorize(Roles = Roles.Supervisor)]
+    public async Task<IActionResult> GetUserRoles(int? userId = null)
+    {
+        var lstUserRole = await _AuthServiceUrl.SendAuthHeaderAndGetData<List<UserRoleViewModel>>($"authService/UserRole/GetUserRoles?userId={userId}", Request.GetCookiesValue("userToken"));
+        return PartialView("_UserRoles",lstUserRole);
     }
     #endregion
     #region Post
@@ -36,10 +43,10 @@ public class AccountController : Controller
     //[ValidateAntiForgeryToken]
     public async Task<IActionResult> LoginUser([FromBody] LoginRequestViewModel model)
     {
-		if (model==null)
+        if (model == null)
         {
             return Json(GeneralResponse.Fail("اطلاعات ارسالی معتبر نمیباشد"));
-        }  
+        }
         if (string.IsNullOrEmpty(model.Username))
         {
             return Json(GeneralResponse.Fail("نام کاربری را وارد کنید"));
@@ -50,7 +57,7 @@ public class AccountController : Controller
         }
         var url = _AuthServiceUrl + "authService/User/Login";
         var res = url.PostData<LoginRequestViewModel, GeneralResponse<UserViewModel>>(model);
-        if (res==null || !res.isSuccess)
+        if (res == null || !res.isSuccess)
         {
             return Json(GeneralResponse.Fail(res.Message, res.ErrorMessage));
         }
@@ -68,43 +75,6 @@ public class AccountController : Controller
         Response.CreateCookies("refreshToken", res.obj.RefreshToken, refreshExpire);
         return Json(GeneralResponse.Success());
     }
-
-    //[HttpPost]
-    //public async Task<IActionResult> LoginUser(
-    //[FromBody] LoginRequestViewModel model,
-    //[FromServices] IHttpClientFactory httpClientFactory)
-    //{
-    //    if (model == null)
-    //        return Json(GeneralResponse.Fail("اطلاعات ارسالی معتبر نیست"));
-
-    //    if (string.IsNullOrWhiteSpace(model.Username))
-    //        return Json(GeneralResponse.Fail("نام کاربری را وارد کنید"));
-
-    //    if (string.IsNullOrWhiteSpace(model.Password))
-    //        return Json(GeneralResponse.Fail("کلمه عبور را وارد کنید"));
-
-    //    var client = httpClientFactory.CreateClient("AuthService");
-
-    //    var response = await client.PostAsJsonAsync(
-    //        "authService/User/Login", model);
-
-    //    if (!response.IsSuccessStatusCode)
-    //        return Json(GeneralResponse.Fail("خطا در ارتباط با سرویس احراز هویت"));
-
-    //    var res = await response.Content
-    //        .ReadFromJsonAsync<GeneralResponse<UserViewModel>>();
-
-    //    if (!res.isSuccess)
-    //        return Json(GeneralResponse.Fail(res.Message, res.ErrorMessage));
-
-    //    Response.CreateCookies("refreshToken", res.obj.RefreshToken, DateTime.Now.AddDays(7));
-
-    //    // ✅ AccessToken → Front
-    //    return Json(GeneralResponse.Success(new
-    //    {
-    //        accessToken = res.obj.Token
-    //    }, "ورود با موفقیت انجام شد"));
-    //}
 
     #endregion
 }

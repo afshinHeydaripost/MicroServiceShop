@@ -4,6 +4,7 @@ using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,6 +43,15 @@ namespace Helper.VieModels
         public string RefreshToken { get; set; }
         public bool RememberMe { get; set; } = false;
 
+    }
+    public partial class UserRoleViewModel: BaseIdObj
+    {
+
+        public int UserId { get; set; }
+        public string RoleName { get; set; }
+
+        public int RoleId { get; set; }
+        public bool UserRoles { get; set; }
     }
     public class LoginRequestViewModel
     {

@@ -1,0 +1,13 @@
+﻿@model List<UserRoleViewModel>
+@if (Model is not null)
+{
+    foreach (var item in Model)
+    {
+        <div class="form-check">
+            <input class="form-check-input roleItem" type="checkbox" value="@item.RoleId" id="@item.RoleId" @((item.UserRoles) ? "checked" : "")>
+            <label class="form-check-label" for="@item.RoleId">
+                @item.RoleName
+            </label>
+        </div>
+    }
+}

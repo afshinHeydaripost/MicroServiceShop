@@ -16,5 +16,17 @@ namespace AuthService.Services;
 public class UserRolService : GeneralServices<UserRole>, IUserRolService
 {
     public UserRolService(MicroServiceShopAuthServiceContext Context) : base(Context) { }
+
+    public async Task<List<UserRoleViewModel>> GetListForUser(int userId)
+    {
+        var query = _Context.Roles.AsQueryable();
+        return await query.Select(x => new UserRoleViewModel()
+        {
+            UserId = userId,
+            RoleId = x.Id,
+            UserRoles = x.UserRoles.Any(z => z.UserId==userId &&  z.RoleId == x.Id),
+            RoleName = x.Name
+        }).ToListAsync();
+    }
 }
 

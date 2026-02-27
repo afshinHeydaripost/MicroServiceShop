@@ -402,3 +402,9 @@ function Confirmed(title, message, callbackFunction) {
         }
     });
 }
+
+function getCheckedValues(selector) {
+    return $(selector).map(function () {
+        return this.value;
+    }).get();
+}

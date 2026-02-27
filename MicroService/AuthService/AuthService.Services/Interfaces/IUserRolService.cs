@@ -12,6 +12,6 @@ namespace AuthService.Services.Interfaces
 {
     public interface IUserRolService : IGeneralServices<UserRole>
     {
-        
+        Task<List<UserRoleViewModel>> GetListForUser(int userId);
     }
 }
